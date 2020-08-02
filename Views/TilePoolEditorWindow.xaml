@@ -1,0 +1,86 @@
+﻿<Window x:Class="JiME.Views.TilePoolEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JiME"
+        mc:Ignorable="d"
+        Title="Tile Pool Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
+
+	<Window.Resources>
+		<local:SelectedToBoolConverter x:Key="sb"/>
+	</Window.Resources>
+
+	<StackPanel>
+		<StackPanel Margin="10">
+			<TextBlock Text="Add 1 to 4 Tiles to the Random Tile Pool for this Chapter. These Tiles will be randomly fitted together in the Companion App." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+		</StackPanel>
+
+		<Grid Height="200">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<GroupBox Header="Global Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,10,10">
+				<ListBox x:Name="global" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding scenario.globalTilePool}" MouseDoubleClick="Global_MouseDoubleClick"/>
+			</GroupBox>
+
+			<StackPanel Grid.Column="1" VerticalAlignment="Center">
+				<Button x:Name="ToRandomButton" Background="MediumSeaGreen" Margin="0,5" Click="ToRandomButton_Click" IsEnabled="{Binding ElementName=global,Path=SelectedIndex,Converter={StaticResource sb}}">
+					<Image Source="/JiME;component/Assets/arrow.png" />
+				</Button>
+				<Button x:Name="ToPoolButton" Background="{StaticResource bgCancelDelete}" Margin="0,5" Click="ToPoolButton_Click" IsEnabled="{Binding ElementName=random,Path=SelectedIndex,Converter={StaticResource sb}}">
+					<Image Source="/JiME;component/Assets/arrow.png" RenderTransformOrigin="0.5,0.5" >
+						<Image.RenderTransform>
+							<TransformGroup>
+								<ScaleTransform ScaleY="1" ScaleX="-1"/>
+								<SkewTransform AngleY="0" AngleX="0"/>
+								<RotateTransform Angle="0"/>
+								<TranslateTransform/>
+							</TransformGroup>
+						</Image.RenderTransform>
+					</Image>
+				</Button>
+			</StackPanel>
+
+			<GroupBox Grid.Column="2" Header="Random Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,10,10">
+				<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.randomTilePool}" MouseDoubleClick="Random_MouseDoubleClick"/>
+			</GroupBox>
+		</Grid>
+
+		<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,10,10"/>
+
+		<Border Style="{StaticResource callout}" Margin="10,0,10,10">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Style="{StaticResource Heading}" Text="Random Token Interaction Group"/>
+					<Button x:Name="groupHelp" Background="#FFC98800" Click="groupHelp_Click" Width="32" Height="32" Margin="10,0,0,0">
+						<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
+					</Button>
+				</StackPanel>
+				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Select an Interaction Group below. Then designate how many of the Event Interactions in the group will be randomly used."/>
+				<UniformGrid Columns="2" Margin="0,10,0,0">
+					<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" SelectionChanged="randInter_SelectionChanged"/>
+					<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in this group." Margin="10,0" VerticalAlignment="Center"/>
+				</UniformGrid>
+
+				<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available in this Random Tile Pool to place Tokens." Margin="0,10,0,0"/>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?"/>
+					<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+
+		<!--footer-->
+		<Border BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
+			<WrapPanel HorizontalAlignment="Right" >
+				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True">
+					<Image Source="/JiME;component/Assets/ok.png" Stretch="Uniform" Width="32" Margin="5"/>
+				</Button>
+			</WrapPanel>
+		</Border>
+	</StackPanel>
+</Window>

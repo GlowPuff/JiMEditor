@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+	<RootNamespace>JiME</RootNamespace>
+	<AssemblyName>JiME</AssemblyName>
+	<ApplicationIcon>ring.ico</ApplicationIcon>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  	<ItemGroup>
+		<Resource Include="Assets\*.png" />
+		<Compile Remove="TILES\**" />
+		<EmbeddedResource Remove="TILES\**" />
+		<None Remove="TILES\**" />
+		<Page Remove="TILES\**" />
+		<Compile Remove="Models\Tile.cs" />
+		<EmbeddedResource Include="Assets\tiles.json" />
+		<EmbeddedResource Include="Assets\hextiles.json" />
+	</ItemGroup>
+
+  	<ItemGroup>
+  	  <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  	</ItemGroup>
+
+</Project>

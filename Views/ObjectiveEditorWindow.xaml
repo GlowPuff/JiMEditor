@@ -1,0 +1,139 @@
+﻿<Window x:Class="JiME.Views.ObjectiveEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JiME"
+        mc:Ignorable="d"
+        Title="Objective Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="650" ContentRendered="Window_ContentRendered">
+
+	<Window.Resources>
+		<local:BoolInvertConverter x:Key="b2e"/>
+		<BooleanToVisibilityConverter x:Key="b2vis"/>
+		<local:BoolInvertVisibility x:Key="b2invVis"/>
+	</Window.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Margin="10">
+			<Border Style="{StaticResource callout}">
+				<StackPanel>
+					<TextBlock Style="{StaticResource Heading}" Text="This Objective is started when the following Trigger is fired: (Required)"/>
+					<StackPanel Orientation="Horizontal">
+						<ComboBox x:Name="triggeredByCB" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding objective.triggeredByName}" SelectedValuePath="dataName" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="200"/>
+
+						<Button x:Name="addTriggeredByButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addTriggeredByButton_Click">
+							<Image Source="/JiME;component/Assets/add2.png"/>
+						</Button>
+					</StackPanel>
+				</StackPanel>
+			</Border>
+
+			<Border Style="{StaticResource callout}" Margin="0,10">
+				<StackPanel>
+					<TextBlock Style="{StaticResource Heading}" Text="Objective Name:"/>
+					<TextBlock Style="{StaticResource SubText}">
+					A short name used within the Editor. <Bold><Italic>Required</Italic></Bold>
+					</TextBlock>
+					<TextBox x:Name="nameTB" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" Text="{Binding shortName, UpdateSourceTrigger=PropertyChanged}"/>
+
+					<TextBlock Style="{StaticResource Heading}" Text="Objective Reminder:" Margin="0,10,0,0"/>
+					<TextBlock Style="{StaticResource SubText}">
+					This text is shown at all times within the app to describe the current Objective. <Bold><Italic>Required</Italic></Bold>
+					</TextBlock>
+					<TextBox x:Name="objTB" Style="{StaticResource DefaultTextBox}" Margin="0,5" HorizontalAlignment="Stretch" Text="{Binding objective.objectiveReminder, UpdateSourceTrigger=PropertyChanged}"/>
+				</StackPanel>
+			</Border>
+
+			<Border Style="{StaticResource callout}">
+				<StackPanel>
+					<TextBlock Text="Objective Summary" Style="{StaticResource Heading}"/>
+					<TextBlock Style="{StaticResource SubText}">
+					This text is shown when the Objective begins in order to describe how to complete it. <Bold><Italic>Required</Italic></Bold>
+					</TextBlock>
+					<Grid Visibility="{Binding ElementName=skipSummaryCheck,Path=IsChecked,Converter={StaticResource b2invVis}}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="auto"/>
+						</Grid.ColumnDefinitions>
+						<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
+							<TextBlock x:Name="summaryTB" Text="{Binding objSummary}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
+						</Border>
+						<Button IsEnabled="{Binding objective.skipSummary, Converter={StaticResource b2e}}" Grid.Column="1" x:Name="editObjectiveButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditObjectiveButton_Click" Width="46" Height="46">
+							<Image Source="/JiME;component/Assets/edit.png"/>
+						</Button>
+					</Grid>
+					<CheckBox x:Name="skipSummaryCheck" Content="Skip Summary" Foreground="white" VerticalAlignment="Center" IsChecked="{Binding objective.skipSummary, UpdateSourceTrigger=PropertyChanged}"/>
+					<TextBlock TextWrapping="Wrap" Text="If Skip Summary is checked, this Objective will begin without showing the Objective Summary text. Use this for multi-part Objectives where a summary isn't needed when going into the next part, and an updated Objective Reminder is enough." Style="{StaticResource SubText}"/>
+
+				</StackPanel>
+			</Border>
+
+			<GroupBox Header="Objective Completion" FontSize="14" Padding="0" Style="{StaticResource DefaultGroupBox}" Margin="0,10,0,0">
+				<!--<UniformGrid Columns="2">-->
+				<StackPanel>
+					<Border Style="{StaticResource callout}" Margin="5">
+						<StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding objective.loreReward}"/>
+							</StackPanel>
+							<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
+					This Objective Is Completed When The Following Trigger Condition Is Set: (<Italic>Required</Italic>):
+							</TextBlock>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox x:Name="triggerCB" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding objective.triggerName}" SelectedValuePath="dataName" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="200"/>
+
+								<Button x:Name="addTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerButton_Click">
+									<Image Source="/JiME;component/Assets/add2.png"/>
+								</Button>
+							</StackPanel>
+
+							<!--left side-->
+							<!--<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
+					Next Objective: (<Italic>Required</Italic>):
+						</TextBlock>
+						<StackPanel>
+							<ComboBox x:Name="nextObjectiveCB" ItemsSource="{Binding scenario.objectiveObserver}" SelectedValue="{Binding objective.nextObjective}" SelectedValuePath="nextObjective" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" Width="250" SelectedItem="{Binding objective.nextObjective}"/>
+							<TextBlock Text="If there are no Objectives after this one, select None." Style="{StaticResource SubText}" Margin="0,5,0,0"/>
+						</StackPanel>
+					</StackPanel>-->
+							<!--right side-->
+							<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
+					Set This Trigger When The Objective Is Completed: (<Italic>Optional</Italic>):
+							</TextBlock>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox x:Name="nextTriggerCB" ItemsSource="{Binding scenario.triggersObserver}" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="250" SelectedItem="{Binding objective.nextTrigger}" SelectedValuePath="dataName" SelectedValue="{Binding objective.nextTrigger}"/>
+								<Button x:Name="addTriggerButton2" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addTriggerButton2_Click">
+									<Image Source="/JiME;component/Assets/add2.png"/>
+								</Button>
+							</StackPanel>
+							<!--</StackPanel>-->
+							<!--</UniformGrid>-->
+						</StackPanel>
+					</Border>
+				</StackPanel>
+			</GroupBox>
+		</StackPanel>
+
+		<!--Footer-->
+		<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
+			<WrapPanel HorizontalAlignment="Right" >
+
+				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True">
+					<Image Source="/JiME;component/Assets/ok.png" Stretch="Uniform" Width="32" Margin="5"/>
+				</Button>
+
+				<Button x:Name="cancelButton" Margin="0,10,10,10" Background="{StaticResource bgCancelDelete}" Click="CancelButton_Click" IsCancel="True">
+					<Image Source="/JiME;component/Assets/cancel.png" Stretch="Uniform" Width="32" Margin="5"/>
+				</Button>
+			</WrapPanel>
+		</Border>
+	</Grid>
+
+</Window>

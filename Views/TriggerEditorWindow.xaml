@@ -1,0 +1,46 @@
+﻿<Window x:Class="JiME.Views.TriggerEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Trigger Editor" Width="100" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Margin="10">
+			<TextBlock Style="{StaticResource Heading}" Text="Trigger Name:"/>
+			<TextBox x:Name="nameTB" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left"/>
+
+			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					Triggers are <Italic>True / False</Italic> values that are set during the Scenario to keep track of player actions, mark progress of an Objective, and track the results of Interaction Events you've created. They can also be used to trigger Events you create.
+			</TextBlock>
+
+			<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0">
+				All Trigger Conditions start off with a value of <Italic>False</Italic>.</TextBlock>
+
+			<Border Style="{StaticResource callout}" Margin="0,5">
+				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					For example, let's say you have an <Bold>Interaction Event</Bold> which asks the players if they want to steal a carrot. You could create a <Bold>Trigger Condition</Bold> called "Carrot Stolen" that gets <Italic>Triggered</Italic> if the players do steal the carrot. Another <Bold>Interaction Event</Bold> could be discovered later on which checks the "Carrot Stolen" Trigger value and presents a branching story based on whether or not the carrot was stolen.
+				</TextBlock>
+			</Border>
+		</StackPanel>
+
+		<!--Footer-->
+		<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
+			<WrapPanel HorizontalAlignment="Right" >
+
+				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True">
+					<Image Source="/JiME;component/Assets/ok.png" Stretch="Uniform" Width="32" Margin="5"/>
+				</Button>
+
+				<Button x:Name="cancelButton" Margin="0,10,10,10" Background="{StaticResource bgCancelDelete}" Click="CancelButton_Click" IsCancel="True">
+					<Image Source="/JiME;component/Assets/cancel.png" Stretch="Uniform" Width="32" Margin="5"/>
+				</Button>
+			</WrapPanel>
+		</Border>
+	</Grid>
+</Window>
