@@ -36,7 +36,9 @@ namespace JiME
 				}
 			}
 			else
-				Application.Current.Shutdown();
+			{
+				throw new System.Exception( "Could not properly load scenario projects." );
+			}
 		}
 
 		void debug()
