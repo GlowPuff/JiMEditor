@@ -27,10 +27,16 @@ namespace JiME
 			projectLV.ItemsSource = projectCollection;
 
 			//poll Project folder for files and populate Recent list
-			foreach ( ProjectItem pi in FileManager.GetProjects() )
+			var projects = FileManager.GetProjects();
+			if ( projects != null )
 			{
-				projectCollection.Add( pi );
+				foreach ( ProjectItem pi in projects )
+				{
+					projectCollection.Add( pi );
+				}
 			}
+			else
+				Application.Current.Shutdown();
 		}
 
 		void debug()
@@ -81,9 +87,16 @@ namespace JiME
 		private void ProjectLV_SelectionChanged( object sender, SelectionChangedEventArgs e )
 		{
 			ProjectItem item = ( (ListView)e.Source ).SelectedItem as ProjectItem;
-			MainWindow mainWindow = new MainWindow( FileManager.LoadProject( item.fileName ) );
-			mainWindow.Show();
-			Close();
+			var project = FileManager.LoadProject( item.fileName );
+			if ( project != null )
+			{
+				MainWindow mainWindow = new MainWindow( project );
+				mainWindow.Show();
+				Close();
+			}
+			else
+			{
+			}
 		}
 
 		private void Window_MouseDown( object sender, System.Windows.Input.MouseButtonEventArgs e )

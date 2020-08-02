@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Windows;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 
@@ -68,7 +70,14 @@ namespace JiME
 			if ( saveAs || string.IsNullOrEmpty( fileName ) )
 			{
 				if ( !Directory.Exists( basePath ) )
-					Directory.CreateDirectory( basePath );
+				{
+					var di = Directory.CreateDirectory( basePath );
+					if ( di == null )
+					{
+						MessageBox.Show( "Could not create the scenario project folder.\r\nTried to create: " + basePath, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+						return false;
+					}
+				}
 
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
 				saveFileDialog.DefaultExt = ".jime";
@@ -89,9 +98,17 @@ namespace JiME
 			string output = JsonConvert.SerializeObject( this, Formatting.Indented );
 			string outpath = Path.Combine( basePath, fileName );
 			//Debug.Log( outpath );
-			using ( var stream = File.CreateText( outpath ) )
+			try
 			{
-				stream.Write( output );
+				using ( var stream = File.CreateText( outpath ) )
+				{
+					stream.Write( output );
+				}
+			}
+			catch ( Exception e )
+			{
+				MessageBox.Show( "Could not save the project file.\r\n\r\nException:\r\n" + e.Message, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				return false;
 			}
 			return true;
 		}
@@ -102,14 +119,21 @@ namespace JiME
 		static Scenario Load( string filename )
 		{
 			string json = "";
-			using ( StreamReader sr = new StreamReader( filename ) )
+			try
 			{
-				json = sr.ReadToEnd();
+				using ( StreamReader sr = new StreamReader( filename ) )
+				{
+					json = sr.ReadToEnd();
+				}
+				//ObservableCollection
+				var fm = JsonConvert.DeserializeObject<FileManager>( json );
+				return Scenario.CreateInstance( fm );
 			}
-			//ObservableCollection
-			var fm = JsonConvert.DeserializeObject<FileManager>( json );
-
-			return Scenario.CreateInstance( fm );
+			catch ( Exception e )
+			{
+				MessageBox.Show( "Could not load the project file.\r\n\r\nException:\r\n" + e.Message, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				return null;
+			}
 		}
 
 		/// <summary>
@@ -118,6 +142,13 @@ namespace JiME
 		public static Scenario LoadProject( string filename )
 		{
 			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+
+			//make sure the project folder exists
+			if ( !Directory.Exists( basePath ) )
+			{
+				MessageBox.Show( "Could not find the scenario project folder.\r\nTried to find: " + basePath, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				return null;
+			}
 
 			//string basePath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Projects" );
 			return Load( Path.Combine( basePath, filename ) );
@@ -131,6 +162,18 @@ namespace JiME
 			//string basePath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Projects" );
 
 			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+
+			//make sure the project folder exists
+			if ( !Directory.Exists( basePath ) )
+			{
+				var dinfo = Directory.CreateDirectory( basePath );
+				if ( dinfo == null )
+				{
+					MessageBox.Show( "Could not create the scenario project folder.\r\nTried to create: " + basePath, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+					return null;
+				}
+			}
+
 			List<ProjectItem> items = new List<ProjectItem>();
 			DirectoryInfo di = new DirectoryInfo( basePath );
 			FileInfo[] files = di.GetFiles().Where( file => file.Extension == ".jime" ).ToArray();
