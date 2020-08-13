@@ -1,6 +1,9 @@
 # JiMEditor
 A Scenario editor for the Journeys in Middle Earth board game.
 
+## Documentation
+You can find documentation for the app [in the Wiki](https://github.com/GlowPuff/JiMEditor/wiki).
+
 ### Early alpha release
 If you just want to download and run the app, grab it here:  
 [Download ZIP](https://github.com/GlowPuff/JiMEditor/releases/download/v0.3-alpha/JiMEditor.0.3-alpha.zip)
