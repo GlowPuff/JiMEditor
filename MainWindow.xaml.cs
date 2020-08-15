@@ -83,7 +83,7 @@ namespace JiME
 
 			if ( used != null )
 			{
-				MessageBox.Show( $"The selected Trigger Condition [{selected}] is being used by [{used.Item2}] called [{used.Item1}].", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				MessageBox.Show( $"The selected Trigger [{selected}] is being used by [{used.Item2}] called [{used.Item1}].", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return;
 			}
 

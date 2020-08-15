@@ -83,7 +83,7 @@
 								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding objective.loreReward}"/>
 							</StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
-					This Objective Is Completed When The Following Trigger Condition Is Set: (<Italic>Required</Italic>):
+					This Objective Is Completed When The Following Trigger Is Set: (<Italic>Required</Italic>):
 							</TextBlock>
 							<StackPanel Orientation="Horizontal">
 								<ComboBox x:Name="triggerCB" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding objective.triggerName}" SelectedValuePath="dataName" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="200"/>

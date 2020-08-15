@@ -113,7 +113,7 @@ namespace JiME.Views
 			if ( editMode == EditMode.Resolution
 				&& ( (Trigger)triggerLB.SelectedItem == null || ( (Trigger)triggerLB.SelectedItem ).dataName == "None" ) )
 			{
-				MessageBox.Show( "The Trigger Condition cannot be \"None\".", "Invalid Trigger Condition", MessageBoxButton.OK, MessageBoxImage.Error );
+				MessageBox.Show( "The Trigger cannot be \"None\".", "Invalid Trigger", MessageBoxButton.OK, MessageBoxImage.Error );
 				return;
 			}
 

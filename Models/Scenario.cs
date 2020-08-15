@@ -198,7 +198,7 @@ namespace JiME
 			introBookData.pages.Add( "Default Introduction text.\n\nThis text is displayed at the beginning of the Scenario to describe the mission and Objectives.\n\nScenarios have one Introduction Text." );
 
 			TextBookData data = new TextBookData( "Default Resolution" );
-			data.pages.Add( "Default resolution text.  This text is displayed when the Scenario has ended.\n\nDifferent Resolutions can be shown based on a Trigger Condition that gets set during the Scenario, depending on player actions.\n\nScenarios have at least one Resolution." );
+			data.pages.Add( "Default resolution text.  This text is displayed when the Scenario has ended.\n\nDifferent Resolutions can be shown based on a Trigger that gets set during the Scenario, depending on player actions.\n\nScenarios have at least one Resolution." );
 			data.triggerName = "Scenario Ended";
 			AddResolution( data );
 

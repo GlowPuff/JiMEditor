@@ -58,7 +58,7 @@
 						</TextBlock.Foreground>
 					</TextBlock>-->
 
-					<GroupBox x:Name="triggerGroup" Header="Trigger Condition:" Margin="0,10" Foreground="White">
+					<GroupBox x:Name="triggerGroup" Header="Triggered By:" Margin="0,10" Foreground="White">
 						<WrapPanel VerticalAlignment="Center">
 							<ComboBox x:Name="triggerLB" MinWidth="150" VerticalAlignment="Center" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding bookData.triggerName}" SelectedValuePath="dataName" DisplayMemberPath="dataName" Margin="5,0">
 							</ComboBox>

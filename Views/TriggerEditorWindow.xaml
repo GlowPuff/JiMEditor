@@ -20,11 +20,11 @@
 			</TextBlock>
 
 			<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0">
-				All Trigger Conditions start off with a value of <Italic>False</Italic>.</TextBlock>
+				All Triggers start off with a value of <Italic>False</Italic>.</TextBlock>
 
 			<Border Style="{StaticResource callout}" Margin="0,5">
 				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					For example, let's say you have an <Bold>Interaction Event</Bold> which asks the players if they want to steal a carrot. You could create a <Bold>Trigger Condition</Bold> called "Carrot Stolen" that gets <Italic>Triggered</Italic> if the players do steal the carrot. Another <Bold>Interaction Event</Bold> could be discovered later on which checks the "Carrot Stolen" Trigger value and presents a branching story based on whether or not the carrot was stolen.
+					For example, let's say you have a <Bold>Decision Event</Bold> which asks the players if they want to steal a carrot. You could create a <Bold>Trigger</Bold> called "Carrot Stolen" that gets <Italic>fired</Italic> if the players do steal the carrot. A <Bold>Story Branch Event</Bold> could be discovered later on which checks the "Carrot Stolen" Trigger value and presents a branching story based on whether or not the carrot was stolen.
 				</TextBlock>
 			</Border>
 		</StackPanel>

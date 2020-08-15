@@ -53,7 +53,7 @@ namespace JiME.Views
 			//if ( ( (Trigger)triggerCB.SelectedItem ).dataName == "None"
 			//	|| ( (Trigger)triggerCB.SelectedItem ).dataName.Contains( "Random" ) )
 			//{
-			//	MessageBox.Show( "You must select a Trigger Condition.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+			//	MessageBox.Show( "You must select a Trigger.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 			//	return;
 			//}
 

@@ -209,7 +209,7 @@
 				</Border>
 
 				<Border Grid.Row="2" BorderThickness="0,0,0,0" BorderBrush="Gray">
-					<uc:SidebarListView Margin="5" x:Name="interactionsUC" Title="Interaction Events" />
+					<uc:SidebarListView Margin="5" x:Name="interactionsUC" Title="Events" />
 				</Border>
 
 				<!--<GridSplitter HorizontalAlignment="Stretch" 
@@ -220,7 +220,7 @@
 				</GridSplitter>-->
 
 				<Border BorderThickness="0,0,0,0" BorderBrush="Gray" Grid.Row="4">
-					<uc:SidebarListView x:Name="triggersUC" Margin="5" Title="Trigger Conditions" />
+					<uc:SidebarListView x:Name="triggersUC" Margin="5" Title="Triggers" />
 				</Border>
 
 			</Grid>
