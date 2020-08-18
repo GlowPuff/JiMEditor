@@ -16,7 +16,7 @@
 			<TextBox x:Name="nameTB" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left"/>
 
 			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Triggers are <Italic>True / False</Italic> values that are set during the Scenario to keep track of player actions, mark progress of an Objective, and track the results of Interaction Events you've created. They can also be used to trigger Events you create.
+					Triggers are <Italic>True / False</Italic> values that are set during the Scenario to keep track of player actions. They are also used to activate Events you create.
 			</TextBlock>
 
 			<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0">
@@ -24,7 +24,7 @@
 
 			<Border Style="{StaticResource callout}" Margin="0,5">
 				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					For example, let's say you have a <Bold>Decision Event</Bold> which asks the players if they want to steal a carrot. You could create a <Bold>Trigger</Bold> called "Carrot Stolen" that gets <Italic>fired</Italic> if the players do steal the carrot. A <Bold>Story Branch Event</Bold> could be discovered later on which checks the "Carrot Stolen" Trigger value and presents a branching story based on whether or not the carrot was stolen.
+					For example, let's say you have a <Bold>Decision Interaction Event</Bold> which asks the players if they want to steal a carrot. You could create a <Bold>Trigger</Bold> called "Carrot Stolen" that gets <Italic>fired by the Event</Italic> if the players select "Yes". A <Bold>Story Branch Event</Bold> could be discovered later on which checks the value of the "Carrot Stolen" Trigger and presents a branching story based on whether or not the carrot was stolen.
 				</TextBlock>
 			</Border>
 		</StackPanel>

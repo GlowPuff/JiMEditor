@@ -81,8 +81,9 @@
 										</Button>
 									</Grid>
 
-									<TextBlock Text="Trigger This Token Interaction:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+									<TextBlock Text="Trigger This Event:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
 									<ComboBox Name="interactionCB" ItemsSource="{Binding tokenInteractions}" DisplayMemberPath="dataName" SelectedValue="{Binding selected.triggerName}" SelectedValuePath="dataName" VerticalAlignment="Center" SelectionChanged="interactionCB_SelectionChanged"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Only Events marked as Token Interactions will appear in this dropdown."/>
 
 									<TextBlock Text="Triggered By:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
 									<Grid>
@@ -96,7 +97,7 @@
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
 									</Grid>
-									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Tokens with Triggered By set will ONLY spawn when they are Triggered, NOT when the Tile is Explored."/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Tokens with Triggered By set will ONLY spawn when they are Triggered, NOT when the Chapter is activated."/>
 								</StackPanel>
 							</Border>
 

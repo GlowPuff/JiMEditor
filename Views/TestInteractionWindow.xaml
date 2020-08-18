@@ -92,7 +92,7 @@
 							</TextBlock>
 
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-								If this Token Interaction Event has been assigned to a <Bold>Token</Bold> on a non-random Tile and you uncheck the Token Interaction setting above, that Token's <Italic>Token Interaction Trigger</Italic> will be set to <Italic>None</Italic> because this Event will no longer be a Token Interaction.
+								If this Token Interaction Event has already been assigned to a <Bold>Token</Bold> in the Tile Editor and you uncheck the Token Interaction setting above, that Token's <Italic>Token Interaction Trigger</Italic> will automatically be set to <Italic>None</Italic> because this Event will no longer be a Token Interaction.
 							</TextBlock>
 						</StackPanel>
 					</Border>
