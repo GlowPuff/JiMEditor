@@ -6,7 +6,7 @@ You can find documentation for the app [in the Wiki](https://github.com/GlowPuff
 
 ### Early alpha release
 If you just want to download and run the app, grab it here:  
-[Download ZIP](https://github.com/GlowPuff/JiMEditor/releases/download/v0.3-alpha/JiMEditor.0.3-alpha.zip)
+[Download ZIP](https://github.com/GlowPuff/JiMEditor/releases)
 
 ### Demonstration video
 [On YouTube](https://www.youtube.com/watch?v=J5u6YwjxIgU)
