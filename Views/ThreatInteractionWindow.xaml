@@ -233,12 +233,12 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 
-					<Border Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="Collapsed">
+					<!--<Border Style="{StaticResource callout}" Margin="0,10,0,0" >
 						<StackPanel>
 							<CheckBox Content="Recycle" Margin="0,5,0,0" Foreground="White" IsChecked="{Binding interaction.isReuseable}" IsEnabled="{Binding interaction.isRandom}"/>
 							<TextBlock Style="{StaticResource SubText}" Text="If this Event is Random, Monster Threats can be Recycled. A Recycled Monster Threat can be triggered multiple times out of the random event pool, instead of just once." TextWrapping="Wrap"/>
 						</StackPanel>
-					</Border>
+					</Border>-->
 
 				</StackPanel>
 			</TabItem>

@@ -38,7 +38,7 @@ When you create a Chapter with a Random Tile Pool, there needs to be a way to cr
 				<Border Style="{StaticResource callout}">
 					<StackPanel>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							The Interaction Group selection box in the Tile Pool Editor lists all the Token Interaction Groups you've created. When you select a Token Interaction Group from the selection box, the interface tells you how many Events were found using that group name.
+							The Interaction Group dropdown menu in the Tile Pool Editor lists all the Token Interaction Groups you've created. When you select a Token Interaction Group from the dropdown menu, the interface tells you how many Events were found using that group name.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
 							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Chapter's Random Tile Pool. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement.
@@ -53,7 +53,7 @@ When you create a Chapter with a Random Tile Pool, there needs to be a way to cr
 							Example: Using Tiles 201 and 202, we have 4 spaces available. Let's say we assign an Interaction Group to this Tile Pool with 6 different Events in it. We can use a maximum of 4 of those 6 Events because there are only 4 spaces available on the Tiles we're using. However, we only want 2 of those 6 Events to randomly spawn Tokens on these Tiles, so we enter 2 into the text box. During the game, the Companion App will randomly choose and spawn 2 Tokens out of the Group. The other 4 are discarded.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							<Bold><Italic>CAUTION</Italic></Bold>: If you assign an Interaction Group to more than one Random Tile Group, the same Events could be seen by players more than once, causing confusion. On the other hand, Events can be created that are generic enough to appear more than once by design. A good example of this would be creating a Group with 5 different enemy Threat Events in it. This Group can be used over and over to randomly spawn one of the Threats in the Group when it's triggered.
+							<Bold><Italic>CAUTION</Italic></Bold>: If you assign a Token Interaction Group to more than one Chapter, the same Events could be seen by players more than once, causing confusion. On the other hand, Events can be created that are generic enough to appear more than once by design. A good example of this would be creating a Group with 5 different enemy Threat Events in it. This Group can be used over and over to randomly spawn one of the Threats in the Group when it's triggered.
 						</TextBlock>
 					</StackPanel>
 				</Border>
@@ -67,7 +67,7 @@ When you create a Chapter with a Random Tile Pool, there needs to be a way to cr
 					<StackPanel>
 						<TextBlock Style="{StaticResource Heading}" Text="What Are Events?"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Events make up the action and challenges the players face while they play. There are 5 kinds of Events: Text Popups, Story Branches, Darkness, Decisions, Stat Tests, and Enemy Threats. Events that do NOT have Token Interaction checked are activated by a Trigger that you specify in the "Triggered By" selection box.
+					Events make up the action and challenges the players face while they play. There are 5 kinds of Events: Text Popups, Story Branches, Darkness, Decisions, Stat Tests, and Enemy Threats. Events that do NOT have Token Interaction checked are activated by a Trigger that you specify in the "Triggered By" dropdown menu.
 						</TextBlock>
 
 						<TextBlock Margin="0,5,0,0" Style="{StaticResource Heading}" Text="Text Popup Event"/>
@@ -104,11 +104,11 @@ A Stat Test Event presents the players with a challenge that tests one of their 
 					<StackPanel>
 						<TextBlock Margin="0,0,0,0" Style="{StaticResource Heading}" Text="What Are Token Interaction Events?"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-A Token Interaction Event is the same as a normal Event except for HOW it is activated. It is only activated by a player <Italic>interacting</Italic> with a <Italic><Bold>Token</Bold></Italic> on a Tile in the game. There are 4 kinds of Tokens: Person, Search, Threat and Darkness. Any of these Tokens can trigger a Token Interaction Event you've created when they are clicked on in the game.
+A Token Interaction Event is the same as a normal Event except for HOW it is activated. It is only activated by a player <Italic>interacting</Italic> with a <Italic><Bold>Token</Bold></Italic> on a Tile in the game. There are 4 kinds of Tokens: Person, Search, Threat and Darkness. Assign the Token Type after you check the Event to be a Token Interaction.
 						</TextBlock>
 
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-Marking an Event as a Token Interaction will make it available to choose from within the Tile Editor when placing Tokens. Only Events with Token Interaction checked can be assigned to Tokens.
+Marking an Event as a Token Interaction will make it available to assign to a Token in the Token Editor. Only Events with Token Interaction checked can be assigned to Tokens.
 						</TextBlock>
 
 					</StackPanel>

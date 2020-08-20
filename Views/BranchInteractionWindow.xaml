@@ -202,7 +202,7 @@ Token Interactions are triggered by players as they journey across the map. When
 						<RadioButton x:Name="eventTestRB" GroupName="branchrb"/>
 						<Border Style="{StaticResource callout}" Width="679">
 							<StackPanel>
-								<TextBlock Style="{StaticResource Heading}" Text="...Fire One Of These Events"/>
+								<TextBlock Style="{StaticResource Heading}" Text="...Activate One Of These Events"/>
 								<UniformGrid Columns="2">
 									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Set (True)..." FontWeight="Normal">
 										<ComboBox x:Name="eventTrue" HorizontalAlignment="Stretch" VerticalAlignment="Center" DisplayMemberPath="dataName" ItemsSource="{Binding scenario.interactionObserver}" SelectedValue="{Binding interaction.triggerIsSet}" SelectedValuePath="dataName" FontSize="12"/>
@@ -221,7 +221,7 @@ Token Interactions are triggered by players as they journey across the map. When
 						<RadioButton x:Name="triggerTestRB" GroupName="branchrb"/>
 						<Border Style="{StaticResource callout}" Width="679">
 							<StackPanel>
-								<TextBlock Style="{StaticResource Heading}" Text="...Set One Of These Triggers"/>
+								<TextBlock Style="{StaticResource Heading}" Text="...Fire One Of These Triggers"/>
 								<UniformGrid Columns="2">
 									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Set (True)..." FontWeight="Normal">
 										<StackPanel Orientation="Horizontal">

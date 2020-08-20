@@ -175,7 +175,7 @@
 
 			<TabItem Padding="5" Header="Stat Test">
 				<StackPanel Margin="0,5,0,0">
-					<TextBlock Style="{StaticResource SubText}" Text="For Attribute Tests, two buttons (labeled 'Pass' and 'Fail') will be presented to the player. The result of the test may be entered by the player within the Companion App." VerticalAlignment="Center" TextWrapping="Wrap" />
+					<TextBlock Style="{StaticResource SubText}" Text="The Stat Test Event is used to test an Attribute (Might, Agility, Spirit, Wisdom, Wit) of the Hero the player is playing as. Two buttons labeled Pass and Fail are presented to the player in the companion app, which can be used to input the result of the test." VerticalAlignment="Center" TextWrapping="Wrap" />
 
 					<!--attributes-->
 					<Border Style="{StaticResource callout}" Margin="0,10,0,5">
