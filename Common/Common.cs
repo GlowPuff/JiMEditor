@@ -8,6 +8,8 @@ using System.Windows;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.ComponentModel;
 
 namespace JiME
 {
@@ -79,6 +81,56 @@ namespace JiME
 		}
 	}
 
+	public class GalleryTile : INotifyPropertyChanged
+	{
+		bool _selected, _enabled;
+		string _side;
+		public int id { get; set; }
+		public ImageSource source { get; set; }
+		public bool selected
+		{
+			get { return _selected; }
+			set
+			{
+				_selected = value;
+				PropChanged( "selected" );
+			}
+		}
+		public bool enabled
+		{
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				PropChanged( "enabled" );
+			}
+		}
+		public SolidColorBrush color;
+		public string side
+		{
+			get { return _side; }
+			set
+			{
+				_side = value;
+				PropChanged( "side" );
+			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public GalleryTile()
+		{
+			enabled = true;
+			selected = false;
+			side = "A";
+		}
+
+		void PropChanged( string name )
+		{
+			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( name ) );
+		}
+	}
+
 	public static class Utils
 	{
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
@@ -89,6 +141,9 @@ namespace JiME
 		public static double[] hexSnapX, hexSnapY;//used in HexTileData.cs
 		public static SolidColorBrush[] hexColors;
 		public static bool isLoaded = false;
+		//public static GalleryTile[] galleryTilesA;
+		//public static GalleryTile[] galleryTilesB;
+		public static ImageSource[] tileSourceA, tileSourceB;
 
 		public static void Init()
 		{
@@ -123,6 +178,19 @@ namespace JiME
 			hexColors[2] = new SolidColorBrush( Colors.SeaGreen );
 			hexColors[3] = new SolidColorBrush( Colors.DarkMagenta );
 			hexColors[4] = new SolidColorBrush( Colors.DarkOrange );
+
+			//create gallery tiles
+			tileSourceA = new ImageSource[22];
+			tileSourceB = new ImageSource[22];
+			int[] ids = LoadTiles().ToArray();
+
+			for ( int i = 0; i < 22; i++ )
+			{
+				//A
+				tileSourceA[i] = new BitmapImage( new Uri( $"pack://application:,,,/JiME;component/Assets/TilesA/{ids[i]}.png" ) );
+				//B
+				tileSourceB[i] = new BitmapImage( new Uri( $"pack://application:,,,/JiME;component/Assets/TilesB/{ids[i]}.png" ) );
+			}
 		}
 
 		public static T FirstOr<T>( this IEnumerable<T> source, T alternate )

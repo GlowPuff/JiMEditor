@@ -46,12 +46,11 @@ namespace JiME.Views
 		private void ToRandomButton_Click( object sender, RoutedEventArgs e )
 		{
 			int item = (int)global.SelectedItem;
-			if ( chapter.randomTilePool.Count < 4 )
+			if ( chapter.randomTilePool.Count < 5 )
 			{
 				scenario.globalTilePool.Remove( item );
 				chapter.randomTilePool.Add( item );
 				global.UnselectAll();
-				//random.UnselectAll();
 			}
 
 			UpdateTexts();
@@ -70,7 +69,6 @@ namespace JiME.Views
 				scenario.globalTilePool.Clear();
 				foreach ( int s in foo )
 					scenario.globalTilePool.Add( s );
-				//global.UnselectAll();
 				random.UnselectAll();
 			}
 
@@ -107,7 +105,7 @@ namespace JiME.Views
 		private void Global_MouseDoubleClick( object sender, System.Windows.Input.MouseButtonEventArgs e )
 		{
 			int item = (int)global.SelectedItem;
-			if ( chapter.randomTilePool.Count < 4 )
+			if ( chapter.randomTilePool.Count < 5 )
 			{
 				scenario.globalTilePool.Remove( item );
 				chapter.randomTilePool.Add( item );
@@ -171,6 +169,22 @@ namespace JiME.Views
 		{
 			HelpWindow hw = new HelpWindow( HelpType.Grouping, 1 );
 			hw.ShowDialog();
+		}
+
+		private void tileGalleryButton_Click( object sender, RoutedEventArgs e )
+		{
+			GalleryWindow gw = new GalleryWindow( scenario, chapter.randomTilePool.Count, false );
+			if ( gw.ShowDialog() == true && gw.selectedData.Length > 0 )
+			{
+				foreach ( var t in gw.selectedData )
+				{
+					scenario.globalTilePool.Remove( t.Item1 );
+					chapter.randomTilePool.Add( t.Item1 );
+					//global.UnselectAll();
+				}
+
+				UpdateTexts();
+			}
 		}
 
 		private void Window_Loaded( object sender, RoutedEventArgs e )

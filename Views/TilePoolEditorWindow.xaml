@@ -13,7 +13,7 @@
 
 	<StackPanel>
 		<StackPanel Margin="10">
-			<TextBlock Text="Add 1 to 4 Tiles to the Random Tile Pool for this Chapter. These Tiles will be randomly fitted together in the Companion App." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+			<TextBlock Text="Add 1 to 5 Tiles to the Random Tile Pool for this Chapter. These Tiles will be randomly fitted together in the Companion App." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
 		</StackPanel>
 
 		<Grid Height="200">
@@ -49,6 +49,9 @@
 				<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.randomTilePool}" MouseDoubleClick="Random_MouseDoubleClick"/>
 			</GroupBox>
 		</Grid>
+
+		<Button x:Name="tileGalleryButton" Background="MediumSeaGreen" Margin="0,0,0,10" Content="Add From Tile Gallery" Foreground="White" Click="tileGalleryButton_Click" Width="200">
+		</Button>
 
 		<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,10,10"/>
 

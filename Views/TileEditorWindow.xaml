@@ -77,17 +77,25 @@
 			<ScrollViewer  Grid.Column="1" VerticalScrollBarVisibility="Auto">
 				<Border Grid.Column="1" Width="200" Style="{StaticResource callout}" Margin="10,0,0,0">
 					<StackPanel>
-						<TextBlock Text="Select A Tile To Add:" Style="{StaticResource Heading}"/>
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*"/>
-								<ColumnDefinition Width="auto"/>
-							</Grid.ColumnDefinitions>
-							<ComboBox Name="tilePool" ItemsSource="{Binding scenario.globalTilePool}" VerticalAlignment="Center" SelectedIndex="0"/>
-							<Button Grid.Column="1" x:Name="addTileButton" Click="AddTileButton_Click" Background="MediumSeaGreen" Height="32" Width=" 32" Margin="5,0,0,0">
-								<Image Source="/JiME;component/Assets/add2.png"/>
-							</Button>
-						</Grid>
+						<Border Style="{StaticResource callout}" Background="{StaticResource bgColor}" >
+							<StackPanel>
+								<TextBlock Text="Select A Tile To Add:" Style="{StaticResource Heading}"/>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="auto"/>
+									</Grid.ColumnDefinitions>
+									<ComboBox Name="tilePool" ItemsSource="{Binding scenario.globalTilePool}" VerticalAlignment="Center" SelectedIndex="0"/>
+									<Button Grid.Column="1" x:Name="addTileButton" Click="AddTileButton_Click" Background="MediumSeaGreen" Height="32" Width=" 32" Margin="5,0,0,0">
+										<Image Source="/JiME;component/Assets/add2.png"/>
+									</Button>
+								</Grid>
+
+								<Button x:Name="tileGalleryButton" Background="MediumSeaGreen" Margin="0,10,0,0" Content="Add From Tile Gallery" Foreground="White" Click="tileGalleryButton_Click">
+								</Button>
+							</StackPanel>
+						</Border>
+
 
 						<TextBlock Text="Tiles In Chapter" Style="{StaticResource Heading}" HorizontalAlignment="Center" Margin="0,10,0,5"/>
 						<Grid>

@@ -1,0 +1,115 @@
+﻿<Window x:Class="JiME.Views.GalleryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JiME"
+        mc:Ignorable="d"
+        Title="Tile Gallery" Width="875" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen">
+
+	<Window.Resources>
+		<local:BoolToColor x:Key="b2c"/>
+		<local:BoolInvertConverter x:Key="b2i"/>
+	</Window.Resources>
+
+	<StackPanel>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="auto"/>
+			</Grid.RowDefinitions>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="auto"/>
+			</Grid.ColumnDefinitions>
+
+			<Grid>
+				<ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5">
+					<!--<WrapPanel>
+						<Button Background="{StaticResource bgColorLight}" Width="200" Height="200">
+							<Image Source="/JiME;component/Assets/TilesA/100.png" Stretch="Uniform"/>
+						</Button>
+					</WrapPanel>-->
+
+					<ItemsControl x:Name="items" Padding="5" ItemsSource="{Binding tileObserver}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel IsItemsHost="True" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+
+						<!--Binding selected, Converter={StaticResource b2c}-->
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<Button x:Name="tileButton" Background="{Binding selected, Converter={StaticResource b2c}}" Width="300" Height="300" DataContext="{Binding}" Click="tileButton_Click" IsEnabled="{Binding enabled}">
+										<Image Source="{Binding source}" Stretch="Uniform"/>
+									</Button>
+									<StackPanel Orientation="Horizontal" Margin="0,5,0,10" HorizontalAlignment="Center">
+										<TextBlock Text="{Binding id}" Style="{StaticResource Heading}"/>
+										<TextBlock Text="{Binding side}" Style="{StaticResource Heading}"/>
+									</StackPanel>
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+			</Grid>
+
+			<!--sidebar-->
+			<Border Grid.Column="1" Width="200" Style="{StaticResource callout}" Margin="10,0,0,0">
+				<StackPanel>
+					<Border Style="{StaticResource callout}" Background="{StaticResource bgColor}" >
+						<StackPanel>
+							<TextBlock Style="{StaticResource Heading}" Text="Selected Tiles" HorizontalAlignment="Center"/>
+							<TextBlock Style="{StaticResource SubText}" Text="{Binding selectedTiles}" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="14"/>
+							<TextBlock Text="{Binding max}" Style="{StaticResource SubText}" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+						</StackPanel>
+					</Border>
+
+					<!--buttons-->
+					<TextBlock Text="Toggle A/B Sides" Style="{StaticResource Heading}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+						<RadioButton x:Name="sideA" Content="Side A" GroupName="side" Foreground="White" Margin="10" IsChecked="True" Click="sideA_Click"/>
+						<RadioButton x:Name="sideB" Content="Side B" GroupName="side" Foreground="White" Margin="10" IsChecked="False" Click="sideB_Click"/>
+					</StackPanel>
+
+					<TextBlock Text="You can add a mix of A and B sided Tiles by using the A/B radio buttons above. As you select Tiles, they will 'lock in' their side as you toggle the rest of the Gallery back and forth." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+
+					<Button x:Name="addTilesButton" Click="addTilesButton_Click" Background="MediumSeaGreen" Foreground="White" Content="Add Selected Tiles" Margin="0,10,0,0" IsDefault="True"/>
+				</StackPanel>
+			</Border>
+		</Grid>
+
+		<!--footer-->
+		<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+
+				<StackPanel Orientation="Horizontal" Grid.Column="0">
+					<Button x:Name="left" Margin="10" Background="MediumSeaGreen" Click="left_Click" IsDefault="True">
+						<Image Source="/JiME;component/Assets/left.png" Stretch="Uniform" Width="32" Margin="5"/>
+					</Button>
+					<Button x:Name="right" Margin="10" Background="MediumSeaGreen" Click="right_Click" IsDefault="True">
+						<Image Source="/JiME;component/Assets/right.png" Stretch="Uniform" Width="32" Margin="5"/>
+					</Button>
+				</StackPanel>
+				<TextBlock Text="Page: " Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource Heading}"/>
+				<TextBlock Text="{Binding page}" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource Heading}"/>
+
+				<WrapPanel Grid.Column="3" FlowDirection="RightToLeft">
+					<Button x:Name="okButton" Margin="10" Background="{StaticResource bgCancelDelete}" Click="okButton_Click" IsCancel="True">
+						<Image Source="/JiME;component/Assets/cancel.png" Stretch="Uniform" Width="32" Margin="5"/>
+					</Button>
+				</WrapPanel>
+			</Grid>
+		</Border>
+	</StackPanel>
+</Window>

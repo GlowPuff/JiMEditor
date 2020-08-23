@@ -21,15 +21,29 @@ namespace JiME
 		//generic, app-wide error handler to catch any unhandled exceptions
 		private void Dispatcher_UnhandledException( object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e )
 		{
-			var inner = e.Exception.InnerException.ToString().Split( new string[] { "at" }, 2, System.StringSplitOptions.None );
+			if ( e.Exception.InnerException != null )
+			{
+				string[] inner;
+				inner = e.Exception.InnerException.ToString().Split( new string[] { "at" }, 2, System.StringSplitOptions.None );
 
-			MessageBox.Show(
-				"An unhandled exception occurred: \r\n\r\n"
-				+ inner[0]
-				+ "\r\nStack Trace:\r\n"
-				+ inner[1], "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
-			Application.Current.Shutdown();
-			e.Handled = true;
+				MessageBox.Show(
+					"An unhandled exception occurred: \r\n\r\n"
+					+ inner[0]
+					+ "\r\n\r\nStack Trace:\r\n"
+					+ inner[1], "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				Application.Current.Shutdown();
+				e.Handled = true;
+			}
+			else
+			{
+				MessageBox.Show(
+					"An unhandled exception occurred: \r\n\r\n"
+					+ e.Exception.Message
+					+ "\r\n\r\nStack Trace:\r\n"
+					+ e.Exception.StackTrace, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				Application.Current.Shutdown();
+				e.Handled = true;
+			}
 		}
 	}
 }

@@ -40,6 +40,9 @@ namespace JiME
 			triggersUC.dataListView.ItemsSource = scenario.triggersObserver;
 			objectivesUC.dataListView.ItemsSource = scenario.objectiveObserver;
 
+			//initialize utilities
+			Utils.Init();
+
 			//debug
 			//debug();
 		}

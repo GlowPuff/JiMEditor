@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace JiME
 {
@@ -266,6 +268,22 @@ namespace JiME
 			if ( value is int )
 				return (int)value > 0;
 			return value;
+		}
+
+		public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class BoolToColor : IValueConverter
+	{
+		public object Convert( object value, Type targetType, object parameter, CultureInfo culture )
+		{
+			if ( (bool)value )
+				return new SolidColorBrush( Colors.MediumSeaGreen );
+			else
+				return new SolidColorBrush( System.Windows.Media.Color.FromRgb( 70, 70, 74 ) );
 		}
 
 		public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )

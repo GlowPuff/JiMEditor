@@ -46,7 +46,6 @@ namespace JiME.Views
 			scenario = s;
 			chapter = c ?? new Chapter( "New Chapter" );
 			selected = null;
-			Utils.Init();
 
 			//rehydrate existing tiles in this chapter
 			for ( int i = 0; i < chapter.tileObserver.Count; i++ )
@@ -279,6 +278,33 @@ namespace JiME.Views
 					return;
 				canvas.Children.Remove( selected.hexPathShape );
 				selected.ChangeTileSide( "B", canvas );
+			}
+		}
+
+		private void tileGalleryButton_Click( object sender, RoutedEventArgs e )
+		{
+			GalleryWindow gw = new GalleryWindow( scenario, chapter.tileObserver.Count );
+			if ( gw.ShowDialog() == true && gw.selectedData.Length > 0 )
+			{
+				foreach ( HexTile tt in chapter.tileObserver )
+				{
+					tt.Unselect();
+				}
+
+				foreach ( var t in gw.selectedData )
+				{
+					int color = GetUnusedColor();
+					HexTile hex = new HexTile( t.Item1 );
+					hex.ChangeColor( color );
+					hex.ChangeTileSide( t.Item2, canvas );
+					chapter.AddTile( hex );
+					selected = hex;
+					selected.Select();
+					radioA.IsChecked = selected.tileSide == "A";
+					radioB.IsChecked = selected.tileSide == "B";
+					inChapterCB.SelectedIndex = chapter.tileObserver.Count - 1;
+					scenario.globalTilePool.Remove( t.Item1 );
+				}
 			}
 		}
 	}
