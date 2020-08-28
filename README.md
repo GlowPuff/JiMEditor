@@ -15,4 +15,4 @@ If you just want to download and run the app, grab it here:
 The companion app that plays back your scenarios is in [this repository](https://github.com/GlowPuff/your-journey).
 
 ### Discuss the project at Board Game Geek
-The unofficial forum post for this project: [BGG Forum Post](https://boardgamegeek.com/thread/2224843/app-editor-can-we-make-our-own-adventures)
+The official forum post for this project: [BGG Forum Post](https://boardgamegeek.com/thread/2488415/custom-scenario-editor-and-companion-app-create-yo)
