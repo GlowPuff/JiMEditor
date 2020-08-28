@@ -3,18 +3,20 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for TextInteractionWindow.xaml
+	/// Interaction logic for PersistentInteractionWindow.xaml
 	/// </summary>
-	public partial class TextInteractionWindow : Window, INotifyPropertyChanged
+	public partial class PersistentInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public TextInteraction interaction { get; set; }
+		public ObservableCollection<string> interactionObserver { get; set; }
+		public PersistentTokenInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,20 +31,23 @@ namespace JiME.Views
 			}
 		}
 
-		public TextInteractionWindow( Scenario s, TextInteraction inter = null )
+		public PersistentInteractionWindow( Scenario s, PersistentTokenInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new TextInteraction( "New Text Event" );
+			interaction = inter ?? new PersistentTokenInteraction( "New Persistent Event" );
+
+			//interactions that are NOT Token Interactions
+			interactionObserver = new ObservableCollection<string>( scenario.interactionObserver.Where( x => !x.isTokenInteraction ).Select( x => x.dataName ) );
 
 			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
 			{
-				addMainTriggerButton.IsEnabled = false;
-				triggeredByCB.IsEnabled = false;
+				//addMainTriggerButton.IsEnabled = false;
+				//triggeredByCB.IsEnabled = false;
 				isTokenCB.IsEnabled = false;
 				interaction.isTokenInteraction = false;
 			}
@@ -98,7 +103,7 @@ namespace JiME.Views
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Text Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Persistent Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
@@ -189,6 +194,32 @@ namespace JiME.Views
 				groupInfo.Text = "This Event is in the following group: " + matches[0].Value.Trim();
 			else
 				groupInfo.Text = "This Event is in the following group: None";
+		}
+
+		private void editAltButton_Click( object sender, RoutedEventArgs e )
+		{
+			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, interaction.alternativeBookData );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.alternativeBookData.pages = tw.textBookController.pages;
+				altTB.Text = tw.textBookController.pages[0];
+			}
+		}
+
+		private void addAltTrigger_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.alternativeTextTrigger = tw.triggerName;
+			}
+		}
+
+		private void eventCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			string s = ( (ComboBox)sender ).SelectedValue as string;
+			if ( s == interaction.dataName )
+				( (ComboBox)sender ).SelectedIndex = 0;
 		}
 	}
 }

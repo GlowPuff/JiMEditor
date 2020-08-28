@@ -122,72 +122,18 @@
 									<!--IsChecked="{Binding selected.tileSide, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource side}, ConverterParameter=2}"-->
 								</UniformGrid>
 
-								<Button x:Name="editTokenButton" Margin="0,10,0,0" Background="MediumSeaGreen" Foreground="White" Content="Edit Tokens" Click="editTokenButton_Click">
-								</Button>
+								<TextBlock Text="Fire This Trigger When Explored (Optional):" Style="{StaticResource Heading}" Margin="0,10,0,0" TextWrapping="Wrap"/>
+								<StackPanel Orientation="Horizontal">
+									<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left"  ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding selected.triggerName}" SelectedValuePath="dataName" Width="121"/>
+									<Button x:Name="addExploredTriggerButton" Background="MediumSeaGreen" Margin="5,0,10,0" Height="32" Width="32" Click="addExploredTriggerButton_Click">
+										<Image Source="/JiME;component/Assets/add2.png"/>
+									</Button>
+								</StackPanel>
 
 								<CheckBox IsChecked="{Binding selected.isStartTile}" Margin="0,10,0,0" Content="Is Starting Tile" Foreground="White"/>
-								<!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
-									<TextBlock Text="Token Positions:" Style="{StaticResource Heading}"/>
-									<TextBlock Text="{Binding selected.tokenCount}" Style="{StaticResource Heading}" Margin="10,0"/>
-								</StackPanel>-->
 
-								<!--<Border Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding selected.tokenCount, Converter={StaticResource tokenvis}, ConverterParameter=1}">
-									<StackPanel>
-										<TextBlock Text="Token Position 1:" Foreground="White" HorizontalAlignment="Center"/>
-										<ComboBox Name="token1" ItemsSource="{StaticResource tokenTypes}" SelectedValue="{Binding selected.tokenType[0]}"/>
-
-										<TextBlock Text="Token Trigger 1:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"/>
-												<ColumnDefinition Width="auto"/>
-											</Grid.ColumnDefinitions>
-											<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" IsEnabled="{Binding ElementName=token1, Path=SelectedIndex, Converter={StaticResource tokenen}}" SelectedValue="{Binding selected.triggerNames[0]}" SelectedValuePath="dataName" VerticalAlignment="Center"/>
-											<Button Grid.Column="1" Width="32" Background="MediumSeaGreen" Margin="5,0,0,0" Click="AddEventButton_Click" DataContext="0">
-												<Image Source="/JiME;component/Assets/add2.png"/>
-											</Button>
-										</Grid>
-									</StackPanel>
-								</Border>
-
-								<Border Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding selected.tokenCount, Converter={StaticResource tokenvis}, ConverterParameter=2}">
-									<StackPanel>
-										<TextBlock Text="Token Position 2:" Foreground="White" HorizontalAlignment="Center"/>
-										<ComboBox  Name="token2" ItemsSource="{StaticResource tokenTypes}" SelectedValue="{Binding selected.tokenType[1]}"/>
-
-										<TextBlock Text="Token Trigger 2:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"/>
-												<ColumnDefinition Width="auto"/>
-											</Grid.ColumnDefinitions>
-											<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" IsEnabled="{Binding ElementName=token2, Path=SelectedIndex, Converter={StaticResource tokenen}}" SelectedValue="{Binding selected.triggerNames[1]}" SelectedValuePath="dataName" VerticalAlignment="Center"/>
-											<Button Grid.Column="1" Width="32" Background="MediumSeaGreen" Margin="5,0,0,0" Click="AddEventButton_Click" DataContext="1">
-												<Image Source="/JiME;component/Assets/add2.png"/>
-											</Button>
-										</Grid>
-									</StackPanel>
-								</Border>
-
-								<Border Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding selected.tokenCount, Converter={StaticResource tokenvis}, ConverterParameter=3}">
-									<StackPanel>
-										<TextBlock Text="Token Position 3:" Foreground="White" HorizontalAlignment="Center"/>
-										<ComboBox  Name="token3" ItemsSource="{StaticResource tokenTypes}" SelectedValue="{Binding selected.tokenType[2]}"/>
-
-										<TextBlock Text="Token Trigger 3:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"/>
-												<ColumnDefinition Width="auto"/>
-											</Grid.ColumnDefinitions>
-											<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName"  IsEnabled="{Binding ElementName=token3, Path=SelectedIndex, Converter={StaticResource tokenen}}"  SelectedValue="{Binding selected.triggerNames[2]}" SelectedValuePath="dataName" VerticalAlignment="Center"/>
-											<Button Grid.Column="1" Width="32" Background="MediumSeaGreen" Margin="5,0,0,0" Click="AddEventButton_Click" DataContext="2">
-												<Image Source="/JiME;component/Assets/add2.png"/>
-											</Button>
-										</Grid>
-									</StackPanel>
-								</Border>-->
-
+								<Button x:Name="editTokenButton" Margin="0,10,0,0" Background="MediumSeaGreen" Foreground="White" Content="Edit Tokens" Click="editTokenButton_Click">
+								</Button>
 							</StackPanel>
 						</Border>
 					</StackPanel>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
         ContentRendered="Window_ContentRendered"
-        Title="Decision Interaction Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="725" Closing="Window_Closing">
+        Title="Decision Interaction Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="bvis"/>
@@ -98,7 +98,7 @@
 								<StackPanel HorizontalAlignment="Left">
 									<TextBlock Text="Triggered By (Optional):" Style="{StaticResource Heading}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0,5,0,0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
+										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
 										<Button x:Name="addMainTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerButton_Click" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
@@ -108,7 +108,7 @@
 								<StackPanel HorizontalAlignment="Left" Margin="10,0,0,0">
 									<TextBlock Text="Set Trigger After Event Is Resolved (Optional):" Style="{StaticResource Heading}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
+										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0,8,0,0"/>
 										<Button x:Name="addMainTriggerAfterButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerAfterButton_Click">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
@@ -116,7 +116,7 @@
 								</StackPanel>
 							</UniformGrid>
 							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								Multiple Interactions can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
+								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
 							</TextBlock>
 						</StackPanel>
 					</Border>

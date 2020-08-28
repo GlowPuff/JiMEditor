@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -49,6 +47,15 @@ namespace JiME
 						break;
 					case 5:
 						interaction = item.ToObject<DarknessInteraction>();
+						break;
+					case 6:
+						interaction = item.ToObject<MultiEventInteraction>();
+						break;
+					case 7:
+						interaction = item.ToObject<PersistentTokenInteraction>();
+						break;
+					case 8:
+						interaction = item.ToObject<ConditionalInteraction>();
 						break;
 				}
 				interactionList.Add( interaction );

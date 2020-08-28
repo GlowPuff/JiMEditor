@@ -25,6 +25,9 @@
 		<CommandBinding Command="local:MyCommands.NewThreatInteraction" Executed="CommandNewThreatInteraction_Executed" CanExecute="CommandNewThreatInteraction_CanExecute"/>
 		<CommandBinding Command="local:MyCommands.NewTestInteraction" Executed="CommandNewTestInteraction_Executed" CanExecute="CommandNewTestInteraction_CanExecute"/>
 		<CommandBinding Command="local:MyCommands.NewDecisionInteraction" Executed="CommandNewDecisionInteraction_Executed" CanExecute="CommandNewDecisionInteraction_CanExecute"/>
+		<CommandBinding Command="local:MyCommands.NewMultiInteraction" Executed="CommandNewMultiInteraction_Executed" CanExecute="CommandNewMultiInteraction_CanExecute"/>
+		<CommandBinding Command="local:MyCommands.NewPersistentInteraction" Executed="CommandNewPersistentInteraction_Executed" CanExecute="CommandNewPersistentInteraction_CanExecute"/>
+		<CommandBinding Command="local:MyCommands.NewConditionalInteraction" Executed="CommandNewConditionalInteraction_Executed" CanExecute="CommandNewConditionalInteraction_CanExecute"/>
 
 	</Window.CommandBindings>
 
@@ -47,6 +50,18 @@
                }">
 			</MenuItem>
 			<MenuItem Command="local:MyCommands.NewDecisionInteraction" CommandTarget="{Binding Path=PlacementTarget,
+                        RelativeSource={RelativeSource AncestorType=ContextMenu}
+               }">
+			</MenuItem>
+			<MenuItem Command="local:MyCommands.NewMultiInteraction" CommandTarget="{Binding Path=PlacementTarget,
+                        RelativeSource={RelativeSource AncestorType=ContextMenu}
+               }">
+			</MenuItem>
+			<MenuItem Command="local:MyCommands.NewPersistentInteraction" CommandTarget="{Binding Path=PlacementTarget,
+                        RelativeSource={RelativeSource AncestorType=ContextMenu}
+               }">
+			</MenuItem>
+			<MenuItem Command="local:MyCommands.NewConditionalInteraction" CommandTarget="{Binding Path=PlacementTarget,
                         RelativeSource={RelativeSource AncestorType=ContextMenu}
                }">
 			</MenuItem>
@@ -226,15 +241,20 @@
 			</Grid>
 		</Border>
 
-		<Border DockPanel.Dock="Bottom" BorderBrush="Black" BorderThickness="0,1,0,0" Height="100">
-			<Grid Margin="5">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="auto"/>
-					<RowDefinition Height="*"/>
-				</Grid.RowDefinitions>
-				<TextBlock Style="{StaticResource Heading}" Text="{Binding errorChecker.errorCount}"/>
-				<TextBox Grid.Row="1" Foreground="White" Text="{Binding errorChecker.Errors}" FontWeight="Light" IsReadOnly="True" Background="{StaticResource bgColor}" BorderThickness="0"/>
-			</Grid>
+		<Border DockPanel.Dock="Bottom" BorderBrush="Black" BorderThickness="0,1,0,0" Height="30" Background="{StaticResource bgColorLight}">
+			<UniformGrid Columns="2">
+				<!--format version-->
+				<StackPanel Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
+					<TextBlock Text="App Version:  "/>
+					<TextBlock x:Name="appVersion"/>
+				</StackPanel>
+				<!--app version-->
+				<StackPanel Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
+					<TextBlock Text="Scenario Format Version:  "/>
+					<TextBlock x:Name="formatVersion"/>
+				</StackPanel>
+
+			</UniformGrid>
 		</Border>
 
 		<Grid>

@@ -1,23 +1,24 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for TextInteractionWindow.xaml
+	/// Interaction logic for ConditionalInteractionWindow.xaml
 	/// </summary>
-	public partial class TextInteractionWindow : Window, INotifyPropertyChanged
+	public partial class ConditionalInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public TextInteraction interaction { get; set; }
-		bool closing = false;
+		public ConditionalInteraction interaction { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
+		bool closing = false;
 		bool _isThreatTriggered;
 		public bool isThreatTriggered
 		{
@@ -29,36 +30,37 @@ namespace JiME.Views
 			}
 		}
 
-		public TextInteractionWindow( Scenario s, TextInteraction inter = null )
+		public ConditionalInteractionWindow( Scenario s, ConditionalInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new TextInteraction( "New Text Event" );
+			interaction = inter ?? new ConditionalInteraction( "New Conditional Event" );
+
 
 			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
 			{
-				addMainTriggerButton.IsEnabled = false;
-				triggeredByCB.IsEnabled = false;
-				isTokenCB.IsEnabled = false;
+				//addMainTriggerButton.IsEnabled = false;
+				//triggeredByCB.IsEnabled = false;
+				//isTokenCB.IsEnabled = false;
 				interaction.isTokenInteraction = false;
 			}
 
-			personRadio.IsChecked = interaction.tokenType == TokenType.Person;
-			searchRadio.IsChecked = interaction.tokenType == TokenType.Search;
-			darkRadio.IsChecked = interaction.tokenType == TokenType.Darkness;
-			threatRadio.IsChecked = interaction.tokenType == TokenType.Threat;
+			//personRadio.IsChecked = interaction.tokenType == TokenType.Person;
+			//searchRadio.IsChecked = interaction.tokenType == TokenType.Search;
+			//darkRadio.IsChecked = interaction.tokenType == TokenType.Darkness;
+			//threatRadio.IsChecked = interaction.tokenType == TokenType.Threat;
 
 			oldName = interaction.dataName;
 		}
 
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
 		{
-			if ( isTokenCB.IsChecked.Value )
-				interaction.triggerName = "None";
+			//if ( isTokenCB.IsChecked.Value )
+			//	interaction.triggerName = "None";
 		}
 
 		private void ComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
@@ -81,7 +83,7 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
+				//flavorTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
@@ -91,14 +93,14 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;
-				eventTB.Text = tw.textBookController.pages[0];
+				//eventTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Text Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Conditional Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
@@ -118,14 +120,14 @@ namespace JiME.Views
 			if ( !TryClosing() )
 				return;
 
-			if ( searchRadio.IsChecked.HasValue && searchRadio.IsChecked.Value )
-				interaction.tokenType = TokenType.Search;
-			if ( personRadio.IsChecked.HasValue && personRadio.IsChecked.Value )
-				interaction.tokenType = TokenType.Person;
-			if ( darkRadio.IsChecked.HasValue && darkRadio.IsChecked.Value )
-				interaction.tokenType = TokenType.Darkness;
-			if ( threatRadio.IsChecked.HasValue && threatRadio.IsChecked.Value )
-				interaction.tokenType = TokenType.Threat;
+			//if ( searchRadio.IsChecked.HasValue && searchRadio.IsChecked.Value )
+			//	interaction.tokenType = TokenType.Search;
+			//if ( personRadio.IsChecked.HasValue && personRadio.IsChecked.Value )
+			//	interaction.tokenType = TokenType.Person;
+			//if ( darkRadio.IsChecked.HasValue && darkRadio.IsChecked.Value )
+			//	interaction.tokenType = TokenType.Darkness;
+			//if ( threatRadio.IsChecked.HasValue && threatRadio.IsChecked.Value )
+			//	interaction.tokenType = TokenType.Threat;
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
@@ -143,6 +145,7 @@ namespace JiME.Views
 		{
 			nameTB.Focus();
 			nameTB.SelectAll();
+			triggerCB.SelectedIndex = 0;
 		}
 
 		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
@@ -189,6 +192,46 @@ namespace JiME.Views
 				groupInfo.Text = "This Event is in the following group: " + matches[0].Value.Trim();
 			else
 				groupInfo.Text = "This Event is in the following group: None";
+		}
+
+		private void triggerCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			addSelectedTriggerButton.IsEnabled = triggerCB.SelectedIndex != 0;
+		}
+
+		private void addSelectedTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			string t = triggerCB.SelectedValue as string;
+			if ( !interaction.triggerList.Contains( t ) )
+			{
+				interaction.triggerList.Add( t );
+			}
+		}
+
+		private void addTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				if ( !interaction.triggerList.Contains( tw.triggerName ) )
+					interaction.triggerList.Add( tw.triggerName );
+			}
+		}
+
+		private void removeTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			string sel = ( (Button)sender ).DataContext as string;
+			if ( interaction.triggerList.Contains( sel ) )
+				interaction.triggerList.Remove( sel );
+		}
+
+		private void addFinishedTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.finishedTrigger = tw.triggerName;
+			}
 		}
 	}
 }

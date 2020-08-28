@@ -14,7 +14,7 @@ using System.ComponentModel;
 namespace JiME
 {
 	public enum ScenarioType { Journey, Battle }
-	public enum InteractionType { Text, Threat, StatTest, Decision, Branch, Darkness }
+	public enum InteractionType { Text, Threat, StatTest, Decision, Branch, Darkness, MultiEvent, Persistent, Conditional }
 	public enum MonsterType { Ruffian, GoblinScout, OrcHunter, OrcMarauder, Warg, HillTroll, Wight }
 	public enum TileType { Hex, Battle }
 	public enum ThreatAttributes { }//armor, elite, etc
@@ -131,8 +131,25 @@ namespace JiME
 		}
 	}
 
+	public class DefaultStats
+	{
+		public string name { get; set; }
+		public int health { get; set; }
+		public string speed { get; set; }
+		public string damage { get; set; }
+		public int armor { get; set; }
+		public int sorcery { get; set; }
+		public string special { get; set; }
+	}
+
 	public static class Utils
 	{
+		/// <summary>
+		/// AKA "Engine Version" in the companion app
+		/// Update this number every time the file format changes with new features
+		/// </summary>
+		public static string formatVersion = "1.1";
+		public static string appVersion = "0.6-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;
@@ -144,6 +161,7 @@ namespace JiME
 		//public static GalleryTile[] galleryTilesA;
 		//public static GalleryTile[] galleryTilesB;
 		public static ImageSource[] tileSourceA, tileSourceB;
+		public static DefaultStats[] defaultStats;
 
 		public static void Init()
 		{
@@ -191,6 +209,9 @@ namespace JiME
 				//B
 				tileSourceB[i] = new BitmapImage( new Uri( $"pack://application:,,,/JiME;component/Assets/TilesB/{ids[i]}.png" ) );
 			}
+
+			//load default enemy stats
+			defaultStats = LoadDefaultStats().ToArray();
 		}
 
 		public static T FirstOr<T>( this IEnumerable<T> source, T alternate )
@@ -235,6 +256,23 @@ namespace JiME
 				List<int> ret = token.ToObject( typeof( List<int> ) ) as List<int>;
 				TileSorter sorter = new TileSorter();
 				ret.Sort( sorter );
+				return ret;
+			}
+		}
+
+		static List<DefaultStats> LoadDefaultStats()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			string resourceName = assembly.GetManifestResourceNames()
+	.Single( str => str.Contains( ".enemy-defaults.json" ) );
+
+			using ( Stream stream = assembly.GetManifestResourceStream( resourceName ) )
+			using ( StreamReader reader = new StreamReader( stream ) )
+			{
+				string json = reader.ReadToEnd();
+				var list = JObject.Parse( json );
+				JToken token = list.SelectToken( "defaults" );
+				List<DefaultStats> ret = token.ToObject( typeof( List<DefaultStats> ) ) as List<DefaultStats>;
 				return ret;
 			}
 		}

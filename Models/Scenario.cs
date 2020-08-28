@@ -10,7 +10,7 @@ namespace JiME
 	/// </summary>
 	public class Scenario : INotifyPropertyChanged
 	{
-		public ErrorChecker errorChecker { get; set; }
+		//public ErrorChecker errorChecker { get; set; }
 
 		string _scenarioName, _fileName, _objectiveName;
 		bool _isDirty;
@@ -134,7 +134,7 @@ namespace JiME
 
 		public Scenario( string name )
 		{
-			errorChecker = new ErrorChecker();
+			//errorChecker = new ErrorChecker();
 
 			scenarioName = name;
 			objectiveName = "None";
@@ -261,6 +261,15 @@ namespace JiME
 					interactionObserver.Add( interaction );
 					break;
 				case InteractionType.Darkness:
+					interactionObserver.Add( interaction );
+					break;
+				case InteractionType.MultiEvent:
+					interactionObserver.Add( interaction );
+					break;
+				case InteractionType.Persistent:
+					interactionObserver.Add( interaction );
+					break;
+				case InteractionType.Conditional:
 					interactionObserver.Add( interaction );
 					break;
 			}

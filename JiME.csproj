@@ -87,9 +87,12 @@
     <Compile Include="Models\HexTile.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Interaction Events\BranchInteraction.cs" />
+    <Compile Include="Models\Interaction Events\ConditionalInteraction.cs" />
     <Compile Include="Models\Interaction Events\DarknessInteraction.cs" />
     <Compile Include="Models\Interaction Events\DecisionInteraction.cs" />
+    <Compile Include="Models\Interaction Events\MultiEventInteraction.cs" />
     <Compile Include="Models\Interaction Events\NoneInteraction.cs" />
+    <Compile Include="Models\Interaction Events\PersistentTokenInteraction.cs" />
     <Compile Include="Models\Interaction Events\TestInteraction.cs" />
     <Compile Include="Models\Interaction Events\TextInteraction.cs" />
     <Compile Include="Models\Interaction Events\ThreatInteraction.cs" />
@@ -103,6 +106,9 @@
     <Compile Include="UserControls\SidebarListView.xaml.cs">
       <DependentUpon>SidebarListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ConditionalInteractionWindow.xaml.cs">
+      <DependentUpon>ConditionalInteractionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DecisionInteractionWindow.xaml.cs">
       <DependentUpon>DecisionInteractionWindow.xaml</DependentUpon>
     </Compile>
@@ -111,6 +117,12 @@
     </Compile>
     <Compile Include="Views\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MultiEventWindow.xaml.cs">
+      <DependentUpon>MultiEventWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersistentInteractionWindow.xaml.cs">
+      <DependentUpon>PersistentInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestInteractionWindow.xaml.cs">
       <DependentUpon>TestInteractionWindow.xaml</DependentUpon>
@@ -177,6 +189,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ConditionalInteractionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DecisionInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +202,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HelpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MultiEventWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersistentInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -271,6 +295,7 @@
     <EmbeddedResource Include="Assets\tiles.json" />
     <EmbeddedResource Include="Assets\hextilesA.json" />
     <EmbeddedResource Include="Assets\hextilesB.json" />
+    <EmbeddedResource Include="Assets\enemy-defaults.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

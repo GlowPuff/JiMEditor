@@ -1,20 +1,21 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
 using System.Linq;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
+
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for TextInteractionWindow.xaml
+	/// Interaction logic for MultiEventWindow.xaml
 	/// </summary>
-	public partial class TextInteractionWindow : Window, INotifyPropertyChanged
+	public partial class MultiEventWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public TextInteraction interaction { get; set; }
+		public MultiEventInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,14 +30,21 @@ namespace JiME.Views
 			}
 		}
 
-		public TextInteractionWindow( Scenario s, TextInteraction inter = null )
+		public MultiEventWindow( Scenario s, MultiEventInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new TextInteraction( "New Text Event" );
+			interaction = inter ?? new MultiEventInteraction( "New Multi-Event" );
+
+			triggerRB.IsChecked = interaction.usingTriggers;
+			eventRB.IsChecked = !interaction.usingTriggers;
+
+			meTriggerBox.IsEnabled = triggerRB.IsChecked.Value;
+			meEventBox.IsEnabled = eventRB.IsChecked.Value;
+			eventbox.IsEnabled = !interaction.isSilent;
 
 			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -61,20 +69,6 @@ namespace JiME.Views
 				interaction.triggerName = "None";
 		}
 
-		private void ComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
-		{
-			//this was commented out??
-			//if ( !interaction.isFromThreatThreshold )
-			//{
-			//	if ( interaction.triggerName == "None" )
-			//		eventbox.Visibility = Visibility.Visible;
-			//	else
-			//		eventbox.Visibility = Visibility.Collapsed;
-			//}
-			//else
-			//	flavorbox.Visibility = Visibility.Collapsed;
-		}
-
 		private void EditFlavorButton_Click( object sender, RoutedEventArgs e )
 		{
 			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, interaction.textBookData );
@@ -95,24 +89,6 @@ namespace JiME.Views
 			}
 		}
 
-		bool TryClosing()
-		{
-			//check for dupe name
-			if ( interaction.dataName == "New Text Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
-			{
-				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-				return false;
-			}
-
-			return true;
-		}
-
-		private void Window_Closing( object sender, CancelEventArgs e )
-		{
-			if ( !closing )
-				e.Cancel = true;
-		}
-
 		private void OkButton_Click( object sender, RoutedEventArgs e )
 		{
 			if ( !TryClosing() )
@@ -129,6 +105,8 @@ namespace JiME.Views
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
+			interaction.usingTriggers = triggerRB.IsChecked.Value;
+
 			closing = true;
 			DialogResult = true;
 		}
@@ -139,10 +117,30 @@ namespace JiME.Views
 			DialogResult = false;
 		}
 
+		private void Window_Closing( object sender, CancelEventArgs e )
+		{
+			if ( !closing )
+				e.Cancel = true;
+		}
+
+		bool TryClosing()
+		{
+			//check for dupe name
+			if ( interaction.dataName == "New Multi-Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			{
+				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				return false;
+			}
+
+			return true;
+		}
+
 		private void Window_ContentRendered( object sender, System.EventArgs e )
 		{
 			nameTB.Focus();
 			nameTB.SelectAll();
+			triggerCB.SelectedIndex = 0;
+			eventCB.SelectedIndex = 0;
 		}
 
 		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
@@ -161,11 +159,6 @@ namespace JiME.Views
 			{
 				interaction.triggerName = tw.triggerName;
 			}
-		}
-
-		void PropChanged( string name )
-		{
-			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( name ) );
 		}
 
 		private void tokenHelp_Click( object sender, RoutedEventArgs e )
@@ -189,6 +182,80 @@ namespace JiME.Views
 				groupInfo.Text = "This Event is in the following group: " + matches[0].Value.Trim();
 			else
 				groupInfo.Text = "This Event is in the following group: None";
+		}
+
+		void PropChanged( string name )
+		{
+			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( name ) );
+		}
+
+		private void removeTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			string sel = ( (Button)sender ).DataContext as string;
+			if ( interaction.triggerList.Contains( sel ) )
+				interaction.triggerList.Remove( sel );
+		}
+
+		private void addSelectedTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			string t = triggerCB.SelectedValue as string;
+			if ( !interaction.triggerList.Contains( t ) )
+			{
+				interaction.triggerList.Add( t );
+			}
+		}
+
+		private void AddTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				if ( !interaction.triggerList.Contains( tw.triggerName ) )
+					interaction.triggerList.Add( tw.triggerName );
+			}
+		}
+
+		private void removeEventButton_Click( object sender, RoutedEventArgs e )
+		{
+			string sel = ( (Button)sender ).DataContext as string;
+			if ( interaction.eventList.Contains( sel ) )
+				interaction.eventList.Remove( sel );
+		}
+
+		private void addSelectedEventButton_Click( object sender, RoutedEventArgs e )
+		{
+			string t = eventCB.SelectedValue as string;
+			if ( !interaction.eventList.Contains( t ) )
+			{
+				interaction.eventList.Add( t );
+			}
+		}
+
+		private void triggerRB_Click( object sender, RoutedEventArgs e )
+		{
+			meTriggerBox.IsEnabled = true;
+			meEventBox.IsEnabled = false;
+		}
+
+		private void eventRB_Click( object sender, RoutedEventArgs e )
+		{
+			meTriggerBox.IsEnabled = false;
+			meEventBox.IsEnabled = true;
+		}
+
+		private void silenCB_Click( object sender, RoutedEventArgs e )
+		{
+			eventbox.IsEnabled = !( (CheckBox)sender ).IsChecked.Value;
+		}
+
+		private void eventCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			addSelectedEventButton.IsEnabled = eventCB.SelectedIndex != 0;
+		}
+
+		private void triggerCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			addSelectedTriggerButton.IsEnabled = triggerCB.SelectedIndex != 0;
 		}
 	}
 }

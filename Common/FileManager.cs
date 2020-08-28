@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -14,6 +13,10 @@ namespace JiME
 	/// </summary>
 	public class FileManager
 	{
+		/// <summary>
+		/// AKA "Engine Version" in the companion app
+		/// This number is updated every time the file format changes with new features
+		/// </summary>
 		public string fileVersion { get; set; }
 		public string fileName { get; set; }
 		public string saveDate { get; set; }
@@ -42,7 +45,7 @@ namespace JiME
 		public FileManager( Scenario source )
 		{
 			fileName = source.fileName;
-			fileVersion = "1.0";
+			fileVersion = Utils.formatVersion;
 			saveDate = source.saveDate;
 
 			interactions = source.interactionObserver.ToList();

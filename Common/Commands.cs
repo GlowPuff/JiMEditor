@@ -165,5 +165,35 @@ namespace JiME
 					//new KeyGesture(Key.C, ModifierKeys.Alt)
 				}
 			);
+		public static readonly RoutedUICommand NewMultiInteraction = new RoutedUICommand
+			(
+				"New Multi-Event",
+				"NewMultiInteraction",
+				typeof( MyCommands ),
+				new InputGestureCollection()
+				{
+					//new KeyGesture(Key.C, ModifierKeys.Alt)
+				}
+			);
+		public static readonly RoutedUICommand NewPersistentInteraction = new RoutedUICommand
+			(
+				"New Persistent Event",
+				"NewPersistentInteraction",
+				typeof( MyCommands ),
+				new InputGestureCollection()
+				{
+					//new KeyGesture(Key.C, ModifierKeys.Alt)
+				}
+			);
+		public static readonly RoutedUICommand NewConditionalInteraction = new RoutedUICommand
+			(
+				"New Conditional Event",
+				"NewConditionalInteraction",
+				typeof( MyCommands ),
+				new InputGestureCollection()
+				{
+					//new KeyGesture(Key.C, ModifierKeys.Alt)
+				}
+			);
 	}
 }

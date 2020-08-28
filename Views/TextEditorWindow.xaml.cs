@@ -8,7 +8,7 @@ namespace JiME.Views
 	/// </summary>
 	public partial class TextEditorWindow : Window
 	{
-		const int maxChars = 250;
+		const int maxChars = 800;
 		EditMode editMode;
 		//int resolutionIndex;
 

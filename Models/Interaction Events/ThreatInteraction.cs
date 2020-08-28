@@ -7,7 +7,7 @@ namespace JiME
 	public class ThreatInteraction : INotifyPropertyChanged, ICommonData, IInteraction
 	{
 		//common
-		string _dataName, _triggerName, _triggerAfterName;
+		string _dataName, _triggerName, _triggerAfterName, _triggerDefeatedName;
 		bool _isTokenInteraction;
 		int _loreReward;
 		TokenType _tokenType;
@@ -73,21 +73,20 @@ namespace JiME
 				NotifyPropertyChanged( "loreReward" );
 			}
 		}
+		public string triggerDefeatedName
+		{
+			get { return _triggerDefeatedName; }
+			set
+			{
+				_triggerDefeatedName = value;
+				NotifyPropertyChanged( "triggerDefeatedName" );
+			}
+		}
 
 		//IInteraction properties
 		public InteractionType interactionType { get; set; }
 
 		//Threat
-		bool _isReuseable;
-		public bool isReuseable
-		{
-			get => _isReuseable;
-			set
-			{
-				_isReuseable = value;
-				NotifyPropertyChanged( "isReuseable" );
-			}
-		}
 		public ObservableCollection<Monster> monsterCollection { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -100,6 +99,7 @@ namespace JiME
 			isEmpty = false;
 			triggerName = "None";
 			triggerAfterName = "None";
+			triggerDefeatedName = "None";
 			isTokenInteraction = false;
 			tokenType = TokenType.None;
 			textBookData = new TextBookData();
@@ -108,7 +108,6 @@ namespace JiME
 			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe a Monster Threat, present a Test, describe a Decision, etc." );
 			loreReward = 0;
 
-			isReuseable = false;
 			monsterCollection = new ObservableCollection<Monster>();
 		}
 
@@ -124,6 +123,9 @@ namespace JiME
 
 			if ( triggerAfterName == oldName )
 				triggerAfterName = newName;
+
+			if ( triggerDefeatedName == oldName )
+				triggerDefeatedName = newName;
 		}
 
 		public void AddMonster( Monster m )

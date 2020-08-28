@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using JiME.Views;
@@ -20,9 +22,16 @@ namespace JiME
 		{
 			InitializeComponent();
 
+			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+			System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+			System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+
 			scenario = s ?? new Scenario();
 			scenario.TriggerTitleChange( false );
 			DataContext = scenario;
+
+			appVersion.Text = Utils.appVersion;
+			formatVersion.Text = Utils.formatVersion;
 
 			interactionsUC.onAddEvent += OnAddEvent;
 			interactionsUC.onRemoveEvent += OnRemoveEvent;
@@ -53,7 +62,7 @@ namespace JiME
 			scenario.AddTrigger( "Threat Trigger" );
 			//scenario.AddInteraction( new Interaction( "Dummy Event", false ) { interactionType = InteractionType.Text, triggerName = "Threat Trigger" } );
 
-			scenario.AddInteraction( new TextInteraction( "Dummy Text Interaction", false ) );
+			scenario.AddInteraction( new TextInteraction( "Dummy Text Interaction" ) );
 		}
 
 		#region TOOLBAR ACTIONS
@@ -141,9 +150,21 @@ namespace JiME
 				ThreatInteractionWindow bw = new ThreatInteractionWindow( scenario, (ThreatInteraction)interactionsUC.dataListView.SelectedItem );
 				bw.ShowDialog();
 			}
-
-			//EventEditorWindow ew = new EventEditorWindow( scenario, (Interaction)interactionsUC.dataListView.SelectedItem );
-			//ew.ShowDialog();
+			else if ( interactionsUC.dataListView.SelectedItem is MultiEventInteraction )
+			{
+				MultiEventWindow bw = new MultiEventWindow( scenario, (MultiEventInteraction)interactionsUC.dataListView.SelectedItem );
+				bw.ShowDialog();
+			}
+			else if ( interactionsUC.dataListView.SelectedItem is PersistentTokenInteraction )
+			{
+				PersistentInteractionWindow bw = new PersistentInteractionWindow( scenario, (PersistentTokenInteraction)interactionsUC.dataListView.SelectedItem );
+				bw.ShowDialog();
+			}
+			else if ( interactionsUC.dataListView.SelectedItem is ConditionalInteraction )
+			{
+				ConditionalInteractionWindow bw = new ConditionalInteractionWindow( scenario, (ConditionalInteraction)interactionsUC.dataListView.SelectedItem );
+				bw.ShowDialog();
+			}
 		}
 
 		void OnSettingsTrigger( object sender, EventArgs e )
@@ -441,11 +462,55 @@ namespace JiME
 		{
 			e.CanExecute = true;
 		}
+		private void CommandNewMultiInteraction_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
+		{
+			MultiEventWindow ew = new MultiEventWindow( scenario );
+			if ( ew.ShowDialog() == true )
+			{
+				scenario.AddInteraction( ew.interaction );
+			}
+		}
+		private void CommandNewMultiInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
+		{
+			e.CanExecute = true;
+		}
+		private void CommandNewPersistentInteraction_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
+		{
+			PersistentInteractionWindow ew = new PersistentInteractionWindow( scenario );
+			if ( ew.ShowDialog() == true )
+			{
+				scenario.AddInteraction( ew.interaction );
+			}
+		}
+		private void CommandNewPersistentInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
+		{
+			e.CanExecute = true;
+		}
+		private void CommandNewConditionalInteraction_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
+		{
+			ConditionalInteractionWindow ew = new ConditionalInteractionWindow( scenario );
+			if ( ew.ShowDialog() == true )
+			{
+				scenario.AddInteraction( ew.interaction );
+			}
+		}
+		private void CommandNewConditionalInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
+		{
+			e.CanExecute = true;
+		}
 		#endregion
 
 		private void RemoveChapterButton_Click( object sender, RoutedEventArgs e )
 		{
 			Chapter c = ( (Button)e.Source ).DataContext as Chapter;
+			foreach ( var tile in c.tileObserver )
+				scenario.globalTilePool.Add( tile.idNumber );
+			TileSorter sorter = new TileSorter();
+			List<int> foo = scenario.globalTilePool.ToList();
+			foo.Sort( sorter );
+			scenario.globalTilePool.Clear();
+			foreach ( int s in foo )
+				scenario.globalTilePool.Add( s );
 			scenario.RemoveData( c );
 		}
 

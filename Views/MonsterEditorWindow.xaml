@@ -44,65 +44,54 @@
 				<StackPanel>
 					<TextBlock Text="Monster Type:" Style="{StaticResource Heading}"/>
 					<StackPanel Orientation="Horizontal">
-						<RadioButton x:Name="ruffianRB" Content="Ruffian"/>
-						<RadioButton x:Name="goblinRB" Content="Goblin Scout" Margin="20,0"/>
-						<RadioButton x:Name="hunterRB" Content="Orc Hunter"/>
-						<RadioButton x:Name="orcRB" Content="Orc Marauder" Margin="20,0"/>
-						<RadioButton x:Name="wargRB" Content="Warg"/>
-						<RadioButton x:Name="trollRB" Content="Hill Troll" Margin="20,0"/>
-						<RadioButton x:Name="wightRB" Content="Wight"/>
+						<RadioButton x:Name="ruffianRB" Content="Ruffian" Click="monsterType_Click"/>
+						<RadioButton x:Name="goblinRB" Content="Goblin Scout" Margin="20,0" Click="monsterType_Click"/>
+						<RadioButton x:Name="hunterRB" Content="Orc Hunter" Click="monsterType_Click"/>
+						<RadioButton x:Name="orcRB" Content="Orc Marauder" Margin="20,0" Click="monsterType_Click"/>
+						<RadioButton x:Name="wargRB" Content="Warg" Click="monsterType_Click"/>
+						<RadioButton x:Name="trollRB" Content="Hill Troll" Margin="20,0" Click="monsterType_Click"/>
+						<RadioButton x:Name="wightRB" Content="Wight" Click="monsterType_Click"/>
 					</StackPanel>
 				</StackPanel>
 			</Border>
 
-			<!--stats-->
 			<Border Style="{StaticResource callout}" Margin="0,5">
-				<UniformGrid Columns="2">
-					<StackPanel Orientation="Horizontal">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="auto"/>
+					</Grid.ColumnDefinitions>
+					<!--use default-->
+					<StackPanel>
+						<TextBlock Text="Enemy Stats:" Style="{StaticResource Heading}"/>
+						<CheckBox x:Name="useDefaultCB" Grid.Column="0" Content="Use Default Stats" Foreground="White" VerticalAlignment="Center" Margin="0,10,0,0" IsChecked="{Binding monster.defaultStats}" Click="useDefaultCB_Click"/>
+						<TextBlock x:Name="special" Style="{StaticResource SubText}" TextWrapping="Wrap" MaxWidth="110" Margin="0,10,0,0"/>
+					</StackPanel>
+
+					<StackPanel x:Name="stats1" HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal" IsEnabled="True">
 						<StackPanel Orientation="Horizontal">
 							<Image Source="/JiME;component/Assets/health.png" Height="32" Margin="0,0,5,0"/>
 							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.health, UpdateSourceTrigger=PropertyChanged}"/>
 						</StackPanel>
 
-						<StackPanel Orientation="Horizontal" Margin="10,0">
-							<Image Source="/JiME;component/Assets/damage.png" Height="40" Margin="10,0,5,0"/>
-							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.damage, UpdateSourceTrigger=PropertyChanged}"/>
+						<StackPanel MaxWidth="250">
+							<StackPanel Orientation="Horizontal" Margin="10,0">
+								<Image Source="/JiME;component/Assets/damage.png" Height="40" Margin="10,0,5,0"/>
+								<TextBlock Text="/" Style="{StaticResource Heading}"/>
+								<Image Source="/JiME;component/Assets/fear.png" Height="40" Margin="10,0,5,0"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.damage, UpdateSourceTrigger=PropertyChanged}"/>
+							</StackPanel>
+							<TextBlock Style="{StaticResource SubText}" Margin="10,0,10,0" Text="Damage and Fear share one value randomly split between them." TextWrapping="Wrap"/>
 						</StackPanel>
 
-						<StackPanel Orientation="Horizontal">
+						<!--<StackPanel Orientation="Horizontal">
 							<Image Source="/JiME;component/Assets/fear.png" Height="40" Margin="10,0,5,0"/>
 							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.fear, UpdateSourceTrigger=PropertyChanged}"/>
-						</StackPanel>
+						</StackPanel>-->
 					</StackPanel>
 
-					<StackPanel>
-						<TextBlock Text="Attack Negated By:" Style="{StaticResource Heading}"/>
-						<UniformGrid VerticalAlignment="Center" Columns="5">
-							<RadioButton x:Name="mightRB" Content="Might"/>
-							<RadioButton x:Name="agilityRB" Content="Agility"/>
-							<RadioButton x:Name="wisdomRB" Content="Wisdom"/>
-							<RadioButton x:Name="spiritRB" Content="Spirit" Margin="10,0,0,0"/>
-							<RadioButton x:Name="witRB" Content="Wit" Margin="5,0,0,0"/>
-						</UniformGrid>
-					</StackPanel>
-				</UniformGrid>
-			</Border>
-
-			<!--shield/sorcery-->
-			<Border Style="{StaticResource callout}" Margin="0,5,0,0">
-				<UniformGrid Columns="2">
-					<StackPanel VerticalAlignment="Center" Margin="0,0,5,0" >
-						<TextBlock Style="{StaticResource Heading}" Text="Elite Bonuses:"/>
-						<TextBlock Text="Checking any of these makes the enemy Elite." Style="{StaticResource SubText}" Margin="0,0,0,5"/>
-						<StackPanel Orientation="Horizontal">
-							<CheckBox Content="Large" Foreground="White" IsChecked="{Binding monster.isLarge}" VerticalAlignment="Center"/>
-							<CheckBox Content="Bloodthirsty" Margin="15,0" Foreground="White" IsChecked="{Binding monster.isBloodThirsty}" VerticalAlignment="Center"/>
-							<CheckBox Content="Armored" Margin="5,0" Foreground="White" IsChecked="{Binding monster.isArmored}" VerticalAlignment="Center"/>
-						</StackPanel>
-					</StackPanel>
-
-					<!--armor type-->
-					<StackPanel  Margin="0,0,5,0">
+					<StackPanel x:Name="stats2" Grid.Column="2" IsEnabled="True">
 						<TextBlock Text="Attributes:" Style="{StaticResource Heading}"/>
 						<StackPanel Orientation="Horizontal" Margin="10,0,0,0">
 							<StackPanel Margin="0,5,0,0">
@@ -119,16 +108,74 @@
 								<TextBlock Text="Movement:" Style="{StaticResource Heading}"/>
 								<StackPanel Orientation="Horizontal">
 									<TextBox Margin="0,0,10,0" Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.movementValue}"/>
-									<TextBlock Text="to" Style="{StaticResource Heading}"/>
+									<!--<TextBlock Text="to" Style="{StaticResource Heading}"/>
 									<TextBox Margin="10,0,0,0" Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.maxMovementValue}"/>
-									<TextBlock Margin="5,0,0,0" Text="(If No Target)" Style="{StaticResource Heading}"/>
+									<TextBlock Margin="5,0,0,0" Text="(If No Target)" Style="{StaticResource Heading}"/>-->
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
-				</UniformGrid>
+
+				</Grid>
 			</Border>
 
+			<!--stats-->
+			<Border Style="{StaticResource callout}" Margin="0,5">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="auto"/>
+					</Grid.ColumnDefinitions>
+					<!--<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Horizontal">
+							<Image Source="/JiME;component/Assets/health.png" Height="32" Margin="0,0,5,0"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.health, UpdateSourceTrigger=PropertyChanged}"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Margin="10,0">
+							<Image Source="/JiME;component/Assets/damage.png" Height="40" Margin="10,0,5,0"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.damage, UpdateSourceTrigger=PropertyChanged}"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<Image Source="/JiME;component/Assets/fear.png" Height="40" Margin="10,0,5,0"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.fear, UpdateSourceTrigger=PropertyChanged}"/>
+						</StackPanel>
+					</StackPanel>-->
+
+					<StackPanel>
+						<TextBlock Text="Attack Negated By:" Style="{StaticResource Heading}"/>
+						<UniformGrid VerticalAlignment="Center" Columns="5">
+							<RadioButton x:Name="mightRB" Content="Might"/>
+							<RadioButton x:Name="agilityRB" Content="Agility"/>
+							<RadioButton x:Name="wisdomRB" Content="Wisdom"/>
+							<RadioButton x:Name="spiritRB" Content="Spirit" Margin="10,0,0,0"/>
+							<RadioButton x:Name="witRB" Content="Wit" Margin="5,0,0,0"/>
+						</UniformGrid>
+					</StackPanel>
+
+					<StackPanel Grid.Column="1" VerticalAlignment="Center">
+						<TextBlock Style="{StaticResource Heading}" Text="Elite Bonuses:"/>
+						<TextBlock Text="Checking any of these makes the enemy Elite." Style="{StaticResource SubText}" Margin="0,0,0,5"/>
+						<StackPanel Orientation="Horizontal">
+							<CheckBox Content="Large" Foreground="White" IsChecked="{Binding monster.isLarge}" VerticalAlignment="Center"/>
+							<CheckBox Content="Bloodthirsty" Margin="15,0" Foreground="White" IsChecked="{Binding monster.isBloodThirsty}" VerticalAlignment="Center"/>
+							<CheckBox Content="Armored" Margin="5,0" Foreground="White" IsChecked="{Binding monster.isArmored}" VerticalAlignment="Center"/>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</Border>
+
+			<!--help-->
+			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+				Using Default values will auto-fill this Monster's stats with default values. <Bold>Whether using Default Stats or your own values, the companion app will use the Damage/Fear numbers indicated, randomly modified by +/- (0-1) and randomly split between the two.</Bold> For example, an indicated value of 2 could become 1, 2, or 3, randomly split between Damage and Fear, when the Monster is spawned in the companion app. Plan your numbers accordingly when not using Default Stats.
+			</TextBlock>
+			<TextBlock Margin="0,5,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap">
+				<Bold>IMPORTANT: The Damage/Fear values, whether Default or your own, are those used as if there were only ONE Monster in this group.</Bold>
+			</TextBlock>
+			<TextBlock Margin="0,5,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap">
+				Increasing the number of Monsters in this group (up to 3) will also <Bold>automatically increase the base Damage/Fear the group does by +1 per count above 1</Bold>. These increased values are only shown in the companion app during Combat. As Monsters in the group are defeated in the companion app by players, the Damage/Fear decreases back down to the base level seen in the editor.
+			</TextBlock>
 			<!--negated-->
 			<!--<Border Style="{StaticResource callout}" Margin="0,5">
 				<StackPanel>

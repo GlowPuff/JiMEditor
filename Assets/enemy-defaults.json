@@ -1,0 +1,67 @@
+{
+	"defaults": [
+		{
+			"name": "Ruffian",
+			"health": 5,
+			"speed": "medium",
+			"damage": "light",
+			"armor": 0,
+			"sorcery": 0,
+			"special": ""
+		},
+		{
+			"name": "GoblinScout",
+			"health": 3,
+			"speed": "medium",
+			"damage": "light",
+			"armor": 1,	
+			"sorcery": 0,
+			"special": ""
+		},
+		{
+			"name": "OrcHunter",
+			"health": 5,
+			"speed": "light",
+			"damage": "medium",
+			"armor": 1,
+			"sorcery": 0,
+			"special": "Ranged"
+		},
+		{
+			"name": "OrcMarauder",
+			"health": 5,
+			"speed": "light",
+			"damage": "medium",
+			"armor": 2,
+			"sorcery": 0,
+			"special": ""
+		},
+		{
+			"name": "Warg",
+			"health": 8,
+			"speed": "heavy",
+			"damage": "medium",
+			"armor": 1,
+			"sorcery": 0,
+			"special": ""
+		},
+		{
+			"name": "HillTroll",
+			"health": 14,
+			"speed": "light",
+			"damage": "heavy",
+			"armor": 2,
+			"sorcery": 0,
+			"special": ""
+		},
+		{
+			"name": "Wight",
+			"health": 6,
+			"speed": "light",
+			"damage": "heavy",
+			"armor": 0,
+			"sorcery": 3,
+			"special": "Fear Bias"
+		}
+	]
+}

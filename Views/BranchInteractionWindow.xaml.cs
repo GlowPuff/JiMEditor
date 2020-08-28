@@ -17,7 +17,6 @@ namespace JiME.Views
 		public BranchInteraction interaction { get; set; }
 		bool closing = false;
 
-
 		public event PropertyChangedEventHandler PropertyChanged;
 		bool _isThreatTriggered;
 		public bool isThreatTriggered
@@ -30,7 +29,7 @@ namespace JiME.Views
 			}
 		}
 
-		public BranchInteractionWindow( Scenario s, BranchInteraction inter = null, bool fromThreat = false )
+		public BranchInteractionWindow( Scenario s, BranchInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;

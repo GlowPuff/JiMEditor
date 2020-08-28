@@ -1,4 +1,4 @@
-﻿<Window x:Class="JiME.Views.ThreatInteractionWindow"
+﻿<Window x:Class="JiME.Views.PersistentInteractionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
         ContentRendered="Window_ContentRendered"
-        Title="Threat Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
+        Title="Persistent Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="bvis"/>
@@ -67,10 +67,11 @@
 					<Border x:Name="isEventBox" Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
 							<StackPanel Orientation="Horizontal">
-								<CheckBox x:Name="isTokenCB" Content="This Event is a Token Interaction" Foreground="White" IsChecked="{Binding interaction.isTokenInteraction}" VerticalAlignment="Center" Click="isTokenCB_Click"/>
+								<CheckBox x:Name="isTokenCB" Content="This Event is a Token Interaction" Foreground="White" IsChecked="{Binding interaction.isTokenInteraction}" VerticalAlignment="Center" Click="isTokenCB_Click" IsEnabled="False"/>
 								<Button x:Name="tokenHelp" Background="#FFC98800" Click="tokenHelp_Click" Width="32" Height="32" Margin="10,0,0,0">
 									<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 								</Button>
+								<TextBlock Style="{StaticResource SubText}" Text="IMPORTANT: Persistent Events are required to be Token Interactions. Specify a Token Type below." VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Width="432" FontWeight="Bold"/>
 							</StackPanel>
 
 							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal" Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
@@ -81,7 +82,7 @@
 								<RadioButton x:Name="darkRadio" Content="Darkness"/>
 							</StackPanel>
 
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
 							Token Interactions are triggered by players as they journey across the map. When a player clicks a Token, the Flavor Text below is shown. The player can decide to use an Action to Interact with the Token, after which the Event Text is shown, along with the Event itself.
 							</TextBlock>
 
@@ -95,35 +96,32 @@
 					<Border x:Name="triggerBox" Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
 							<UniformGrid Columns="2">
-								<StackPanel HorizontalAlignment="Left">
+								<!--<StackPanel HorizontalAlignment="Left">
 									<TextBlock Text="Triggered By (Optional):" Style="{StaticResource Heading}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
+										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
 										<Button x:Name="addMainTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerButton_Click" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
 									</StackPanel>
-								</StackPanel>
+								</StackPanel>-->
 
-								<StackPanel HorizontalAlignment="Left" Margin="10,0,0,0">
-									<TextBlock Text="Set Trigger After Event Is Resolved (Optional):" Style="{StaticResource Heading}"/>
+								<StackPanel HorizontalAlignment="Left" Margin="0,0,0,0">
+									<TextBlock Text="Triggered By and Set Trigger After:" Style="{StaticResource Heading}"/>
+									<!--<TextBlock Text="Since Persistent Events delegate the player's Action to another Event, there is no 'Trigger After...' Trigger." TextWrapping="Wrap" Style="{StaticResource SubText}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName"/>
+										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0"/>
 										<Button x:Name="addMainTriggerAfterButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerAfterButton_Click">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
-									</StackPanel>
+									</StackPanel>-->
 								</StackPanel>
 							</UniformGrid>
-							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
-							</TextBlock>
-							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								<Bold>Note:</Bold> The <Bold>Set Trigger After Event Is Resolved</Bold> Trigger above fires immediately after the Monsters in this Threat Event are <Bold>spawned</Bold>, NOT after they have been defeated. Use the setting on the <Bold>Monster Threat</Bold> tab to select a Trigger to fire when the Monsters are <Bold>defeated.</Bold>
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+								Since Persistent Events delegate the player's Action to another Event, there are no 'Triggered By' or 'Trigger After...' Triggers.
 							</TextBlock>
 						</StackPanel>
 					</Border>
-
 					<!--flavor text-->
 					<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding ElementName=isTokenCB,Path=IsChecked,Converter={StaticResource bvis}}">
 						<StackPanel>
@@ -147,13 +145,13 @@
 					</Border>
 
 					<!--event text-->
-					<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,0,0">
+					<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,0,0" IsEnabled="False">
 						<StackPanel>
 							<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Use the Event Text to describe the actual Event that has been triggered. Example: Describe a Monster Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
+								The Event Text is not used for Persistent Events. Instead, when players activate this Event's Token by using their Action, the Event specified in the <Bold>Persistent Event</Bold> tab is activated instead, along with its own Event Text.
 							</TextBlock>
-							<Grid>
+							<Grid Visibility="Collapsed">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*"/>
 									<ColumnDefinition Width="auto"/>
@@ -170,97 +168,62 @@
 				</StackPanel>
 			</TabItem>
 
-			<TabItem Padding="5" Header="Monster Threat">
-				<StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
-					<TextBlock Style="{StaticResource SubText}" Margin="0,0,0,10" TextWrapping="Wrap">When a Monster Threat is activated, one or more Monster Groups that you create below will be spawned.</TextBlock>
-					<Button x:Name="addMonsterButton" Background="MediumSeaGreen" Height="46" HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddMonsterButton_Click">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Add Monster Group" Style="{StaticResource ButtonHeading}" Margin="0,0,10,0"/>
-							<Image Source="/JiME;component/Assets/add2.png"/>
-						</StackPanel>
-					</Button>
+			<!--persistent-->
+			<TabItem Header="Persistent Event" Padding="5">
+				<StackPanel Margin="0,5,0,0">
+					<TextBlock Style="{StaticResource SubText}" VerticalAlignment="Center" TextWrapping="Wrap">
+						Persistent Events are <Bold>Token Interaction Events</Bold> whose Token stays on the tile even after being activated. They act like a relay, and delegate the player's Action to the "real" Event set below.
+					</TextBlock>
 
-					<!--items-->
-					<ItemsControl ItemsSource="{Binding interaction.monsterCollection}">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel IsItemsHost="True"/>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Border Style="{StaticResource callout}" Margin="0,2">
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*"/>
-											<ColumnDefinition Width="auto"/>
-										</Grid.ColumnDefinitions>
-
-										<WrapPanel VerticalAlignment="Center">
-											<WrapPanel.Resources>
-												<Style TargetType="TextBlock">
-													<Setter Property="Foreground" Value="Silver"/>
-													<Setter Property="VerticalAlignment" Value="Center"/>
-												</Style>
-												<Style TargetType="Image">
-													<Setter Property="Margin" Value="5,0,5,0"/>
-												</Style>
-											</WrapPanel.Resources>
-											<TextBlock Text="{Binding dataName}" Style="{StaticResource Heading}"/>
-											<Border Width="32" Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" CornerRadius="50">
-												<TextBlock Text="{Binding count}" Style="{StaticResource Heading}" HorizontalAlignment="Center"/>
-											</Border>
-											<Image Source="/JiME;component/Assets/health.png" Height="32"/>
-											<TextBlock Text="{Binding health}"/>
-											<Image Source="/JiME;component/Assets/add2.png" Height="32" Margin="20,0,0,0"/>
-											<TextBlock Text="{Binding bonuses}" Margin="5,0,0,0"/>
-											<Image Source="/JiME;component/Assets/damage.png" Height="32" Margin="20,0,0,0"/>
-											<TextBlock Text="/" Margin="5,0,0,0"/>
-											<Image Source="/JiME;component/Assets/fear.png" Height="32"/>
-											<TextBlock Text="{Binding damage}"/>
-											<!--<TextBlock Text="{Binding fear}"/>-->
-											<TextBlock Style="{StaticResource Heading}" Text="Elite" Margin="15, 0, 0, 0" Visibility="{Binding isElite,Converter={StaticResource bvis}}" Foreground="Red"/>
-										</WrapPanel>
-
-										<StackPanel Orientation="Horizontal" Grid.Column="1">
-											<Button x:Name="editButton" Background="CornflowerBlue" Click="EditButton_Click" IsDefault="True" Width="40" Height="40" Margin="5,0" DataContext="{Binding}">
-												<Image Source="/JiME;component/Assets/edit.png" Stretch="Uniform" />
-											</Button>
-											<Button x:Name="deleteButton" Background="{StaticResource bgCancelDelete}" Click="DeleteButton_Click" IsDefault="True" Width="40" Height="40" DataContext="{Binding}">
-												<Image Source="/JiME;component/Assets/remove.png" Stretch="Uniform" />
-											</Button>
-										</StackPanel>
-									</Grid>
-								</Border>
-
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-
-					<!--<Border Style="{StaticResource callout}" Margin="0,10,0,0" >
+					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
-							<CheckBox Content="Recycle" Margin="0,5,0,0" Foreground="White" IsChecked="{Binding interaction.isReuseable}" IsEnabled="{Binding interaction.isRandom}"/>
-							<TextBlock Style="{StaticResource SubText}" Text="If this Event is Random, Monster Threats can be Recycled. A Recycled Monster Threat can be triggered multiple times out of the random event pool, instead of just once." TextWrapping="Wrap"/>
+							<TextBlock Style="{StaticResource Heading}" Text="When Players Use an Action to Explore this Event's Token, Activate The Event Below (Required):"/>
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+								This is the Event that this Persistent Event delegates its Action to. Only Events that are NOT <Bold>Token Interactions</Bold> can be selected below. The Event you select here will only be activated ONCE when the players use an Action to fully Explore this Event's Token.
+							</TextBlock>
+							<ComboBox x:Name="eventCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding interactionObserver}" SelectedValue="{Binding interaction.eventToActivate}" MinWidth="200" Margin="0,5,0,0" SelectionChanged="eventCB_SelectionChanged"/>
 						</StackPanel>
-					</Border>-->
+					</Border>
 
-					<Border Style="{StaticResource callout}">
+					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
-							<TextBlock Text="When All Threats Have Been Defeated, Fire This Trigger (Optional):" Style="{StaticResource Heading}"/>
-							<StackPanel Orientation="Horizontal">
-								<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerDefeatedName}" SelectedValuePath="dataName"/>
-								<Button x:Name="addDefeatedTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addDefeatedTriggerButton_Click">
+							<TextBlock Style="{StaticResource Heading}" Text="Alternative Flavor Text Trigger (Required):"/>
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+								When the Trigger below is fired, the Alternative Flavor Text will be shown when players interact with this Event's Token, instead of the normal Flavor Text in the General Properties tab.
+							</TextBlock>
+							<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+								<ComboBox x:Name="triggerCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding interaction.alternativeTextTrigger}" SelectedValuePath="dataName" DisplayMemberPath="dataName" MinWidth="200"/>
+								<Button x:Name="addAltTrigger" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addAltTrigger_Click">
 									<Image Source="/JiME;component/Assets/add2.png"/>
 								</Button>
 							</StackPanel>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-								In the General Properties, the <Bold>Set Trigger After Event Is Resolved</Bold> Trigger fires immediately after this Monster Threat is <Bold>spawned</Bold>, NOT after it's defeated. Set the Trigger above to fire when the Threat is <Bold>defeated</Bold>.
+						</StackPanel>
+					</Border>
+
+					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+						<StackPanel>
+							<TextBlock Style="{StaticResource Heading}" Text="Alternative Flavor Text"/>
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					Normally, when players inspect this Event's Token, the Flavor Text in the General Properties tab will be shown. After the Trigger above has been set, the Alternative Flavor Text will be shown instead, <Bold>persistently every time</Bold>. <Bold><Italic>Required</Italic></Bold>
 							</TextBlock>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="auto"/>
+								</Grid.ColumnDefinitions>
+								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
+									<TextBlock x:Name="altTB" Text="{Binding interaction.alternativeBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
+								</Border>
+								<Button Grid.Column="1" x:Name="editAltButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="editAltButton_Click" Width="46" Height="46">
+									<Image Source="/JiME;component/Assets/edit.png"/>
+								</Button>
+							</Grid>
 						</StackPanel>
 					</Border>
 				</StackPanel>
 			</TabItem>
 		</TabControl>
+
 
 		<!--footer-->
 		<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">

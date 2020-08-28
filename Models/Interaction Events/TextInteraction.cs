@@ -78,7 +78,7 @@ namespace JiME
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public TextInteraction( string name, bool random )
+		public TextInteraction( string name )
 		{
 			interactionType = InteractionType.Text;
 			dataName = name;

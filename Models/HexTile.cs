@@ -13,7 +13,7 @@ namespace JiME
 {
 	public class HexTile : INotifyPropertyChanged, ITile
 	{
-		string _tileSide;
+		string _tileSide, _triggerName;
 		bool _isStartTile;
 
 		public double angle { get; set; }
@@ -44,6 +44,15 @@ namespace JiME
 		}
 		public int color;
 		public Vector hexRoot;
+		public string triggerName
+		{
+			get { return _triggerName; }
+			set
+			{
+				_triggerName = value;
+				PropChanged( "triggerName" );
+			}
+		}
 
 		[JsonIgnore]
 		public Path hexPathShape;
@@ -77,6 +86,7 @@ namespace JiME
 			flavorBookData = new TextBookData( "" );
 			flavorBookData.pages.Add( "" );
 			isStartTile = false;
+			triggerName = "None";
 
 			BuildShape();
 			Update();
@@ -314,6 +324,9 @@ namespace JiME
 				if ( t.triggerName == oldName )
 					t.triggerName = newName;
 			}
+
+			if ( triggerName == oldName )
+				triggerName = newName;
 		}
 
 		void PropChanged( string name )

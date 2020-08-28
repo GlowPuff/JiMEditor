@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
         ContentRendered="Window_ContentRendered"
-        Title="Story Branch Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="725" Closing="Window_Closing">
+        Title="Story Branch Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="bvis"/>
@@ -114,7 +114,7 @@ Token Interactions are triggered by players as they journey across the map. When
 								<StackPanel HorizontalAlignment="Left">
 									<TextBlock Text="Triggered By (Optional):" Style="{StaticResource Heading}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0,5,0,0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
+										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
 										<Button x:Name="addMainTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerButton_Click" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
@@ -124,7 +124,7 @@ Token Interactions are triggered by players as they journey across the map. When
 								<StackPanel HorizontalAlignment="Left" Margin="10,0,0,0">
 									<TextBlock Text="Set Trigger After Event Is Resolved (Optional):" Style="{StaticResource Heading}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
+										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0"/>
 										<Button x:Name="addMainTriggerAfterButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerAfterButton_Click">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
@@ -132,7 +132,7 @@ Token Interactions are triggered by players as they journey across the map. When
 								</StackPanel>
 							</UniformGrid>
 							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								Multiple Interactions can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
+								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
 							</TextBlock>
 						</StackPanel>
 					</Border>
@@ -200,9 +200,9 @@ Token Interactions are triggered by players as they journey across the map. When
 
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
 						<RadioButton x:Name="eventTestRB" GroupName="branchrb"/>
-						<Border Style="{StaticResource callout}" Width="679">
+						<Border Style="{StaticResource callout}" Width="679" Margin="10,0,0,0">
 							<StackPanel>
-								<TextBlock Style="{StaticResource Heading}" Text="...Activate One Of These Events"/>
+								<TextBlock Style="{StaticResource Heading}" Text="...Activate One Of These Events:"/>
 								<UniformGrid Columns="2">
 									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Set (True)..." FontWeight="Normal">
 										<ComboBox x:Name="eventTrue" HorizontalAlignment="Stretch" VerticalAlignment="Center" DisplayMemberPath="dataName" ItemsSource="{Binding scenario.interactionObserver}" SelectedValue="{Binding interaction.triggerIsSet}" SelectedValuePath="dataName" FontSize="12"/>
@@ -219,9 +219,9 @@ Token Interactions are triggered by players as they journey across the map. When
 
 					<StackPanel Orientation="Horizontal">
 						<RadioButton x:Name="triggerTestRB" GroupName="branchrb"/>
-						<Border Style="{StaticResource callout}" Width="679">
+						<Border Style="{StaticResource callout}" Width="679" Margin="10,0,0,0">
 							<StackPanel>
-								<TextBlock Style="{StaticResource Heading}" Text="...Fire One Of These Triggers"/>
+								<TextBlock Style="{StaticResource Heading}" Text="...Fire One Of These Triggers:"/>
 								<UniformGrid Columns="2">
 									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Set (True)..." FontWeight="Normal">
 										<StackPanel Orientation="Horizontal">

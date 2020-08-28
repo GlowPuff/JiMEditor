@@ -7,7 +7,7 @@ namespace JiME
 	{
 		string _dataName, _bonuses;
 		int _count, _health, _damage, _fear, _shieldValue, _sorceryValue, _loreReward, _movementValue, _maxMovementValue;
-		bool _isLarge, _isBloodThirsty, _isArmored, _isElite;
+		bool _isLarge, _isBloodThirsty, _isArmored, _isElite, _defaultStats;
 
 		public Guid GUID { get; set; }
 		public string dataName
@@ -87,7 +87,6 @@ namespace JiME
 				}
 			}
 		}
-
 		public int damage
 		{
 			get => _damage;
@@ -193,7 +192,17 @@ namespace JiME
 				NotifyPropertyChanged( "loreReward" );
 			}
 		}
+		public bool defaultStats
+		{
+			get { return _defaultStats; }
+			set
+			{
+				_defaultStats = value;
+				NotifyPropertyChanged( "defaultStats" );
+			}
+		}
 
+		public string specialAbility {get; set; }
 		public Ability negatedBy { get; set; }
 		public MonsterType monsterType { get; set; }
 		public int count
@@ -229,6 +238,7 @@ namespace JiME
 			loreReward = 0;
 			movementValue = 2;
 			maxMovementValue = 4;
+			defaultStats = true;
 		}
 
 		public void NotifyPropertyChanged( string propName )

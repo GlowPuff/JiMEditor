@@ -198,5 +198,14 @@ namespace JiME.Views
 			else
 				groupInfo.Text = "This Event is in the following group: None";
 		}
+
+		private void addDefeatedTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerDefeatedName = tw.triggerName;
+			}
+		}
 	}
 }

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace JiME
 {
-	public class BranchInteraction : INotifyPropertyChanged, ICommonData, IInteraction
+	public class MultiEventInteraction : INotifyPropertyChanged, ICommonData, IInteraction
 	{
 		//common
 		string _dataName, _triggerName, _triggerAfterName;
-		bool _isTokenInteraction, _branchTestEvent;
+		bool _isTokenInteraction, _usingTriggers, _isSilent;
 		int _loreReward;
 		TokenType _tokenType;
 
@@ -73,39 +74,35 @@ namespace JiME
 			}
 		}
 
+		public ObservableCollection<string> eventList { get; set; }
+		public ObservableCollection<string> triggerList { get; set; }
+		public bool usingTriggers
+		{
+			get { return _usingTriggers; }
+			set
+			{
+				_usingTriggers = value;
+				NotifyPropertyChanged( "usingTriggers" );
+			}
+		}
+		public bool isSilent
+		{
+			get { return _isSilent; }
+			set
+			{
+				_isSilent = value;
+				NotifyPropertyChanged( "isSilent" );
+			}
+		}
+
 		//IInteraction properties
 		public InteractionType interactionType { get; set; }
 
-		//Story branch
-		string _triggerNotSetTrigger;
-		public string triggerTest { get; set; }
-		public string triggerIsSet { get; set; }
-		public string triggerNotSet { get; set; }
-		public string triggerIsSetTrigger { get; set; }
-		public string triggerNotSetTrigger
-		{
-			get => _triggerNotSetTrigger;
-			set
-			{
-				_triggerNotSetTrigger = value;
-				NotifyPropertyChanged( "triggerNotSetTrigger" );
-			}
-		}
-		public bool branchTestEvent
-		{
-			get { return _branchTestEvent; }
-			set
-			{
-				_branchTestEvent = value;
-				NotifyPropertyChanged( "branchTestEvent" );
-			}
-		}
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public BranchInteraction( string name, bool random )
+		public MultiEventInteraction( string name )
 		{
-			interactionType = InteractionType.Branch;
+			interactionType = InteractionType.MultiEvent;
 			dataName = name;
 			GUID = Guid.NewGuid();
 			isEmpty = false;
@@ -119,8 +116,10 @@ namespace JiME
 			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe a Monster Threat, present a Test, describe a Decision, etc." );
 			loreReward = 0;
 
-			triggerTest = triggerIsSet = triggerNotSet = triggerIsSetTrigger = triggerNotSetTrigger = "None";
-			branchTestEvent = true;
+			eventList = new ObservableCollection<string>();
+			triggerList = new ObservableCollection<string>();
+			usingTriggers = true;
+			isSilent = true;
 		}
 
 		public void NotifyPropertyChanged( string propName )
@@ -135,6 +134,12 @@ namespace JiME
 
 			if ( triggerAfterName == oldName )
 				triggerAfterName = newName;
+
+			for ( int i = 0; i < triggerList.Count; i++ )
+			{
+				if ( triggerList[i] == oldName )
+					triggerList[i] = newName;
+			}
 		}
 	}
 }

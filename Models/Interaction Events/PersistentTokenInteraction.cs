@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace JiME
 {
-	public class BranchInteraction : INotifyPropertyChanged, ICommonData, IInteraction
+	public class PersistentTokenInteraction : INotifyPropertyChanged, ICommonData, IInteraction
 	{
 		//common
-		string _dataName, _triggerName, _triggerAfterName;
-		bool _isTokenInteraction, _branchTestEvent;
+		string _dataName, _triggerName, _triggerAfterName, _eventToActivate, _alternativeTextTrigger;
+		bool _isTokenInteraction;
 		int _loreReward;
 		TokenType _tokenType;
 
@@ -73,45 +74,32 @@ namespace JiME
 			}
 		}
 
+		public TextBookData alternativeBookData { get; set; }
+		public string eventToActivate
+		{
+			get { return _eventToActivate; }
+			set { _eventToActivate = value; NotifyPropertyChanged( "eventToActivate" ); }
+		}
+		public string alternativeTextTrigger
+		{
+			get { return _alternativeTextTrigger; }
+			set { _alternativeTextTrigger = value; NotifyPropertyChanged( "alternativeTextTrigger" ); }
+		}
+
 		//IInteraction properties
 		public InteractionType interactionType { get; set; }
 
-		//Story branch
-		string _triggerNotSetTrigger;
-		public string triggerTest { get; set; }
-		public string triggerIsSet { get; set; }
-		public string triggerNotSet { get; set; }
-		public string triggerIsSetTrigger { get; set; }
-		public string triggerNotSetTrigger
-		{
-			get => _triggerNotSetTrigger;
-			set
-			{
-				_triggerNotSetTrigger = value;
-				NotifyPropertyChanged( "triggerNotSetTrigger" );
-			}
-		}
-		public bool branchTestEvent
-		{
-			get { return _branchTestEvent; }
-			set
-			{
-				_branchTestEvent = value;
-				NotifyPropertyChanged( "branchTestEvent" );
-			}
-		}
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public BranchInteraction( string name, bool random )
+		public PersistentTokenInteraction( string name )
 		{
-			interactionType = InteractionType.Branch;
+			interactionType = InteractionType.Persistent;
 			dataName = name;
 			GUID = Guid.NewGuid();
 			isEmpty = false;
 			triggerName = "None";
 			triggerAfterName = "None";
-			isTokenInteraction = false;
+			isTokenInteraction = true;
 			tokenType = TokenType.None;
 			textBookData = new TextBookData();
 			textBookData.pages.Add( "Default Flavor Text\n\nUse this text to describe the Event situation and present choices, depending on the type of Event this is." );
@@ -119,8 +107,10 @@ namespace JiME
 			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe a Monster Threat, present a Test, describe a Decision, etc." );
 			loreReward = 0;
 
-			triggerTest = triggerIsSet = triggerNotSet = triggerIsSetTrigger = triggerNotSetTrigger = "None";
-			branchTestEvent = true;
+			alternativeBookData = new TextBookData();
+			alternativeBookData.pages.Add( "This text will be shown persistently every time a player inspects this Event's Token, but only after the 'Alternative Flavor Text Trigger' has been set." );
+			alternativeTextTrigger = "None";
+			eventToActivate = "None";
 		}
 
 		public void NotifyPropertyChanged( string propName )
