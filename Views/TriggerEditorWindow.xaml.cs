@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 
 namespace JiME.Views
 {
@@ -8,7 +9,7 @@ namespace JiME.Views
 	public partial class TriggerEditorWindow : Window
 	{
 		public string triggerName { get; set; }
-		public Trigger newTrigger;
+		//public Trigger newTrigger { get; set; }
 
 		Scenario scenario;
 		bool isNew = false;
@@ -26,6 +27,10 @@ namespace JiME.Views
 			nameTB.Text = editName;
 			nameTB.SelectAll();
 			oldName = editName;
+
+			multiCB.IsChecked = false;
+			if ( s.triggersObserver.Any( x => x.dataName == editName ) )
+				multiCB.IsChecked = s.triggersObserver.Where( x => x.dataName == editName ).First().isMultiTrigger;
 		}
 
 		/// <summary>
@@ -39,10 +44,13 @@ namespace JiME.Views
 		private void OkButton_Click( object sender, RoutedEventArgs e )
 		{
 			triggerName = nameTB.Text.Trim();
-			newTrigger = new Trigger( nameTB.Text );
+			//newTrigger = new Trigger( nameTB.Text );
+			//newTrigger.isMultiTrigger = multiCB.IsChecked.Value;
 
+			//no name change, just update isMultiTrigger
 			if ( oldName == triggerName )
 			{
+				scenario.triggersObserver.Where( t => t.dataName == oldName ).First().isMultiTrigger = multiCB.IsChecked.Value;
 				DialogResult = false;
 				return;
 			}
@@ -52,20 +60,21 @@ namespace JiME.Views
 				if ( !isNew )//renaming
 				{
 					if ( triggerName != string.Empty )
-						if ( scenario.RenameTrigger( oldName, triggerName ) )
+						if ( scenario.RenameTrigger( oldName, triggerName, multiCB.IsChecked.Value ) )
 						{
 							DialogResult = true;
 							return;
 						}
 				}
 
-				if ( triggerName.Contains( "Random" ) )
-				{
-					MessageBox.Show( "The word 'Random' cannot be used in the Trigger Name.", "Invalid Trigger Name", MessageBoxButton.OK, MessageBoxImage.Error );
-					return;
-				}
+				//if ( triggerName.Contains( "Random" ) )
+				//{
+				//	MessageBox.Show( "The word 'Random' cannot be used in the Trigger Name.", "Invalid Trigger Name", MessageBoxButton.OK, MessageBoxImage.Error );
+				//	return;
+				//}
 
-				if ( scenario.AddTrigger( triggerName ) )//new trigger
+				//new trigger
+				if ( scenario.AddTrigger( triggerName, multiCB.IsChecked.Value ) )
 					DialogResult = true;
 				else
 				{

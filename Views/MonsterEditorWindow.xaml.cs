@@ -132,7 +132,7 @@ namespace JiME.Views
 			if ( monster.defaultStats )
 			{
 				monster.health = defaultStats.health;
-				monster.movementValue = defaultStats.speed == "light" ? Light : ( defaultStats.speed == "medium" ? Medium : Heavy );
+				monster.movementValue = defaultStats.speed == "light" ? Light - 1 : ( defaultStats.speed == "medium" ? Medium - 1 : Heavy - 1 );
 				monster.damage = defaultStats.damage == "light" ? Light : ( defaultStats.damage == "medium" ? Medium : Heavy );
 				monster.fear = defaultStats.damage == "light" ? Light : ( defaultStats.damage == "medium" ? Medium : Heavy );
 				monster.shieldValue = defaultStats.armor;

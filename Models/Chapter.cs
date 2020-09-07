@@ -12,7 +12,7 @@ namespace JiME
 	{
 		//common
 		string _dataName;
-		
+
 		public string dataName
 		{
 			get => _dataName;
@@ -30,7 +30,7 @@ namespace JiME
 		public string triggerName { get; set; }
 
 		//vars
-		bool _noFlavorText, _isRandomTiles;
+		bool _noFlavorText, _isRandomTiles, _isPreExplored, _usesRandomGroups;
 		string _triggeredBy, _exploreTrigger, _randomInteractionGroup;
 		int _randomInteractionGroupCount;
 
@@ -73,7 +73,6 @@ namespace JiME
 		}
 		[JsonConverter( typeof( TileConverter ) )]
 		public ObservableCollection<ITile> tileObserver { get; set; }
-		public ObservableCollection<int> randomTilePool { get; set; }
 		public string randomInteractionGroup
 		{
 			get => _randomInteractionGroup;
@@ -91,7 +90,21 @@ namespace JiME
 				_randomInteractionGroupCount = value;
 				PropChanged( "randomInteractionGroupCount" );
 			}
-		}		
+		}
+		public bool isPreExplored
+		{
+			get => _isPreExplored;
+			set { _isPreExplored = value; PropChanged( "isPreExplored" ); }
+		}
+		public bool usesRandomGroups
+		{
+			get => _usesRandomGroups;
+			set
+			{
+				_usesRandomGroups = value;
+				PropChanged( "usesRandomGroups" );
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -105,15 +118,21 @@ namespace JiME
 			flavorBookData.pages.Add( "This optional text is shown when any Tile in this Chapter is first explored. It is only shown once." );
 			exploreTrigger = triggeredBy = triggerName = "None";
 			tileObserver = new ObservableCollection<ITile>();
-			randomTilePool = new ObservableCollection<int>();
+			//randomTilePool = new ObservableCollection<int>();
 			randomInteractionGroup = "None";
+			if ( name == "Start" )
+				isPreExplored = true;
+			else
+				isPreExplored = false;
+			usesRandomGroups = false;
 		}
 
 		public Chapter CreateDefault()
 		{
 			return new Chapter( "Start" )
 			{
-				isEmpty = true
+				isEmpty = true,
+				isPreExplored = true
 			};
 		}
 

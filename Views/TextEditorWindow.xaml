@@ -37,18 +37,18 @@
 				</Grid.ColumnDefinitions>
 
 				<WrapPanel>
-					<Button x:Name="addButton" Margin="10" Background="MediumSeaGreen" Click="AddButton_Click" >
+					<Button Visibility="Collapsed" x:Name="addButton" Margin="10" Background="MediumSeaGreen" Click="AddButton_Click" >
 						<Image Source="/JiME;component/Assets/addpage.png" Stretch="Uniform" Width="32" Margin="5"/>
 					</Button>
 
-					<Button x:Name="removeButton" Margin="10" Background="#ff4200" Click="RemoveButton_Click" >
+					<Button Visibility="Collapsed" x:Name="removeButton" Margin="10" Background="#ff4200" Click="RemoveButton_Click" >
 						<Image Source="/JiME;component/Assets/removepage.png" Stretch="Uniform" Width="32" Margin="5"/>
 					</Button>
 
-					<Button x:Name="leftButton" Margin="10" Background="Moccasin" Click="LeftButton_Click" >
+					<Button Visibility="Collapsed" x:Name="leftButton" Margin="10" Background="Moccasin" Click="LeftButton_Click" >
 						<Image Source="/JiME;component/Assets/left.png" Stretch="Uniform" Width="32" Margin="5"/>
 					</Button>
-					<Button x:Name="rightButton" Margin="10" Background="Moccasin" Click="RightButton_Click" >
+					<Button Visibility="Collapsed" x:Name="rightButton" Margin="10" Background="Moccasin" Click="RightButton_Click" >
 						<Image Source="/JiME;component/Assets/right.png" Stretch="Uniform" Width="32" Margin="5"/>
 					</Button>
 
@@ -58,7 +58,7 @@
 						</TextBlock.Foreground>
 					</TextBlock>-->
 
-					<GroupBox x:Name="triggerGroup" Header="Triggered By:" Margin="0,10" Foreground="White">
+					<GroupBox x:Name="triggerGroup" Header="Triggered By:" Margin="10,10" Foreground="White">
 						<WrapPanel VerticalAlignment="Center">
 							<ComboBox x:Name="triggerLB" MinWidth="150" VerticalAlignment="Center" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding bookData.triggerName}" SelectedValuePath="dataName" DisplayMemberPath="dataName" Margin="5,0">
 							</ComboBox>

@@ -46,7 +46,7 @@ namespace JiME.Views
 			meEventBox.IsEnabled = eventRB.IsChecked.Value;
 			eventbox.IsEnabled = !interaction.isSilent;
 
-			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
+			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
 			{
 				addMainTriggerButton.IsEnabled = false;

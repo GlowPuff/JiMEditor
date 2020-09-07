@@ -6,7 +6,7 @@ namespace JiME
 	public class Trigger : INotifyPropertyChanged, ICommonData
 	{
 		string _dataName;
-		bool _triggerValue;
+		bool _triggerValue, _isMultiTrigger;
 		public string dataName
 		{
 			get { return _dataName; }
@@ -34,6 +34,15 @@ namespace JiME
 			}
 		}
 		public string triggerName { get; set; }
+		public bool isMultiTrigger
+		{
+			get { return _isMultiTrigger; }
+			set
+			{
+				_isMultiTrigger = value;
+				NotifyChange( "isMultiTrigger" );
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -46,6 +55,7 @@ namespace JiME
 			isEmpty = false;
 			GUID = Guid.NewGuid();
 			triggerValue = false;
+			isMultiTrigger = false;
 		}
 
 		void NotifyChange( string prop )
@@ -56,11 +66,6 @@ namespace JiME
 		public static Trigger EmptyTrigger()
 		{
 			return new Trigger( "None" ) { isEmpty = true };
-		}
-
-		public static Trigger RandomTrigger()
-		{
-			return new Trigger( "Trigger Random Event" ) { isEmpty = true };
 		}
 	}
 }

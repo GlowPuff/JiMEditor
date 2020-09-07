@@ -41,9 +41,9 @@ namespace JiME.Views
 			interaction = inter ?? new PersistentTokenInteraction( "New Persistent Event" );
 
 			//interactions that are NOT Token Interactions
-			interactionObserver = new ObservableCollection<string>( scenario.interactionObserver.Where( x => !x.isTokenInteraction ).Select( x => x.dataName ) );
+			interactionObserver = new ObservableCollection<string>( scenario.interactionObserver.Where( x => x.isTokenInteraction ).Select( x => x.dataName ) );
 
-			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
+			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
 			{
 				//addMainTriggerButton.IsEnabled = false;
@@ -78,16 +78,6 @@ namespace JiME.Views
 			//}
 			//else
 			//	flavorbox.Visibility = Visibility.Collapsed;
-		}
-
-		private void EditFlavorButton_Click( object sender, RoutedEventArgs e )
-		{
-			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, interaction.textBookData );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
-			}
 		}
 
 		private void EditEventButton_Click( object sender, RoutedEventArgs e )

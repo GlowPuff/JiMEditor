@@ -58,11 +58,10 @@ namespace JiME
 
 		void debug()
 		{
-			scenario.threatObserver.Add( new Threat( "Threat 1", 10 ) { threshold = 10, triggerName = "Threat Trigger" } );
-			scenario.AddTrigger( "Threat Trigger" );
+			//scenario.threatObserver.Add( new Threat( "Threat 1", 10 ) { threshold = 10, triggerName = "Threat Trigger" } );
 			//scenario.AddInteraction( new Interaction( "Dummy Event", false ) { interactionType = InteractionType.Text, triggerName = "Threat Trigger" } );
 
-			scenario.AddInteraction( new TextInteraction( "Dummy Text Interaction" ) );
+			//scenario.AddInteraction( new TextInteraction( "Dummy Text Interaction" ) );
 		}
 
 		#region TOOLBAR ACTIONS

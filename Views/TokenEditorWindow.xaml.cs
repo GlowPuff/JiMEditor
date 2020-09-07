@@ -58,6 +58,11 @@ namespace JiME.Views
 			}
 			catch ( Exception e ) { Debug.Log( e.Message ); }
 			UpdateButtonsEnabled();
+
+			if ( string.IsNullOrEmpty( hexTile.flavorBookData.pages[0] ) )
+				exploreStatus.Text = "Exploration Text is Empty";
+			else
+				exploreStatus.Text = "Exploration Text is Set";
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -116,10 +121,6 @@ namespace JiME.Views
 		void UpdateButtonsEnabled()
 		{
 			addToken.IsEnabled = hexTile.tokenList.Count < hexTile.tokenCount;
-			//addSearch.IsEnabled = hexTile.tokenList.Count < hexTile.tokenCount;
-			//addPerson.IsEnabled = hexTile.tokenList.Count < hexTile.tokenCount;
-			//addThreat.IsEnabled = hexTile.tokenList.Count < hexTile.tokenCount;
-			//addDarkness.IsEnabled = hexTile.tokenList.Count < hexTile.tokenCount;
 		}
 
 		private void Canvas_MouseDown( object sender, MouseButtonEventArgs e )
@@ -150,15 +151,6 @@ namespace JiME.Views
 				selected.Drag( e, canvas );
 			}
 		}
-
-		//private void addTrigger_Click( object sender, RoutedEventArgs e )
-		//{
-		//	TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-		//	if ( tw.ShowDialog() == true )
-		//	{
-		//		selected.triggerName = tw.triggerName;
-		//	}
-		//}
 
 		void PropChanged( string name )
 		{
@@ -195,6 +187,11 @@ namespace JiME.Views
 			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, hexTile.flavorBookData );
 			if ( tw.ShowDialog() == true )
 				hexTile.flavorBookData.pages = tw.textBookController.pages;
+
+			if ( string.IsNullOrEmpty( hexTile.flavorBookData.pages[0] ) )
+				exploreStatus.Text = "Exploration Text is Empty";
+			else
+				exploreStatus.Text = "Exploration Text is Set";
 		}
 
 		private void addTrigger_Click( object sender, RoutedEventArgs e )
@@ -223,7 +220,7 @@ namespace JiME.Views
 
 		private void interactionCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
 		{
-			if ( selected != null )
+			if ( selected != null && ( (ComboBox)sender ).SelectedItem != null )
 			{
 				selected.tokenType = ( (IInteraction)( (ComboBox)sender )?.SelectedItem ).tokenType;
 				selected.dataName = selected.tokenType.ToString();
@@ -234,6 +231,22 @@ namespace JiME.Views
 			//var foo = ( (ComboBox)sender )?.SelectedItem;
 			//if ( foo != null )
 			//	Debug.Log( ( (ComboBox)sender ).SelectedItem.ToString() );
+		}
+
+		private void Window_PreviewKeyDown( object sender, KeyEventArgs e )
+		{
+			if ( selected != null )
+			{
+				if ( e.Key == Key.Delete )
+				{
+					var s = tokenCombo.SelectedItem as Token;
+					if ( s != null )
+						hexTile.tokenList.Remove( s );
+					UpdateButtonsEnabled();
+					canvas.Children.Remove( s.tokenPathShape );
+					selected = null;
+				}
+			}
 		}
 	}
 }

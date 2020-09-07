@@ -71,6 +71,7 @@ namespace JiME
 		public string Description { get; set; }
 		public ProjectType projectType { get; set; }
 		public string fileName { get; set; }
+		public string fileVersion { get; set; }
 	}
 
 	class TileSorter : IComparer<int>
@@ -148,8 +149,8 @@ namespace JiME
 		/// AKA "Engine Version" in the companion app
 		/// Update this number every time the file format changes with new features
 		/// </summary>
-		public static string formatVersion = "1.1";
-		public static string appVersion = "0.6-alpha";
+		public static string formatVersion = "1.2";
+		public static string appVersion = "0.8-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;

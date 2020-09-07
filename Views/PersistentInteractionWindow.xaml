@@ -71,9 +71,9 @@
 								<Button x:Name="tokenHelp" Background="#FFC98800" Click="tokenHelp_Click" Width="32" Height="32" Margin="10,0,0,0">
 									<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 								</Button>
-								<TextBlock Style="{StaticResource SubText}" Text="IMPORTANT: Persistent Events are required to be Token Interactions. Specify a Token Type below." VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Width="432" FontWeight="Bold"/>
+								<TextBlock Style="{StaticResource SubText}" Text="IMPORTANT: Persistent Events are required to be Token Interactions. Choose a Token Type below." VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Width="455" FontWeight="Bold"/>
 							</StackPanel>
-
+							<!--Since it uses the Token Type of the Event it delegates to, a Token Type is not needed-->
 							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal" Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
 								<TextBlock Style="{StaticResource Heading}" Text="Token Type:" Margin="0,0,10,0"/>
 								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0"/>
@@ -95,61 +95,19 @@
 					<!--triggers-->
 					<Border x:Name="triggerBox" Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
-							<UniformGrid Columns="2">
-								<!--<StackPanel HorizontalAlignment="Left">
-									<TextBlock Text="Triggered By (Optional):" Style="{StaticResource Heading}"/>
-									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
-										<Button x:Name="addMainTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerButton_Click" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}">
-											<Image Source="/JiME;component/Assets/add2.png"/>
-										</Button>
-									</StackPanel>
-								</StackPanel>-->
-
-								<StackPanel HorizontalAlignment="Left" Margin="0,0,0,0">
-									<TextBlock Text="Triggered By and Set Trigger After:" Style="{StaticResource Heading}"/>
-									<!--<TextBlock Text="Since Persistent Events delegate the player's Action to another Event, there is no 'Trigger After...' Trigger." TextWrapping="Wrap" Style="{StaticResource SubText}"/>
-									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0"/>
-										<Button x:Name="addMainTriggerAfterButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerAfterButton_Click">
-											<Image Source="/JiME;component/Assets/add2.png"/>
-										</Button>
-									</StackPanel>-->
-								</StackPanel>
-							</UniformGrid>
+							<TextBlock Text="Triggered By and Set Trigger After:" Style="{StaticResource Heading}"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
 								Since Persistent Events delegate the player's Action to another Event, there are no 'Triggered By' or 'Trigger After...' Triggers.
 							</TextBlock>
-						</StackPanel>
-					</Border>
-					<!--flavor text-->
-					<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding ElementName=isTokenCB,Path=IsChecked,Converter={StaticResource bvis}}">
-						<StackPanel>
-							<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when a player interacts with a Token. Use it to hint at the Event. If the player wishes to use an action to trigger the Event, they press a Continue button in the Companion App. <Bold><Italic>Required</Italic></Bold>
-							</TextBlock>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="flavorTB" Text="{Binding interaction.textBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
-								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46">
-									<Image Source="/JiME;component/Assets/edit.png"/>
-								</Button>
-							</Grid>
 						</StackPanel>
 					</Border>
 
 					<!--event text-->
 					<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,0,0" IsEnabled="False">
 						<StackPanel>
-							<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
+							<TextBlock Text="Event Text and Flavor Text for Token Interaction" Style="{StaticResource Heading}"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-								The Event Text is not used for Persistent Events. Instead, when players activate this Event's Token by using their Action, the Event specified in the <Bold>Persistent Event</Bold> tab is activated instead, along with its own Event Text.
+								The Event Text and Flavor Text are not used for Persistent Events. Instead, when players activate this Event's Token by using their Action, the Event specified in the <Bold>Persistent Event</Bold> tab is activated instead, along with its own Flavor and Event Text.
 							</TextBlock>
 							<Grid Visibility="Collapsed">
 								<Grid.ColumnDefinitions>
@@ -179,9 +137,12 @@
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="When Players Use an Action to Explore this Event's Token, Activate The Event Below (Required):"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-								This is the Event that this Persistent Event delegates its Action to. Only Events that are NOT <Bold>Token Interactions</Bold> can be selected below. The Event you select here will only be activated ONCE when the players use an Action to fully Explore this Event's Token.
+								This is the Event that this Persistent Event delegates its Action to. Only Events that <Bold>are Token Interactions</Bold> can be selected below. The Event you select here will be activated as if it was the one players clicked on and Explored.
 							</TextBlock>
-							<ComboBox x:Name="eventCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding interactionObserver}" SelectedValue="{Binding interaction.eventToActivate}" MinWidth="200" Margin="0,5,0,0" SelectionChanged="eventCB_SelectionChanged"/>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox x:Name="eventCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding interactionObserver}" SelectedValue="{Binding interaction.eventToActivate}" MinWidth="200" Margin="0,5,0,0" SelectionChanged="eventCB_SelectionChanged"/>
+								<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Event must be a Token Interaction" VerticalAlignment="Center" Margin="10,0" FontWeight="Bold"/>
+							</StackPanel>
 						</StackPanel>
 					</Border>
 

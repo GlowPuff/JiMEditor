@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        Title="Chapter Properties" Style="{StaticResource DefaultWindow}" Width="500" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+        Title="Chapter Properties" Style="{StaticResource DefaultWindow}" Width="750" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
 
 	<Window.Resources>
 		<local:BoolInvertVisibility x:Key="b2vis"/>
@@ -47,11 +47,45 @@
 
 			<Border Style="{StaticResource callout}" Margin="0,10">
 				<StackPanel>
+					<TextBlock Text="Chapter Tiles" Style="{StaticResource Heading}"/>
 					<StackPanel Orientation="Horizontal">
 						<CheckBox x:Name="randomToggleCB" Content="This Chapter uses random Tiles." Foreground="White" IsChecked="{Binding chapter.isRandomTiles}" VerticalAlignment="Center" Margin="0,0,10,0" Click="RandomToggleCB_Click" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
 						<Button x:Name="TileEditButton" Click="TileEditButton_Click" Content="Tile Editor" Background="MediumSeaGreen" HorizontalAlignment="Left" Foreground="White"/>
 					</StackPanel>
-					<TextBlock Style="{StaticResource SubText}" Text="If this Chapter uses random tiles, you can specify the tile pool the Companion App chooses from within the Tile Editor." Margin="0,5,0,0" TextWrapping="Wrap"/>
+					<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
+						Use the Tile Editor to define which tiles are in this Chapter. <Bold>The Start Chapter cannot use random tiles</Bold>.
+					</TextBlock>
+
+					<!--pre-explored toggle-->
+					<!--<TextBlock Text="Pre-Exploration" Style="{StaticResource Heading}" Margin="0,10,0,0"/>-->
+					<CheckBox x:Name="preExCB" IsChecked="{Binding chapter.isPreExplored}" Content="This Chapter starts already Explored (Start Chapter only)" Foreground="White" Margin="0,10,0,0"/>
+					<TextBlock Style="{StaticResource SubText}" Text="If this is the Start Chapter, you can decide whether the tiles are pre-explored. With this option CHECKED (default), the Chapter begins with its tiles already Explored (no Explore Token on them), and any Interactive Tokens on its tiles start revealed. With this option NOT CHECKED, all tiles in the Chapter except the one marked as the player start tile are unexplored, and any Interactive Tokens start unrevealed." Margin="0,5,0,0" TextWrapping="Wrap"/>
+				</StackPanel>
+			</Border>
+
+			<!--random token interactions-->
+			<Border Style="{StaticResource callout}" Margin="0,0,0,10">
+				<StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Style="{StaticResource Heading}" Text="Random Token Interaction Group"/>
+						<CheckBox x:Name="useRandomCB" Content="This Chapter uses randomly assigned Tokens" Foreground="White" VerticalAlignment="Center" Margin="20,0" IsChecked="{Binding chapter.usesRandomGroups}" Click="useRandomCB_Click"/>
+						<Button x:Name="groupHelp" Background="#FFC98800" Click="groupHelp_Click" Width="32" Height="32">
+							<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
+						</Button>
+					</StackPanel>
+					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+						Select an Interaction Group below. Then designate how many of the Events in the group will be randomly used. <Bold>The Start Chapter cannot use Random Token Interaction Groups</Bold>.
+					</TextBlock>
+					<UniformGrid Columns="2" Margin="0,10,0,0">
+						<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" SelectionChanged="randInter_SelectionChanged" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
+						<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in this group." Margin="10,0" VerticalAlignment="Center"/>
+					</UniformGrid>
+
+					<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available on this Chapter's tiles to place Tokens." Margin="0,10,0,0"/>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?"/>
+						<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged"/>
+					</StackPanel>
 				</StackPanel>
 			</Border>
 

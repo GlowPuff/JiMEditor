@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JiME"
 				xmlns:core="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Token Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="800">
+        Title="Token Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="800" PreviewKeyDown="Window_PreviewKeyDown">
 
 	<Window.Resources>
 		<local:NullToVisibility x:Key="n2vis"/>
@@ -119,6 +119,7 @@
 						<StackPanel>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
 							<Button x:Name="addFlavor" Background="ForestGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click"/>
+							<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus"/>
 						</StackPanel>
 					</Border>
 
@@ -153,15 +154,26 @@
 
 		<!--footer-->
 		<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
-			<WrapPanel HorizontalAlignment="Right" >
-				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="auto"/>
+				</Grid.ColumnDefinitions>
+
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+					<!--<TextBlock Style="{StaticResource Heading}" Text="Add Up To 5 Tiles" Margin="0,0,100,0"/>
+					<TextBlock Style="{StaticResource Heading}" Text="Rotate: Page Up/Page Down" Margin="20"/>-->
+					<TextBlock Margin="10" Style="{StaticResource Heading}" Text="Remove Selected Token: Del" />
+				</StackPanel>
+
+				<Button Grid.Column="1" x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True">
 					<Image Source="/JiME;component/Assets/ok.png" Stretch="Uniform" Width="32" Margin="5"/>
 				</Button>
 
 				<!--<Button x:Name="cancelButton" Margin="0,10,10,10" Background="{StaticResource bgCancelDelete}" Click="CancelButton_Click" IsCancel="True">
 					<Image Source="/JiME;component/Assets/cancel.png" Stretch="Uniform" Width="32" Margin="5"/>
 				</Button>-->
-			</WrapPanel>
+			</Grid>
 		</Border>
 	</Grid>
 </Window>

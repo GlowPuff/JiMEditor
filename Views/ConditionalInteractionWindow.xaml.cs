@@ -40,7 +40,7 @@ namespace JiME.Views
 			interaction = inter ?? new ConditionalInteraction( "New Conditional Event" );
 
 
-			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
+			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
 			{
 				//addMainTriggerButton.IsEnabled = false;

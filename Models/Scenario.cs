@@ -12,9 +12,9 @@ namespace JiME
 	{
 		//public ErrorChecker errorChecker { get; set; }
 
-		string _scenarioName, _fileName, _objectiveName;
+		string _scenarioName, _fileName, _objectiveName, _fileVersion;
 		bool _isDirty;
-		int _threatMax;
+		int _threatMax, _loreReward, _xpReward, _shadowFear;
 		bool _scenarioTypeJourney;
 		int[] _wallTypes;
 		//titleChangedToken is ONLY used to trigger the window Title converter
@@ -79,6 +79,18 @@ namespace JiME
 				}
 			}
 		}
+		public string fileVersion
+		{
+			get => _fileVersion;
+			set
+			{
+				if ( value != _fileVersion )
+				{
+					_fileVersion = value;
+					PropChanged( "fileVersion" );
+				}
+			}
+		}
 		public string scenarioName
 		{
 			get => _scenarioName;
@@ -115,6 +127,21 @@ namespace JiME
 		public bool threatNotUsed { get; set; }
 		public ProjectType projectType { get; set; }
 		public TextBookData introBookData { get; set; }
+		public int loreReward
+		{
+			get => _loreReward;
+			set { _loreReward = value; PropChanged( "loreReward" ); }
+		}
+		public int xpReward
+		{
+			get => _xpReward;
+			set { _xpReward = value; PropChanged( "xpReward" ); }
+		}
+		public int shadowFear
+		{
+			get => _shadowFear;
+			set { _shadowFear = value; PropChanged( "shadowFear" ); }
+		}
 		#endregion
 
 		public ObservableCollection<IInteraction> interactionObserver { get; set; }
@@ -141,6 +168,7 @@ namespace JiME
 			isDirty = true;
 			projectType = ProjectType.Standalone;
 			titleChangedToken = new Tuple<bool, string, Guid, ProjectType>( true, string.Empty, Guid.NewGuid(), ProjectType.Standalone );
+			loreReward = xpReward = 0;
 
 			interactionObserver = new ObservableCollection<IInteraction>();
 			triggersObserver = new ObservableCollection<Trigger>();
@@ -160,6 +188,7 @@ namespace JiME
 			Scenario s = new Scenario();
 			s.scenarioName = fm.scenarioName;
 			s.fileName = fm.fileName;
+			s.fileVersion = fm.fileVersion;
 			s.saveDate = fm.saveDate;
 			s.projectType = fm.projectType;
 			s.objectiveName = fm.objectiveName;
@@ -170,11 +199,13 @@ namespace JiME
 			s.threatObserver = new ObservableCollection<Threat>( fm.threats );
 			s.chapterObserver = new ObservableCollection<Chapter>( fm.chapters );
 			s.globalTilePool = new ObservableCollection<int>( fm.globalTiles );
-			s.fileName = fm.fileName;
 			s.introBookData = fm.introBookData;
 			s.threatMax = fm.threatMax;
 			s.threatNotUsed = fm.threatNotUsed;
 			s.scenarioTypeJourney = fm.scenarioTypeJourney;
+			s.loreReward = fm.loreReward;
+			s.xpReward = fm.xpReward;
+			s.shadowFear = fm.shadowFear;
 
 			return s;
 		}
@@ -193,6 +224,8 @@ namespace JiME
 			threatMax = 60;
 			scenarioTypeJourney = true;
 			objectiveName = "None";
+			loreReward = xpReward = shadowFear = 0;
+			fileVersion = Utils.formatVersion;
 
 			introBookData = new TextBookData( "Default Introduction Text" );
 			introBookData.pages.Add( "Default Introduction text.\n\nThis text is displayed at the beginning of the Scenario to describe the mission and Objectives.\n\nScenarios have one Introduction Text." );
@@ -275,11 +308,12 @@ namespace JiME
 			}
 		}
 
-		public bool AddTrigger( string name )
+		public bool AddTrigger( string name, bool isMulti = false )
 		{
 			if ( ( from Trigger foo in triggersObserver where foo.dataName == name select foo ).Count() == 0 )
 			{
 				Trigger t = new Trigger( name );
+				t.isMultiTrigger = isMulti;
 				triggersObserver.Add( t );
 				return true;
 			}
@@ -323,7 +357,7 @@ namespace JiME
 		/// <summary>
 		/// Renames the Trigger (if new name doesn't exist) and updates all data collections so they point to the new name
 		/// </summary>
-		public bool RenameTrigger( string oldName, string newName )
+		public bool RenameTrigger( string oldName, string newName, bool isMulti )
 		{
 			//bail out if new name already exists
 			if ( triggersObserver.Count( t => t.dataName == newName ) > 0 )
@@ -348,6 +382,7 @@ namespace JiME
 
 			//finally rename the trigger object itself
 			triggersObserver.Where( t => t.dataName == oldName ).First().dataName = newName;
+			triggersObserver.Where( t => t.dataName == oldName ).First().isMultiTrigger = isMulti;
 
 			return true;
 		}
@@ -539,15 +574,6 @@ namespace JiME
 						threat.triggerName = "None";
 				}
 			}
-		}
-
-		/// <summary>
-		/// Find any references to missing interactions/triggers and set to "None" if found
-		/// </summary>
-		public string[] FixOrphans()
-		{
-
-			return new string[] { };
 		}
 	}
 }

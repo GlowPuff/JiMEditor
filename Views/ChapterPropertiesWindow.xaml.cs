@@ -1,6 +1,10 @@
 ﻿using System.Windows;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using System;
+using System.Windows.Controls;
 
 namespace JiME.Views
 {
@@ -10,8 +14,10 @@ namespace JiME.Views
 	public partial class ChapterPropertiesWindow : Window
 	{
 		public Chapter chapter { get; set; }
+		public ObservableCollection<string> randomInteractions { get; set; }
 		public Scenario scenario { get; set; }
-		bool closing = false, currentRandomToggle;
+		bool closing = false/*, currentRandomToggle*/;
+		int numinters = 0, requestedInters = 0;
 
 		public ChapterPropertiesWindow( Scenario s, Chapter c = null )
 		{
@@ -27,7 +33,25 @@ namespace JiME.Views
 			cancelButton.Visibility = c == null ? Visibility.Visible : Visibility.Collapsed;
 			chapter = c ?? new Chapter( "New Chapter" );
 			scenario = s;
-			currentRandomToggle = chapter.isRandomTiles;
+			//currentRandomToggle = chapter.isRandomTiles;
+			if ( chapter.dataName != "Start" )
+				preExCB.IsEnabled = false;
+			else
+				useRandomCB.IsEnabled = false;
+
+			var ri = from inter in scenario.interactionObserver where inter.isTokenInteraction select inter.dataName;
+			HashSet<string> hash = new HashSet<string>( new string[] { "None" } );
+			Regex rx = new Regex( @"\sGRP\d+$" );
+			foreach ( string item in ri )
+			{
+				MatchCollection matches = rx.Matches( item );
+				if ( matches.Count > 0 )
+					hash.Add( matches[0].Value.Trim() );
+			}
+			randomInteractions = new ObservableCollection<string>( hash );
+			randInter.SelectedItem = chapter.randomInteractionGroup;
+
+			UpdateTexts();
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -40,6 +64,14 @@ namespace JiME.Views
 
 		private void CancelButton_Click( object sender, RoutedEventArgs e )
 		{
+			//return any tiles back into the global pool
+			foreach ( var tile in chapter.tileObserver )
+				scenario.globalTilePool.Add( tile.idNumber );
+			List<int> sorted = scenario.globalTilePool.OrderBy( key => key ).ToList();
+			for ( int i = 0; i < sorted.Count; i++ )
+				scenario.globalTilePool[i] = sorted[i];
+
+
 			closing = true;
 			DialogResult = false;
 		}
@@ -47,9 +79,9 @@ namespace JiME.Views
 		bool TryClose()
 		{
 			if ( chapter.dataName != "Start"
-				&& ( chapter.triggeredBy == "None" || chapter.triggeredBy == "Trigger Random Event" ) )
+				&& ( chapter.triggeredBy == "None" /*|| chapter.triggeredBy == "Trigger Random Event" */) )
 			{
-				MessageBox.Show( "'Triggered By' cannot be set to None or Trigger Random Event.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				MessageBox.Show( "'Triggered By' cannot be set to None.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
 			}
 			else if ( string.IsNullOrEmpty( chapter.dataName.Trim() ) )
@@ -57,6 +89,8 @@ namespace JiME.Views
 				MessageBox.Show( "'Chapter Name' cannot be empty.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
 			}
+
+			chapter.randomInteractionGroup = randInter.SelectedItem as string;
 
 			return true;
 		}
@@ -98,11 +132,13 @@ namespace JiME.Views
 			{
 				TilePoolEditorWindow tp = new TilePoolEditorWindow( scenario, chapter );
 				tp.ShowDialog();
+				UpdateTexts();
 			}
 			else
 			{
 				TileEditorWindow tw = new TileEditorWindow( scenario, chapter );
 				tw.ShowDialog();
+				UpdateTexts();
 			}
 		}
 
@@ -112,34 +148,94 @@ namespace JiME.Views
 				e.Cancel = !TryClose();
 		}
 
+		private void groupHelp_Click( object sender, RoutedEventArgs e )
+		{
+			HelpWindow hw = new HelpWindow( HelpType.Grouping, 1 );
+			hw.ShowDialog();
+		}
+
+		private void randInter_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			//get # of interactions in selected group, then update selectedInfoText
+			ComboBox cb = e.Source as ComboBox;
+			numinters = scenario.interactionObserver.Count( x => x.dataName != "None" && x.dataName.EndsWith( cb.SelectedItem.ToString() ) );
+			UpdateTexts();
+		}
+
+		private void numIntersUsed_TextChanged( object sender, TextChangedEventArgs e )
+		{
+			Int32.TryParse( ( (TextBox)e.Source ).Text, out requestedInters );
+			UpdateTexts();
+		}
+
+		private void useRandomCB_Click( object sender, RoutedEventArgs e )
+		{
+			//clear tokenlist if using a random group
+			if ( ( (CheckBox)sender ).IsChecked.Value )
+			{
+				for ( int i = 0; i < chapter.tileObserver.Count; i++ )
+				{
+					( (HexTile)chapter.tileObserver[i] ).tokenList.Clear();
+				}
+			}
+			else//otherwise clear random group name
+				chapter.randomInteractionGroup = "";
+		}
+
 		private void RandomToggleCB_Click( object sender, RoutedEventArgs e )
 		{
-			if ( chapter.isRandomTiles != currentRandomToggle )
+			if ( !chapter.isRandomTiles )
 			{
-				var ret = MessageBox.Show( "Are you sure you want to toggle between Random Tiles and Fixed Tiles?\n\nALL TILE DATA IN THIS CHAPTER WILL BE RESET IF YOU SWITCH.", "Switch Between Random and Fixed Tiles", MessageBoxButton.YesNo, MessageBoxImage.Question );
-				if ( ret == MessageBoxResult.Yes )
+				MessageBox.Show( "Switching back to fixed tiles will automatically change any random tiles using a Random Side to Side A.\r\n\r\nReminder: Be sure to use the Tile Editor to properly place your tiles, now that they will be in fixed, user-defined positions.", "Switching to Fixed Tiles", MessageBoxButton.OK, MessageBoxImage.Information );
+				foreach ( var tile in chapter.tileObserver )
 				{
-					currentRandomToggle = chapter.isRandomTiles;
-					if ( chapter.isRandomTiles )
-					{
-						foreach ( HexTile tile in chapter.tileObserver )
-							scenario.globalTilePool.Add( tile.idNumber );
-						chapter.tileObserver.Clear();
-					}
-					else
-					{
-						foreach ( int tile in chapter.randomTilePool )
-							scenario.globalTilePool.Add( tile );
-						chapter.randomTilePool.Clear();
-					}
-
-					List<int> sorted = scenario.globalTilePool.OrderBy( key => key ).ToList();
-					for ( int i = 0; i < sorted.Count; i++ )
-						scenario.globalTilePool[i] = sorted[i];
+					if ( ( (HexTile)tile ).tileSide == "Random" )
+						( (HexTile)tile ).tileSide = "A";
 				}
-				else
-					chapter.isRandomTiles = currentRandomToggle;
 			}
+			//if ( chapter.isRandomTiles != currentRandomToggle )
+			//{
+			//	var ret = MessageBox.Show( "Are you sure you want to toggle between Random Tiles and Fixed Tiles?\n\nALL TILE DATA IN THIS CHAPTER WILL BE RESET IF YOU SWITCH.", "Switch Between Random and Fixed Tiles", MessageBoxButton.YesNo, MessageBoxImage.Question );
+			//	if ( ret == MessageBoxResult.Yes )
+			//	{
+			//		currentRandomToggle = chapter.isRandomTiles;
+			//		if ( chapter.isRandomTiles )
+			//		{
+			//			foreach ( HexTile tile in chapter.tileObserver )
+			//				scenario.globalTilePool.Add( tile.idNumber );
+			//			chapter.tileObserver.Clear();
+			//		}
+			//		else
+			//		{
+			//			foreach ( int tile in chapter.randomTilePool )
+			//				scenario.globalTilePool.Add( tile );
+			//			chapter.randomTilePool.Clear();
+			//		}
+
+			//		List<int> sorted = scenario.globalTilePool.OrderBy( key => key ).ToList();
+			//		for ( int i = 0; i < sorted.Count; i++ )
+			//			scenario.globalTilePool[i] = sorted[i];
+			//	}
+			//	else
+			//		chapter.isRandomTiles = currentRandomToggle;
+			//}
+		}
+
+		void UpdateTexts()
+		{
+			selectedInfoText.Text = $"There are {numinters} Token Interactions in this group.";
+
+			int numspaces = chapter.tileObserver.Aggregate( 0, ( acc, cur ) =>
+			{
+				return acc + ( cur.idNumber / 100 ) % 10;
+			} );
+			spaceInfoText2.Text = $"There are {numspaces} spaces available on this Chapter's tiles to place Tokens.";
+
+			int max = Math.Min( numinters, numspaces );
+			numIntersUsedText.Text = $"Randomly use how many of the Interactions from the selected Interaction Group, up to a maximum of {max}:";
+
+			max = Math.Min( requestedInters, max );
+			numIntersUsed.Text = max.ToString();
 		}
 	}
 }

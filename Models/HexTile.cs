@@ -74,7 +74,7 @@ namespace JiME
 		//	this.angle = angle;
 		//}
 
-		public HexTile( int n )
+		public HexTile( int n, bool skipBuild = false )
 		{
 			tileType = TileType.Hex;
 			idNumber = n;
@@ -88,8 +88,11 @@ namespace JiME
 			isStartTile = false;
 			triggerName = "None";
 
-			BuildShape();
-			Update();
+			if ( !skipBuild )
+			{
+				BuildShape();
+				Update();
+			}
 		}
 
 		void BuildShape()

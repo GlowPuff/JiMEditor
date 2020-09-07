@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        Title="Tile Pool Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Random Tile Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
 
 	<Window.Resources>
 		<local:SelectedToBoolConverter x:Key="sb"/>
@@ -46,16 +46,51 @@
 			</StackPanel>
 
 			<GroupBox Grid.Column="2" Header="Random Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,10,10">
-				<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.randomTilePool}" MouseDoubleClick="Random_MouseDoubleClick"/>
+				<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.tileObserver}" MouseDoubleClick="Random_MouseDoubleClick" SelectionChanged="random_SelectionChanged" DisplayMemberPath="idNumber"/>
 			</GroupBox>
 		</Grid>
 
-		<Button x:Name="tileGalleryButton" Background="MediumSeaGreen" Margin="0,0,0,10" Content="Add From Tile Gallery" Foreground="White" Click="tileGalleryButton_Click" Width="200">
-		</Button>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
 
-		<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,10,10"/>
+			<StackPanel>
+				<Button x:Name="tileGalleryButton" Background="MediumSeaGreen" Margin="0,0,0,10" Content="Add From Tile Gallery" Foreground="White" Click="tileGalleryButton_Click" Width="200">
+				</Button>
 
-		<Border Style="{StaticResource callout}" Margin="10,0,10,10">
+				<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,10,10"/>
+			</StackPanel>
+
+			<TextBlock Grid.Column="1" Width="64"/>
+
+			<!--selected info-->
+			<StackPanel Grid.Column="2">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Selected Tile:" Style="{StaticResource Heading}"/>
+					<TextBlock Text="{Binding selected.idNumber}" Style="{StaticResource SubText}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Tile Side:" Style="{StaticResource Heading}" Margin="0,5,10,0"/>
+					<RadioButton x:Name="sideA" Content="A" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideA_Click" IsEnabled="False"/>
+					<RadioButton x:Name="sideB" Content="B" Foreground="White" VerticalAlignment="Bottom" Margin="20,0" GroupName="side" Click="sideB_Click" IsEnabled="False"/>
+					<RadioButton x:Name="sideRandom" Content="Random" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideRandom_Click" IsEnabled="False"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Margin="0,5">
+					<Button x:Name="tokenEditButton" Background="MediumSeaGreen" Margin="0,10,0,10" Content="Edit Tokens" Foreground="White" Click="tokenEditButton_Click" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False">
+					</Button>
+					<TextBlock Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" MaxWidth="200">
+						If this Chapter is using Random Token Interaction Groups, or the Tile Side is <Bold>Random</Bold>, Tokens will be placed automatically.
+					</TextBlock>
+				</StackPanel>
+			</StackPanel>
+		</Grid>
+
+		<!--<Border Style="{StaticResource callout}" Margin="10,0,10,10">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Style="{StaticResource Heading}" Text="Random Token Interaction Group"/>
@@ -63,19 +98,19 @@
 						<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 					</Button>
 				</StackPanel>
-				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Select an Interaction Group below. Then designate how many of the Event Interactions in the group will be randomly used."/>
+				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Select an Interaction Group below. Then designate how many of the Events in the group will be randomly used."/>
 				<UniformGrid Columns="2" Margin="0,10,0,0">
 					<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" SelectionChanged="randInter_SelectionChanged"/>
 					<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in this group." Margin="10,0" VerticalAlignment="Center"/>
 				</UniformGrid>
 
-				<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available in this Random Tile Pool to place Tokens." Margin="0,10,0,0"/>
+				<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available on this Chapter's tiles to place Tokens." Margin="0,10,0,0"/>
 				<StackPanel Orientation="Horizontal">
 					<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?"/>
 					<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged"/>
 				</StackPanel>
 			</StackPanel>
-		</Border>
+		</Border>-->
 
 		<!--footer-->
 		<Border BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">

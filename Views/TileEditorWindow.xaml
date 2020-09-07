@@ -134,6 +134,7 @@
 
 								<Button x:Name="editTokenButton" Margin="0,10,0,0" Background="MediumSeaGreen" Foreground="White" Content="Edit Tokens" Click="editTokenButton_Click">
 								</Button>
+								<TextBlock Text="Editing Tokens is disabled because this Chapter uses a Random Token Interaction Group." Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" Name="disabledMessage"/>
 							</StackPanel>
 						</Border>
 					</StackPanel>

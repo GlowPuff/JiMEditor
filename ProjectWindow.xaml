@@ -111,28 +111,52 @@
 			</Button>
 		</StackPanel>
 
-		<Button x:Name="cancelButton" Grid.Column="1" Grid.Row="3" Width="100" HorizontalAlignment="Right" Click="CancelButton_Click">
-			<TextBlock Style="{StaticResource ButtonHeading}" Text="Cancel" Margin="0,5"/>
-		</Button>
+		<Grid Grid.Column="1" Grid.Row="3">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="auto"/>
+			</Grid.ColumnDefinitions>
+
+			<TextBlock x:Name="formatVersion" Grid.Column="1" Text="Scenario Format Version: " Style="{StaticResource Heading}"/>
+
+			<Button x:Name="cancelButton" Grid.Column="2" Width="100" HorizontalAlignment="Right" Click="CancelButton_Click">
+				<TextBlock Style="{StaticResource ButtonHeading}" Text="Cancel" Margin="0,5"/>
+			</Button>
+		</Grid>
 
 		<ScrollViewer Grid.Row="2" Grid.RowSpan="2" VerticalScrollBarVisibility="{Binding scrollVisible, Converter={StaticResource b2sv}}" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Margin="0,0,20,0" MouseEnter="ProjectLV_MouseEnter" MouseLeave="ProjectLV_MouseLeave">
-			<ListView x:Name="projectLV" Background="{StaticResource bgColor}" BorderThickness="0" Margin="0,0,10,0" SelectionChanged="ProjectLV_SelectionChanged">
+			<ListView x:Name="projectLV" Background="{StaticResource bgColor}" BorderThickness="0" Margin="0,0,10,0" SelectionChanged="ProjectLV_SelectionChanged" HorizontalContentAlignment="Stretch">
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<StackPanel Orientation="Horizontal" Margin="10">
+						<Grid Margin="10">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+
 							<Image Margin="0,5,0,0" VerticalAlignment="Top" Source="{Binding projectType, Converter={StaticResource ptypeConverter}}" Width="32"/>
 
-							<StackPanel Margin="10,0">
+							<StackPanel Grid.Column="1" Margin="10,0">
 								<TextBlock Text="{Binding Title}" Foreground="White" FontSize="16" Margin="0,0"/>
 
-								<UniformGrid Columns="2">
-									<TextBlock Text="{Binding projectType}" Foreground="White" FontSize="12" Margin="0,0"/>
-									<TextBlock Text="{Binding Date}" Style="{StaticResource SubText}" HorizontalAlignment="Right"/>
-								</UniformGrid>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="auto"/>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="auto"/>
+									</Grid.ColumnDefinitions>
+									<TextBlock Grid.Column="0" Text="{Binding projectType}" Foreground="White" FontSize="12" Margin="0,0"/>
+									<StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+										<TextBlock Text="v." Foreground="White"/>
+										<TextBlock Grid.Column="1" Text="{Binding fileVersion}" Foreground="White" FontSize="12" Margin="0,0"/>
+									</StackPanel>
+									<TextBlock Grid.Column="2" Text="{Binding Date}" Style="{StaticResource SubText}" HorizontalAlignment="Right"/>
+								</Grid>
 
 								<!--<TextBlock Text="{Binding Description}" TextTrimming="WordEllipsis" Foreground="White" FontSize="12" Margin="0,5,0,0"/>-->
 							</StackPanel>
-						</StackPanel>
+						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 

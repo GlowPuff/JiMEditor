@@ -14,12 +14,20 @@ namespace JiME
 	public class FileManager
 	{
 		/// <summary>
-		/// AKA "Engine Version" in the companion app
 		/// This number is updated every time the file format changes with new features
 		/// </summary>
 		public string fileVersion { get; set; }
 		public string fileName { get; set; }
 		public string saveDate { get; set; }
+		public ProjectType projectType { get; set; }
+		public string scenarioName { get; set; }
+		public string objectiveName { get; set; }
+		public int threatMax { get; set; }
+		public bool threatNotUsed { get; set; }
+		public bool scenarioTypeJourney { get; set; }
+		public int loreReward { get; set; }
+		public int xpReward { get; set; }
+		public int shadowFear { get; set; }
 
 		[JsonConverter( typeof( InteractionConverter ) )]
 		public List<IInteraction> interactions { get; set; }
@@ -30,12 +38,6 @@ namespace JiME
 		public List<Chapter> chapters { get; set; }
 		public List<int> globalTiles { get; set; }
 		public TextBookData introBookData { get; set; }
-		public ProjectType projectType { get; set; }
-		public string scenarioName { get; set; }
-		public string objectiveName { get; set; }
-		public int threatMax { get; set; }
-		public bool threatNotUsed { get; set; }
-		public bool scenarioTypeJourney { get; set; }
 
 		public FileManager()
 		{
@@ -47,6 +49,9 @@ namespace JiME
 			fileName = source.fileName;
 			fileVersion = Utils.formatVersion;
 			saveDate = source.saveDate;
+			loreReward = source.loreReward;
+			xpReward = source.xpReward;
+			shadowFear = source.shadowFear;
 
 			interactions = source.interactionObserver.ToList();
 			triggers = source.triggersObserver.ToList();
@@ -185,7 +190,7 @@ namespace JiME
 				//Debug.Log( fi.FullName );
 				Scenario s = Load( fi.FullName );
 				if ( s != null )
-					items.Add( new ProjectItem() { Title = s.scenarioName, projectType = s.projectType, Date = s.saveDate, fileName = s.fileName } );
+					items.Add( new ProjectItem() { Title = s.scenarioName, projectType = s.projectType, Date = s.saveDate, fileName = fi.Name, fileVersion = s.fileVersion } );
 			}
 			return items;
 		}

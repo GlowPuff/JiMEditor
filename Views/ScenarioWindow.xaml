@@ -16,29 +16,70 @@
 		<local:BoolInvertConverter x:Key="binv"/>
 	</Window.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
+	<StackPanel>
+		<!--<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/>
 			<RowDefinition Height="auto"/>
 			<RowDefinition Height="auto"/>
 			<RowDefinition Height="auto"/>
 			<RowDefinition Height="auto"/>
-		</Grid.RowDefinitions>
+		</Grid.RowDefinitions>-->
 
-		<StackPanel Margin="10" Orientation="Horizontal">
-			<TextBlock Style="{StaticResource Heading}" Text="Scenario Title:" />
-			<TextBox x:Name="nameTB" Text="{Binding scenarioName, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" MinWidth="300" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+		<Grid Margin="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="auto"/>
+			</Grid.ColumnDefinitions>
+
+			<!--name and rewards-->
 			<Border Style="{StaticResource callout}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Style="{StaticResource Heading}" Text="Scenario Title:" />
+					<TextBox x:Name="nameTB" Text="{Binding scenarioName, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" MinWidth="300" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+				</StackPanel>
+			</Border>
+
+			<!--scenario type-->
+			<Border Grid.Column="2" Style="{StaticResource callout}">
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Style="{StaticResource Heading}" Text="Scenario Type:" Margin="0,0,10,0"/>
 					<RadioButton Content="Journey" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding scenario.scenarioTypeJourney}" Click="RadioType_Checked"/>
 					<RadioButton Content="Battle" Foreground="White" VerticalAlignment="Center" Margin="25,0,0,0"  IsChecked="{Binding scenario.scenarioTypeJourney, Converter={StaticResource binv}}" Click="RadioType_Checked"/>
 				</StackPanel>
 			</Border>
-		</StackPanel>
+		</Grid>
+		<!--rewards-->
+		<Border  Grid.Row="1" Style="{StaticResource callout}" Margin="10,0,10,10">
+			<UniformGrid Columns="3">
+				<StackPanel>
+					<TextBlock Text="Scenario Rewards:" Style="{StaticResource Heading}" Margin="0,5,0,5"/>
+					<StackPanel Orientation="Horizontal">
+						<!--rewards-->
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Lore Reward:" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+							<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.loreReward}"/>
+
+							<TextBlock Text="XP Reward:" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="15,0,10,0"/>
+							<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.xpReward}"/>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+
+				<StackPanel Margin="40,0,0,0" HorizontalAlignment="Center">
+					<TextBlock Text="First Objective (Optional):" Style="{StaticResource Heading}"/>
+					<ComboBox Name="objectiveCB" ItemsSource="{Binding scenario.objectiveObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding scenario.objectiveName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+					<TextBlock Text="Shadow Phase Fear:" Style="{StaticResource Heading}"/>
+					<TextBox Text="{Binding scenario.shadowFear}" Width="32" Margin="10,0,0,0" VerticalAlignment="Center"/>
+				</StackPanel>
+			</UniformGrid>
+		</Border>
 
 		<!--Threat-->
-		<GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Threat Settings" Foreground="Silver" Margin="10,0" FontSize="14" Padding="5">
+		<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Threat Settings" Foreground="Silver" Margin="10,0" FontSize="14" Padding="5">
 			<StackPanel>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -103,16 +144,9 @@
 			</StackPanel>
 		</GroupBox>
 
-		<!--first objective-->
-		<Border  Grid.Row="2" Style="{StaticResource callout}" Margin="10,10">
-			<StackPanel HorizontalAlignment="Left">
-				<TextBlock Text="First Objective (Optional):" Style="{StaticResource Heading}"/>
-				<ComboBox Name="objectiveCB" Width="250" ItemsSource="{Binding scenario.objectiveObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding scenario.objectiveName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
-			</StackPanel>
-		</Border>
 
 		<!--Flavor Text-->
-		<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Flavor Text" Foreground="Silver" Margin="10,0,10,10" FontSize="14">
+		<GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="Flavor Text" Foreground="Silver" Margin="10,10,10,10" FontSize="14">
 			<StackPanel>
 				<!--intro text-->
 				<TextBlock Text="Introduction Text" Style="{StaticResource Heading}" Margin="5,5,5,0"/>
@@ -157,12 +191,11 @@
 						<Image Source="/JiME;component/Assets/remove.png" Width="32"/>
 					</Button>
 				</Grid>
-
 			</StackPanel>
 		</GroupBox>
 
 		<!--Footer-->
-		<Border Grid.ColumnSpan="2" Grid.Row="4" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
+		<Border Grid.ColumnSpan="2" Grid.Row="5" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
 			<WrapPanel HorizontalAlignment="Right" >
 
 				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True" IsCancel="True">
@@ -172,5 +205,5 @@
 			</WrapPanel>
 		</Border>
 
-	</Grid>
+	</StackPanel>
 </Window>

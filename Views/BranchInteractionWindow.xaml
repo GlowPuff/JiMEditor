@@ -88,7 +88,7 @@
 								<RadioButton x:Name="darkRadio" Content="Darkness"/>
 							</StackPanel>
 
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
 							Token Interactions are triggered by players as they journey across the map. When a player clicks a Token, the Flavor Text below is shown. The player can decide to use an Action to Interact with the Token, after which the Event Text is shown, along with the Event itself.
 							</TextBlock>
 

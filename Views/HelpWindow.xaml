@@ -34,20 +34,20 @@ When you create a Chapter with a Random Tile Pool, there needs to be a way to cr
 				</Border>
 			</TabItem>
 
-			<TabItem Header="Using Interaction Groups In The Tile Pool Editor" Padding="5">
+			<TabItem Header="Using Interaction Groups" Padding="5">
 				<Border Style="{StaticResource callout}">
 					<StackPanel>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							The Interaction Group dropdown menu in the Tile Pool Editor lists all the Token Interaction Groups you've created. When you select a Token Interaction Group from the dropdown menu, the interface tells you how many Events were found using that group name.
+							The Interaction Group dropdown menu lists all the Token Interaction Groups you've created. When you select a Token Interaction Group from the dropdown menu, the interface tells you how many Events were found using that group name.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Chapter's Random Tile Pool. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement.
+							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Chapter. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
 							It's up to you if you want to use all of the Token Interactions in the group, or only a small selection of them, randomly chosen during the game. Specify this number in the text box. You can only use as many Token Interactions as there are Tile spaces available to hold them.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							If you add or remove Token Interactions from the Group assigned to this Random Tile Pool, you will probably want to revisit these settings to adjust this number.
+							If you add or remove Token Interactions from the Group assigned to this Chapter, you will probably want to revisit these settings to adjust this number.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
 							Example: Using Tiles 201 and 202, we have 4 spaces available. Let's say we assign an Interaction Group to this Tile Pool with 6 different Events in it. We can use a maximum of 4 of those 6 Events because there are only 4 spaces available on the Tiles we're using. However, we only want 2 of those 6 Events to randomly spawn Tokens on these Tiles, so we enter 2 into the text box. During the game, the Companion App will randomly choose and spawn 2 Tokens out of the Group. The other 4 are discarded.

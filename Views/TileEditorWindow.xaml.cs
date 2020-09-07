@@ -31,13 +31,6 @@ namespace JiME.Views
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		/// <summary>
-		/// debug only - remove
-		/// </summary>
-		public TileEditorWindow() : this( new Scenario( "new" ), new Chapter( "New Chapter" ) )
-		{
-		}
-
 		public TileEditorWindow( Scenario s, Chapter c = null )
 		{
 			InitializeComponent();
@@ -54,6 +47,8 @@ namespace JiME.Views
 				( (HexTile)chapter.tileObserver[i] ).ChangeColor( i );
 			}
 
+			editTokenButton.IsEnabled = !chapter.usesRandomGroups;
+			disabledMessage.Visibility = chapter.usesRandomGroups ? Visibility.Visible : Visibility.Collapsed;
 			//SourceInitialized += ( x, y ) =>
 			//{
 			//	this.HideMinimizeAndMaximizeButtons();

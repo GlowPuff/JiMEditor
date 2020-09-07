@@ -286,7 +286,7 @@
 											<TextBlock Foreground="White" Text="Tile Editor"/>
 										</Button>
 
-										<Button x:Name="chapterPropsButton" Background="#FFFF9C00" Margin="2,5" DataContext="{Binding}" Click="ChapterPropsButton_Click">
+										<Button x:Name="chapterPropsButton" Background="MediumSeaGreen" Margin="2,5" DataContext="{Binding}" Click="ChapterPropsButton_Click">
 											<TextBlock Foreground="White" Text="Properties"/>
 										</Button>
 									</StackPanel>

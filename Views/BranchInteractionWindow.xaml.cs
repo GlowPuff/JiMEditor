@@ -41,7 +41,7 @@ namespace JiME.Views
 			eventTestRB.IsChecked = interaction.branchTestEvent;
 			triggerTestRB.IsChecked = !interaction.branchTestEvent;
 
-			var isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
+			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
 			{
 				addMainTriggerButton.IsEnabled = false;
