@@ -135,6 +135,7 @@ namespace JiME
 				}
 				//ObservableCollection
 				var fm = JsonConvert.DeserializeObject<FileManager>( json );
+				fm.fileName = new FileInfo( filename ).Name;
 				return Scenario.CreateInstance( fm );
 			}
 			catch ( Exception e )

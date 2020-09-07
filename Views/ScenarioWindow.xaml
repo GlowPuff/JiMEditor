@@ -97,12 +97,11 @@
 						<ColumnDefinition Width="auto"/>
 						<ColumnDefinition Width="auto"/>
 						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="auto"/>
 					</Grid.ColumnDefinitions>
 
 					<TextBlock Text="Threat Max:" Style="{StaticResource Heading}"/>
 					<TextBox Grid.Column="1" Width="32" Text="{Binding scenario.threatMax}" Margin="10,0" VerticalAlignment="Center"/>
-
+					<TextBlock Grid.Column="3" FontWeight="Bold" Text="Only Events that are not Token Interactions can be assigned to Threat Threshold Trigger Events." TextWrapping="Wrap" Style="{StaticResource SubText}" VerticalAlignment="Center"/>
 				</Grid>
 
 				<ItemsControl x:Name="threatList" Visibility="{Binding ElementName=noThreatCheck,Path=IsChecked,Converter={StaticResource b2vis}}">
