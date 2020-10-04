@@ -101,7 +101,7 @@
 								</StackPanel>
 							</Border>
 
-							<Button x:Name="addToken"  Background="ForestGreen" Margin="0,10,0,0" Foreground="White" Content="Add Token" Click="addToken_Click"/>
+							<Button x:Name="addToken"  Background="MediumSeaGreen" Margin="0,10,0,0" Foreground="White" Content="Add Token" Click="addToken_Click"/>
 
 							<!--<UniformGrid Columns="2" Margin="0,5,0,0">
 								<Button x:Name="addSearch" Background="ForestGreen" Margin="0,0,2,0" Foreground="White" Content="+ Search" Click="addSearch_Click"/>
@@ -115,10 +115,10 @@
 						</StackPanel>
 					</Border>
 
-					<Border Style="{StaticResource callout}" Background="{StaticResource bgColor}" Margin="0,10">
+					<Border x:Name="explorationBox" Style="{StaticResource callout}" Background="{StaticResource bgColor}" Margin="0,10">
 						<StackPanel>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
-							<Button x:Name="addFlavor" Background="ForestGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click"/>
+							<Button x:Name="addFlavor" Background="MediumSeaGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click"/>
 							<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus"/>
 						</StackPanel>
 					</Border>

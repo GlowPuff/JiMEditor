@@ -5,7 +5,7 @@ namespace JiME
 {
 	public class Objective : INotifyPropertyChanged, ICommonData
 	{
-		string _dataName, _eventName, _triggerName, _objectiveReminder, /*_nextObjective,*/ _nextTrigger, _triggeredByName;
+		string _dataName, _eventName, _triggerName, _objectiveReminder, _nextTrigger, _triggeredByName;
 		bool _skipSummary;
 		int _loreReward;
 

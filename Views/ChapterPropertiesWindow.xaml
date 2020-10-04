@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        Title="Chapter Properties" Style="{StaticResource DefaultWindow}" Width="750" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+        Title="Tile Block Properties" Style="{StaticResource DefaultWindow}" Width="750" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
 
 	<Window.Resources>
 		<local:BoolInvertVisibility x:Key="b2vis"/>
@@ -18,83 +18,115 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 
-		<StackPanel  Margin="10">
-			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="In the Companion App, a Chapter begins by first showing the Optional Flavor Text, followed by the random or fixed Tile layout for this Chapter."/>
+		<StackPanel  Margin="10,10,10,0">
+			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="In the Companion App, a Tile Block activates by first showing the Optional Flavor Text, followed by the random or fixed Tile layout for this Block."/>
 
 			<Border Style="{StaticResource callout}" Margin="0,10,0,0">
-				<UniformGrid Columns="2">
-					<StackPanel>
-						<TextBlock Style="{StaticResource Heading}" Text="Chapter Name:"/>
-						<TextBlock Style="{StaticResource SubText}">
+				<StackPanel>
+					<UniformGrid Columns="2">
+						<StackPanel>
+							<TextBlock Style="{StaticResource Heading}" Text="Tile Block Name:"/>
+							<TextBlock Style="{StaticResource SubText}">
 					A short name used within the Editor. <Bold><Italic>Required</Italic></Bold>
-						</TextBlock>
-						<TextBox x:Name="nameTB" Text="{Binding chapter.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
-					</StackPanel>
-
-					<!--triggered by-->
-					<StackPanel>
-						<TextBlock Text="Triggered By (Required):" Style="{StaticResource Heading}" Margin="0,5"/>
-						<StackPanel Orientation="Horizontal">
-							<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding chapter.triggeredBy}" SelectedValuePath="dataName" HorizontalAlignment="Left" Width="200" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}" VerticalAlignment="Center"/>
-
-							<Button x:Name="addTriggerByButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerByButton_Click" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}">
-								<Image Source="/JiME;component/Assets/add2.png"/>
-							</Button>
+							</TextBlock>
+							<TextBox x:Name="nameTB" Text="{Binding chapter.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
 						</StackPanel>
-					</StackPanel>
-				</UniformGrid>
+
+						<!--triggered by-->
+						<StackPanel>
+							<TextBlock Text="Triggered By (Required):" Style="{StaticResource Heading}" Margin="0,5"/>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding chapter.triggeredBy}" SelectedValuePath="dataName" HorizontalAlignment="Left" Width="200" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}" VerticalAlignment="Center"/>
+
+								<Button x:Name="addTriggerByButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerByButton_Click" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}">
+									<Image Source="/JiME;component/Assets/add2.png"/>
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</UniformGrid>
+
+					<!--dynamic setting-->
+					<CheckBox x:Name="dynamicCB" Foreground="White" Content="This Block is Dynamic" VerticalAlignment="Center" IsChecked="{Binding chapter.isDynamic}" Margin="0,5,0,0"/>
+					<TextBlock x:Name="dynText" Text="If a Tile Block MAY or MAY NOT be activated during a Scenario, mark it as Dynamic. For example, this is useful for optional side quests that may not always appear during a Scenario. This helps the Companion App build the Scenario properly. Dynamic Blocks don't have a Fog of War. The Start Block cannot be Dynamic." Margin="0,5,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+				</StackPanel>
 			</Border>
+
+			<!--<Border x:Name="hintBlock" Style="{StaticResource callout}" Margin="0,10,0,0">
+				<StackPanel>
+					<TextBlock Text="Block Hinting (Optional):" Style="{StaticResource Heading}"/>
+
+					-->
+			<!--dynamic setting-->
+			<!--<CheckBox x:Name="dynamicCB" Foreground="White" Content="This Block is Dynamic" VerticalAlignment="Center" IsChecked="{Binding chapter.isDynamic}" Margin="0,5,0,0"/>
+					<TextBlock Text="If a Tile Block MAY or MAY NOT be activated during a Scenario, mark it as Dynamic. For example, this is useful for optional side quests that may not always appear duing a Scenario. This helps the Companion App build the Scenario properly. Dynamic Blocks don't have a Fog of War." Margin="0,5,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap"/>-->
+
+			<!--<TextBlock Text="Block Hinting (Optional):" Style="{StaticResource Heading}" Margin="0,10,0,0"/>-->
+			<!--
+
+					<TextBlock Text="Optionally choose the Tile Block you'd prefer this Block to attach to in the Companion App. During Scenario creation, the Companion App will attempt to make this Block attach to the one you select below. If it can't (because it doesn't fit) or you select 'None', a random Block will be used instead." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+
+					<ComboBox ItemsSource="{Binding scenario.chapterObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding chapter.attachHint}" SelectedValuePath="dataName" HorizontalAlignment="Left" Width="250" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}" VerticalAlignment="Center" Margin="0,5,0,0"/>
+
+				</StackPanel>
+			</Border>-->
 
 			<Border Style="{StaticResource callout}" Margin="0,10">
 				<StackPanel>
-					<TextBlock Text="Chapter Tiles" Style="{StaticResource Heading}"/>
+					<TextBlock Text="Block Tiles" Style="{StaticResource Heading}"/>
 					<StackPanel Orientation="Horizontal">
-						<CheckBox x:Name="randomToggleCB" Content="This Chapter uses random Tiles." Foreground="White" IsChecked="{Binding chapter.isRandomTiles}" VerticalAlignment="Center" Margin="0,0,10,0" Click="RandomToggleCB_Click" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
+						<CheckBox x:Name="randomToggleCB" Content="This Block uses random Tiles." Foreground="White" IsChecked="{Binding chapter.isRandomTiles}" VerticalAlignment="Center" Margin="0,0,10,0" Click="RandomToggleCB_Click" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
 						<Button x:Name="TileEditButton" Click="TileEditButton_Click" Content="Tile Editor" Background="MediumSeaGreen" HorizontalAlignment="Left" Foreground="White"/>
 					</StackPanel>
 					<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-						Use the Tile Editor to define which tiles are in this Chapter. <Bold>The Start Chapter cannot use random tiles</Bold>.
+						Use the Tile Editor to define which tiles are in this Block. <Bold>The Start Block cannot use random tiles</Bold>.
 					</TextBlock>
 
 					<!--pre-explored toggle-->
 					<!--<TextBlock Text="Pre-Exploration" Style="{StaticResource Heading}" Margin="0,10,0,0"/>-->
-					<CheckBox x:Name="preExCB" IsChecked="{Binding chapter.isPreExplored}" Content="This Chapter starts already Explored (Start Chapter only)" Foreground="White" Margin="0,10,0,0"/>
-					<TextBlock Style="{StaticResource SubText}" Text="If this is the Start Chapter, you can decide whether the tiles are pre-explored. With this option CHECKED (default), the Chapter begins with its tiles already Explored (no Explore Token on them), and any Interactive Tokens on its tiles start revealed. With this option NOT CHECKED, all tiles in the Chapter except the one marked as the player start tile are unexplored, and any Interactive Tokens start unrevealed." Margin="0,5,0,0" TextWrapping="Wrap"/>
+					<CheckBox x:Name="preExCB" IsChecked="{Binding chapter.isPreExplored}" Content="This Block starts already Explored (Start Block only)" Foreground="White" Margin="0,10,0,0"/>
+					<TextBlock x:Name="preExText" Style="{StaticResource SubText}" Text="If this is the Start Block, you can decide whether the tiles are pre-explored. With this option CHECKED (default), the Block begins with its tiles already Explored (no Explore Token on them), and any Interactive Tokens on its tiles start revealed. With this option NOT CHECKED, all tiles in the Block except the one marked as the player start tile are unexplored, and any Interactive Tokens start unrevealed." Margin="0,5,0,0" TextWrapping="Wrap"/>
 				</StackPanel>
 			</Border>
 
 			<!--random token interactions-->
-			<Border Style="{StaticResource callout}" Margin="0,0,0,10">
+			<Border x:Name="randomBlock" Style="{StaticResource callout}" Margin="0,0,0,10">
 				<StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Style="{StaticResource Heading}" Text="Random Token Interaction Group"/>
-						<CheckBox x:Name="useRandomCB" Content="This Chapter uses randomly assigned Tokens" Foreground="White" VerticalAlignment="Center" Margin="20,0" IsChecked="{Binding chapter.usesRandomGroups}" Click="useRandomCB_Click"/>
+						<CheckBox x:Name="useRandomCB" Content="This Block uses randomly assigned Tokens" Foreground="White" VerticalAlignment="Center" Margin="20,0" IsChecked="{Binding chapter.usesRandomGroups}" Click="useRandomCB_Click"/>
 						<Button x:Name="groupHelp" Background="#FFC98800" Click="groupHelp_Click" Width="32" Height="32">
 							<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 						</Button>
 					</StackPanel>
 					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-						Select an Interaction Group below. Then designate how many of the Events in the group will be randomly used. <Bold>The Start Chapter cannot use Random Token Interaction Groups</Bold>.
+						Select an Interaction Group below. Then designate how many of the Events in the group will be randomly used. A mix of Fixed and Random Token Interactions can be used in a Block.
+					</TextBlock>
+					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" >
+<Bold>The Start Block cannot use Random Token Interaction Groups</Bold>.
 					</TextBlock>
 					<UniformGrid Columns="2" Margin="0,10,0,0">
-						<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" SelectionChanged="randInter_SelectionChanged" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
-						<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in this group." Margin="10,0" VerticalAlignment="Center"/>
+						<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" VerticalAlignment="Center" SelectionChanged="randInter_SelectionChanged" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
+						<StackPanel Margin="10,0">
+							<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in the selected group." VerticalAlignment="Center" FontWeight="Bold"/>
+							<TextBlock x:Name="fixedCountText" Style="{StaticResource SubText}" Text="There are X fixed Tokens in this Block." FontWeight="Bold"/>
+						</StackPanel>
 					</UniformGrid>
 
-					<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available on this Chapter's tiles to place Tokens." Margin="0,10,0,0"/>
+					<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available on this Block's tiles to place Tokens." Margin="0,10,0,0"/>
+
 					<StackPanel Orientation="Horizontal">
-						<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?"/>
-						<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged"/>
+						<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?" VerticalAlignment="Center"/>
+						<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged" Height="24"/>
 					</StackPanel>
 				</StackPanel>
 			</Border>
 
 			<!--text-->
-			<Border Style="{StaticResource callout}" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}">
+			<Border x:Name="flavorBox" Style="{StaticResource callout}" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}" Margin="0,0,0,10">
 				<StackPanel>
 					<TextBlock Text="Flavor Text" Style="{StaticResource Heading}"/>
 					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when any Tile in this Chapter is first explored. It is only shown once. <Bold><Italic>Optional</Italic></Bold>
+					This text is shown when any Tile in this Block is first explored. It is only shown once. <Bold><Italic>Optional</Italic></Bold>
 					</TextBlock>
 					<Grid Visibility="{Binding ElementName=noflavor,Path=IsChecked,Converter={StaticResource b2vis}}">
 						<Grid.ColumnDefinitions>
@@ -113,10 +145,10 @@
 			</Border>
 
 			<!--trigger when explored-->
-			<Border Style="{StaticResource callout}" Margin="0,10,0,0" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}">
+			<Border x:Name="exploreBox" Style="{StaticResource callout}" Margin="0,0,0,10" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}">
 				<StackPanel>
 					<TextBlock Text="Trigger On Exploration (Optional):" Style="{StaticResource Heading}"/>
-					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="This Trigger is set when any Tile in this Chapter is first explored. It is only triggered once."/>
+					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="This Trigger is set when any Tile in this Block is first explored. It is only triggered once."/>
 
 					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
 						<ComboBox x:Name="nextTriggerCB" ItemsSource="{Binding scenario.triggersObserver}" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="250" SelectedValuePath="dataName" SelectedValue="{Binding chapter.exploreTrigger}"/>

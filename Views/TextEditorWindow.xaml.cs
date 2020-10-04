@@ -76,15 +76,15 @@ namespace JiME.Views
 		private void TextBox_TextChanged( object sender, System.Windows.Controls.TextChangedEventArgs e )
 		{
 			int idx = pageText.CaretIndex;
-			pageText.Text = pageText.Text.Substring( 0, Math.Min( maxChars, pageText.Text.Length ) );
+			//pageText.Text = pageText.Text.Substring( 0, Math.Min( maxChars, pageText.Text.Length ) );
 			pageText.CaretIndex = idx;
 			UpdateInfo( false );
 		}
 
 		void UpdateInfo( bool focus = true )
 		{
-			pageInfo.Text = $"Page {textBookController.index + 1} of {textBookController.pageCount}";
-			charCount.Text = $"Characters: {pageText.Text.Length}/{maxChars}";
+			//pageInfo.Text = $"Page {textBookController.index + 1} of {textBookController.pageCount}";
+			//charCount.Text = $"Characters: {pageText.Text.Length}/{maxChars}";
 			if ( focus )
 			{
 				pageText.Focus();

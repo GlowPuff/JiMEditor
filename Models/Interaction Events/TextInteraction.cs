@@ -10,6 +10,7 @@ namespace JiME
 		bool _isTokenInteraction;
 		int _loreReward;
 		TokenType _tokenType;
+		PersonType _personType;
 
 		public string dataName
 		{
@@ -61,6 +62,11 @@ namespace JiME
 				NotifyPropertyChanged( "tokenType" );
 			}
 		}
+		public PersonType personType
+		{
+			get => _personType;
+			set { _personType = value; NotifyPropertyChanged( "personType" ); }
+		}
 		public TextBookData textBookData { get; set; }
 		public TextBookData eventBookData { get; set; }
 		public int loreReward
@@ -88,10 +94,11 @@ namespace JiME
 			triggerAfterName = "None";
 			isTokenInteraction = false;
 			tokenType = TokenType.None;
+			personType = PersonType.Human;
 			textBookData = new TextBookData();
 			textBookData.pages.Add( "Default Flavor Text\n\nUse this text to describe the Event situation and present choices, depending on the type of Event this is." );
 			eventBookData = new TextBookData();
-			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe a Monster Threat, present a Test, describe a Decision, etc." );
+			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe an Enemy Threat, present a Test, describe a Decision, etc." );
 			loreReward = 0;
 		}
 

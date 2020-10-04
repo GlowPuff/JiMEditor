@@ -44,8 +44,6 @@ namespace JiME.Views
 			scenario = s;
 			chapter = c;
 			selected = null;
-
-			//tokenEditButton.IsEnabled = !chapter.usesRandomGroups;
 		}
 
 		bool TryClose()
@@ -101,6 +99,7 @@ namespace JiME.Views
 				chapter.AddTile( hex );
 				selected = hex;
 				random.SelectedIndex = random.Items.Count - 1;
+				ShowExploreStatus();
 			}
 		}
 
@@ -120,7 +119,21 @@ namespace JiME.Views
 				scenario.globalTilePool[i] = sorted[i];
 
 			selected = null;
-			random.SelectedIndex = 0;
+			int ret = random.SelectedIndex = 0;
+			if ( ret != -1 )
+			{
+				selected = random.SelectedItem as HexTile;
+				tokenEditButton.IsEnabled = true;
+				addFlavor.IsEnabled = true;
+			}
+			if ( random.Items.Count == 0 )
+			{
+				selected = null;
+				tokenEditButton.IsEnabled = false;
+				addFlavor.IsEnabled = false;
+				sideA.IsEnabled = sideB.IsEnabled = sideRandom.IsEnabled = false;
+				exploreStatus.Visibility = Visibility.Collapsed;
+			}
 		}
 
 		private void ToPoolButton_Click( object sender, RoutedEventArgs e )
@@ -180,6 +193,7 @@ namespace JiME.Views
 		private void random_SelectionChanged( object sender, SelectionChangedEventArgs e )
 		{
 			selected = null;
+
 			ListBox cb = e.Source as ListBox;
 			selected = cb.SelectedItem as HexTile;
 			if ( selected != null )
@@ -190,6 +204,7 @@ namespace JiME.Views
 				sideRandom.IsChecked = selected.tileSide == "Random";
 				if ( !chapter.usesRandomGroups )
 					tokenEditButton.IsEnabled = !sideRandom.IsChecked.Value;
+				ShowExploreStatus();
 			}
 		}
 
@@ -202,7 +217,7 @@ namespace JiME.Views
 			if ( selected == null )
 				return;
 
-			TokenEditorWindow tw = new TokenEditorWindow( selected, scenario );
+			TokenEditorWindow tw = new TokenEditorWindow( selected, scenario, true );
 			tw.ShowDialog();
 		}
 
@@ -210,24 +225,49 @@ namespace JiME.Views
 		{
 			if ( selected != null )
 				selected.tileSide = "A";
-			if ( !chapter.usesRandomGroups )
-				tokenEditButton.IsEnabled = true;
+			//if ( !chapter.usesRandomGroups )
+			tokenEditButton.IsEnabled = true;
 		}
 
 		private void sideB_Click( object sender, RoutedEventArgs e )
 		{
 			if ( selected != null )
 				selected.tileSide = "B";
-			if ( !chapter.usesRandomGroups )
-				tokenEditButton.IsEnabled = true;
+			//if ( !chapter.usesRandomGroups )
+			tokenEditButton.IsEnabled = true;
 		}
 
 		private void sideRandom_Click( object sender, RoutedEventArgs e )
 		{
 			if ( selected != null )
 				selected.tileSide = "Random";
-			if ( !chapter.usesRandomGroups )
-				tokenEditButton.IsEnabled = false;
+			//if ( !chapter.usesRandomGroups )
+			tokenEditButton.IsEnabled = false;
+		}
+
+		void ShowExploreStatus()
+		{
+			addFlavor.IsEnabled = true;
+			exploreStatus.Visibility = Visibility.Visible;
+			if ( string.IsNullOrEmpty( selected.flavorBookData.pages[0] ) )
+				exploreStatus.Text = "Exploration Text is Empty";
+			else
+				exploreStatus.Text = "Exploration Text is Set";
+		}
+
+		private void addFlavor_Click( object sender, RoutedEventArgs e )
+		{
+			if ( selected != null )
+			{
+				TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, selected.flavorBookData );
+				if ( tw.ShowDialog() == true )
+					selected.flavorBookData.pages = tw.textBookController.pages;
+
+				if ( string.IsNullOrEmpty( selected.flavorBookData.pages[0] ) )
+					exploreStatus.Text = "Exploration Text is Empty";
+				else
+					exploreStatus.Text = "Exploration Text is Set";
+			}
 		}
 	}
 }

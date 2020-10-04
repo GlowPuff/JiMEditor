@@ -14,14 +14,18 @@ namespace JiME.Views
 			{
 				Title = "Help On Tokens and Events";
 				tokenHelp.Visibility = Visibility.Visible;
-				groupHelp.Visibility = Visibility.Collapsed;
 				tokenHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
 			}
 			else if ( helpType == HelpType.Grouping )
 			{
 				Title = "Help On Token Interaction Groups";
-				tokenHelp.Visibility = Visibility.Collapsed;
 				groupHelp.Visibility = Visibility.Visible;
+				groupHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
+			}
+			else if ( helpType == HelpType.Enemies )
+			{
+				Title = "Help On Enemy Damage and Difficulty";
+				threatHelp.Visibility = Visibility.Visible;
 				groupHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
 			}
 		}

@@ -45,10 +45,10 @@
 								</TextBlock>
 								<TextBox x:Name="nameTB" Text="{Binding interaction.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" TextChanged="nameTB_TextChanged"/>
 
-								<StackPanel Orientation="Horizontal">
+								<!--<StackPanel Orientation="Horizontal">
 									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
-								</StackPanel>
+								</StackPanel>-->
 							</StackPanel>
 
 							<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -76,10 +76,17 @@
 							<!--Since it uses the Token Type of the Event it delegates to, a Token Type is not needed-->
 							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal" Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
 								<TextBlock Style="{StaticResource Heading}" Text="Token Type:" Margin="0,0,10,0"/>
-								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0"/>
-								<RadioButton x:Name="searchRadio" Content="Search" Margin="0,0,20,0"/>
-								<RadioButton x:Name="threatRadio" Content="Threat" Margin="0,0,20,0"/>
-								<RadioButton x:Name="darkRadio" Content="Darkness"/>
+								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="searchRadio" Content="Search" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="threatRadio" Content="Threat" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="darkRadio" Content="Darkness" Click="tokenTypeClick"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Name="personType" Visibility="Collapsed">
+								<TextBlock Text="Person Type:" Style="{StaticResource Heading}" Margin="0,0,10,0"/>
+								<RadioButton x:Name="humanRadio" Content="Human" Margin="0,0,20,0"/>
+								<RadioButton x:Name="elfRadio" Content="Elf" Margin="0,0,20,0"/>
+								<RadioButton x:Name="hobbitRadio" Content="Hobbit" Margin="0,0,20,0"/>
+								<RadioButton x:Name="dwarfRadio" Content="Dwarf"/>
 							</StackPanel>
 
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
@@ -141,7 +148,7 @@
 							</TextBlock>
 							<StackPanel Orientation="Horizontal">
 								<ComboBox x:Name="eventCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding interactionObserver}" SelectedValue="{Binding interaction.eventToActivate}" MinWidth="200" Margin="0,5,0,0" SelectionChanged="eventCB_SelectionChanged"/>
-								<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Event must be a Token Interaction" VerticalAlignment="Center" Margin="10,0" FontWeight="Bold"/>
+								<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="The Delegated Event must be a Token Interaction" VerticalAlignment="Center" Margin="10,0" FontWeight="Bold"/>
 							</StackPanel>
 						</StackPanel>
 					</Border>
@@ -150,7 +157,7 @@
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="Alternative Flavor Text Trigger (Required):"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-								When the Trigger below is fired, the Alternative Flavor Text will be shown when players interact with this Event's Token, instead of the normal Flavor Text in the General Properties tab.
+								When the Trigger below is fired, the Alternative Flavor Text will be shown when players interact with this Event's Token instead of the Flavor Text of the Delegated Event.
 							</TextBlock>
 							<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
 								<ComboBox x:Name="triggerCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding interaction.alternativeTextTrigger}" SelectedValuePath="dataName" DisplayMemberPath="dataName" MinWidth="200"/>
@@ -165,7 +172,7 @@
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="Alternative Flavor Text"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Normally, when players inspect this Event's Token, the Flavor Text in the General Properties tab will be shown. After the Trigger above has been set, the Alternative Flavor Text will be shown instead, <Bold>persistently every time</Bold>. <Bold><Italic>Required</Italic></Bold>
+					Normally, when players inspect this Event's Token, the Flavor Text of the Delegated Event is shown. After the Trigger above has been set, the Alternative Flavor Text below will be shown instead, <Bold>persistently every time</Bold>. <Bold><Italic>Required</Italic></Bold>
 							</TextBlock>
 							<Grid>
 								<Grid.ColumnDefinitions>

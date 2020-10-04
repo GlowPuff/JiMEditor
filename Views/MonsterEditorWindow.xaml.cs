@@ -128,6 +128,7 @@ namespace JiME.Views
 		{
 			defaultStats = Utils.defaultStats.Where( x => x.name == enemy ).First();
 			special.Text = defaultStats.special;
+			monster.specialAbility = defaultStats.special;
 
 			if ( monster.defaultStats )
 			{

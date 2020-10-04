@@ -451,5 +451,8 @@
   <ItemGroup>
     <Resource Include="Assets\help.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\addtileblock.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

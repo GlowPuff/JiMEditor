@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -207,6 +208,19 @@ namespace JiME
 			s.xpReward = fm.xpReward;
 			s.shadowFear = fm.shadowFear;
 
+			//sort the observer lists by name
+			//List<IInteraction> sorted = s.interactionObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
+			//for ( int i = 0; i < sorted.Count; i++ )
+			//	s.interactionObserver[i] = sorted[i];
+
+			//List<Trigger> trigsorted = s.triggersObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
+			//for ( int i = 0; i < trigsorted.Count; i++ )
+			//	s.triggersObserver[i] = trigsorted[i];
+
+			//List<Objective> objsorted = s.objectiveObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
+			//for ( int i = 0; i < objsorted.Count; i++ )
+			//	s.objectiveObserver[i] = objsorted[i];
+
 			return s;
 		}
 
@@ -224,7 +238,8 @@ namespace JiME
 			threatMax = 60;
 			scenarioTypeJourney = true;
 			objectiveName = "None";
-			loreReward = xpReward = shadowFear = 0;
+			loreReward = xpReward = 0;
+			shadowFear = 2;
 			fileVersion = Utils.formatVersion;
 
 			introBookData = new TextBookData( "Default Introduction Text" );
@@ -306,6 +321,11 @@ namespace JiME
 					interactionObserver.Add( interaction );
 					break;
 			}
+
+			//sort by name
+			//List<IInteraction> sorted = interactionObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
+			//for ( int i = 0; i < sorted.Count; i++ )
+			//	interactionObserver[i] = sorted[i];
 		}
 
 		public bool AddTrigger( string name, bool isMulti = false )
@@ -315,6 +335,12 @@ namespace JiME
 				Trigger t = new Trigger( name );
 				t.isMultiTrigger = isMulti;
 				triggersObserver.Add( t );
+
+				//sort by name
+				//List<Trigger> trigsorted = triggersObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
+				//for ( int i = 0; i < trigsorted.Count; i++ )
+				//	triggersObserver[i] = trigsorted[i];
+
 				return true;
 			}
 			return false;
@@ -323,6 +349,10 @@ namespace JiME
 		public void AddObjective( Objective objective )
 		{
 			objectiveObserver.Add( objective );
+			//sort by name
+			//List<Objective> objsorted = objectiveObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
+			//for ( int i = 0; i < objsorted.Count; i++ )
+			//	objectiveObserver[i] = objsorted[i];
 		}
 
 		public bool AddResolution( TextBookData data )
@@ -533,7 +563,7 @@ namespace JiME
 
 		/// <summary>
 		/// Updates any token or threat that references this interaction to use the new name.
-		/// Updates Tokens if the event tokentype changed.
+		/// Updates Tokens if the event tokentype/personType changed.
 		/// Updates Tokens if event is no longer a token interaction.
 		/// Removes Event from Threat if Event becomes a token interaction.
 		/// </summary>
@@ -552,11 +582,17 @@ namespace JiME
 							{
 								//update token type
 								token.tokenType = interaction.tokenType;
+								//update person type
+								token.personType = interaction.personType;
 								//rename
 								token.triggerName = interaction.dataName;
 								//remove event if it's no longer a token interaction
 								if ( !interaction.isTokenInteraction )
+								{
 									token.triggerName = "None";
+									( (HexTile)tile ).tokenList.Remove( token );
+									break;
+								}
 							}
 						}
 					}

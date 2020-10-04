@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
         ContentRendered="Window_ContentRendered"
-        Title="Threat Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
+        Title="Enemy Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="bvis"/>
@@ -48,6 +48,7 @@
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
+									<TextBlock Text="For Threat Events, Lore is only rewarded after all threats have been defeated." Style="{StaticResource SubText}" Margin="10,0" VerticalAlignment="Center" TextWrapping="Wrap" Width="217"/>
 								</StackPanel>
 							</StackPanel>
 
@@ -74,12 +75,19 @@
 								<TextBlock Width="455" FontWeight="Bold" Text="IMPORTANT: Threat Events that are NOT Token Interactions will be randomly placed on an existing, explored tile. If that fails, the Event is discarded." TextWrapping="Wrap" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0"/>
 							</StackPanel>
 
-							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal" Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
+							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal"  Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
 								<TextBlock Style="{StaticResource Heading}" Text="Token Type:" Margin="0,0,10,0"/>
-								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0"/>
-								<RadioButton x:Name="searchRadio" Content="Search" Margin="0,0,20,0"/>
-								<RadioButton x:Name="threatRadio" Content="Threat" Margin="0,0,20,0"/>
-								<RadioButton x:Name="darkRadio" Content="Darkness"/>
+								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="searchRadio" Content="Search" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="threatRadio" Content="Threat" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="darkRadio" Content="Darkness" Click="tokenTypeClick"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Name="personType" Visibility="Collapsed">
+								<TextBlock Text="Person Type:" Style="{StaticResource Heading}" Margin="0,0,10,0"/>
+								<RadioButton x:Name="humanRadio" Content="Human" Margin="0,0,20,0"/>
+								<RadioButton x:Name="elfRadio" Content="Elf" Margin="0,0,20,0"/>
+								<RadioButton x:Name="hobbitRadio" Content="Hobbit" Margin="0,0,20,0"/>
+								<RadioButton x:Name="dwarfRadio" Content="Dwarf"/>
 							</StackPanel>
 
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
@@ -120,7 +128,7 @@
 								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
 							</TextBlock>
 							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								<Bold>Note:</Bold> The <Bold>Set Trigger After Event Is Resolved</Bold> Trigger above fires immediately after the Monsters in this Threat Event are <Bold>spawned</Bold>, NOT after they have been defeated. Use the setting on the <Bold>Monster Threat</Bold> tab to select a Trigger to fire when the Monsters are <Bold>defeated.</Bold>
+								<Bold>Note:</Bold> The <Bold>Set Trigger After Event Is Resolved</Bold> Trigger above fires immediately after the Enemies in this Threat Event are <Bold>spawned</Bold>, NOT after they have been defeated. Use the setting on the <Bold>Enemy Groups</Bold> tab to select a Trigger to fire when the Enemies are <Bold>defeated.</Bold>
 							</TextBlock>
 						</StackPanel>
 					</Border>
@@ -152,7 +160,7 @@
 						<StackPanel>
 							<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Use the Event Text to describe the actual Event that has been triggered. Example: Describe a Monster Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
+					Use the Event Text to describe the actual Event that has been triggered. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
 							</TextBlock>
 							<Grid>
 								<Grid.ColumnDefinitions>
@@ -171,12 +179,12 @@
 				</StackPanel>
 			</TabItem>
 
-			<TabItem Padding="5" Header="Monster Threat">
+			<TabItem Padding="5" Header="Enemy Groups">
 				<StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
-					<TextBlock Style="{StaticResource SubText}" Margin="0,0,0,10" TextWrapping="Wrap">When a Monster Threat is activated, one or more Monster Groups that you create below will be spawned.</TextBlock>
+					<TextBlock Style="{StaticResource SubText}" Margin="0,0,0,10" TextWrapping="Wrap">When a Monster Event is activated, one or more Monster Groups that you create below will be spawned.</TextBlock>
 					<Button x:Name="addMonsterButton" Background="MediumSeaGreen" Height="46" HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddMonsterButton_Click">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Add Monster Group" Style="{StaticResource ButtonHeading}" Margin="0,0,10,0"/>
+							<TextBlock Text="Add Enemy Group" Style="{StaticResource ButtonHeading}" Margin="0,0,10,0"/>
 							<Image Source="/JiME;component/Assets/add2.png"/>
 						</StackPanel>
 					</Button>
@@ -211,16 +219,24 @@
 											<Border Width="32" Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" CornerRadius="50">
 												<TextBlock Text="{Binding count}" Style="{StaticResource Heading}" HorizontalAlignment="Center"/>
 											</Border>
-											<Image Source="/JiME;component/Assets/health.png" Height="32"/>
-											<TextBlock Text="{Binding health}"/>
-											<Image Source="/JiME;component/Assets/add2.png" Height="32" Margin="20,0,0,0"/>
-											<TextBlock Text="{Binding bonuses}" Margin="5,0,0,0"/>
+											<Border Width="32" Height="32">
+												<Border.Background>
+													<ImageBrush ImageSource="/JiME;component/Assets/health.png" Stretch="UniformToFill"/>
+												</Border.Background>
+												<TextBlock Text="{Binding health}" Style="{StaticResource Heading}" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+											</Border>
+											<!--<Image Source="/JiME;component/Assets/add2.png" Height="32" Margin="20,0,0,0"/>-->
+											<TextBlock Text="{Binding bonuses}" Margin="20,0,0,0"/>
 											<Image Source="/JiME;component/Assets/damage.png" Height="32" Margin="20,0,0,0"/>
 											<TextBlock Text="/" Margin="5,0,0,0"/>
 											<Image Source="/JiME;component/Assets/fear.png" Height="32"/>
 											<TextBlock Text="{Binding damage}"/>
-											<!--<TextBlock Text="{Binding fear}"/>-->
 											<TextBlock Style="{StaticResource Heading}" Text="Elite" Margin="15, 0, 0, 0" Visibility="{Binding isElite,Converter={StaticResource bvis}}" Foreground="Red"/>
+											<TextBlock Margin="10,0"/>
+											<!--difficulty-->
+											<Border Width="16" Height="16" BorderThickness="2" BorderBrush="White" Background="Green" Visibility="{Binding isEasy, Converter={StaticResource bvis}}"/>
+											<Border Width="16" Height="16" BorderThickness="2" BorderBrush="White" Background="Yellow" Visibility="{Binding isNormal, Converter={StaticResource bvis}}"/>
+											<Border Width="16" Height="16" BorderThickness="2" BorderBrush="White" Background="Red" Visibility="{Binding isHard, Converter={StaticResource bvis}}"/>
 										</WrapPanel>
 
 										<StackPanel Orientation="Horizontal" Grid.Column="1">
@@ -245,7 +261,46 @@
 						</StackPanel>
 					</Border>-->
 
-					<Border Style="{StaticResource callout}">
+					<!--key/help-->
+					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+						<StackPanel>
+							<UniformGrid Columns="2">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Style="{StaticResource Heading}" Text="Difficulty Key:"/>
+									<Border  Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" Background="Green" HorizontalAlignment="Left">
+										<TextBlock Text="Easy" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
+									</Border>
+									<Border  Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" Background="Yellow" HorizontalAlignment="Left">
+										<TextBlock Text="Normal" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
+									</Border>
+									<Border  Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" Background="Red" HorizontalAlignment="Left">
+										<TextBlock Text="Hard" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
+									</Border>
+								</StackPanel>
+
+								<!--info-->
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="auto"/>
+									</Grid.ColumnDefinitions>
+									<StackPanel>
+										<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Learn how to properly setup Enemy Groups." VerticalAlignment="Center"/>
+										<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Groups are automatically modified by Difficulty and Hero Count by the Companion App." VerticalAlignment="Center"/>
+									</StackPanel>
+									<Button x:Name="help" Grid.Column="1" Background="#FFC98800" Height="32" Width="80" Click="help_Click" Margin="10,0,0,0">
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
+											<TextBlock Text="Help" Style="{StaticResource Heading}" Margin="5,0,0,0"/>
+										</StackPanel>
+									</Button>
+								</Grid>
+							</UniformGrid>
+							<TextBlock Style="{StaticResource Heading}" TextWrapping="Wrap" Text="Be sure to create an assortment of Groups that appear in ALL Difficulties to avoid a situation where no enemies are spawned at all." Margin="0,10,0,0"/>
+						</StackPanel>
+					</Border>
+
+					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
 							<TextBlock Text="When All Threats Have Been Defeated, Fire This Trigger (Optional):" Style="{StaticResource Heading}"/>
 							<StackPanel Orientation="Horizontal">
@@ -255,7 +310,7 @@
 								</Button>
 							</StackPanel>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-								In the General Properties, the <Bold>Set Trigger After Event Is Resolved</Bold> Trigger fires immediately after this Monster Threat is <Bold>spawned</Bold>, NOT after it's defeated. Set the Trigger above to fire when the Threat is <Bold>defeated</Bold>.
+								In the General Properties, the <Bold>Set Trigger After Event Is Resolved</Bold> Trigger fires immediately after this Enemy Threat is <Bold>spawned</Bold>, NOT after it's defeated. Set the Trigger above to fire when the Threat is <Bold>defeated</Bold>.
 							</TextBlock>
 						</StackPanel>
 					</Border>

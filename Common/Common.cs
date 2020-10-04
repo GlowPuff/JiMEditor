@@ -24,7 +24,8 @@ namespace JiME
 	public enum Ability { Might, Agility, Wisdom, Spirit, Wit, None }
 	public enum TerrainToken { None, Pit, Mist, Barrels, Table, FirePit, Statue }
 	public enum TokenType { Search, Person, Threat, Darkness, Exploration, None }
-	public enum HelpType { Token, Grouping }
+	public enum PersonType { Human, Elf, Hobbit, Dwarf }
+	public enum HelpType { Token, Grouping, Enemies }
 
 	public interface ITile
 	{
@@ -48,10 +49,10 @@ namespace JiME
 		InteractionType interactionType { get; set; }
 		void RenameTrigger( string oldName, string newName );
 		int loreReward { get; set; }
-		//bool isRandom { get; set; }
 		bool isTokenInteraction { get; set; }
 		string triggerName { get; set; }
 		TokenType tokenType { get; set; }
+		PersonType personType { get; set; }
 	}
 
 	class Debug
@@ -149,8 +150,8 @@ namespace JiME
 		/// AKA "Engine Version" in the companion app
 		/// Update this number every time the file format changes with new features
 		/// </summary>
-		public static string formatVersion = "1.2";
-		public static string appVersion = "0.9-alpha";
+		public static string formatVersion = "1.4";
+		public static string appVersion = "0.10-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;

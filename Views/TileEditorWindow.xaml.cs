@@ -37,7 +37,7 @@ namespace JiME.Views
 			DataContext = this;
 
 			scenario = s;
-			chapter = c ?? new Chapter( "New Chapter" );
+			chapter = c ?? new Chapter( "New Block" );
 			selected = null;
 
 			//rehydrate existing tiles in this chapter
@@ -200,6 +200,7 @@ namespace JiME.Views
 					selected.Select();
 					radioA.IsChecked = selected.tileSide == "A";
 					radioB.IsChecked = selected.tileSide == "B";
+					tokenCount.Text = "Tokens in Tile: " + t.tokenList.Count;
 				}
 			}
 		}
@@ -236,6 +237,7 @@ namespace JiME.Views
 					inChapterCB.SelectedItem = selected;
 					radioA.IsChecked = selected.tileSide == "A";
 					radioB.IsChecked = selected.tileSide == "B";
+					tokenCount.Text = "Tokens in Tile: " + selected.tokenList.Count;
 					//Debug.Log( selected );
 				}
 			}

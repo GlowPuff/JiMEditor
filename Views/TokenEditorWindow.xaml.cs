@@ -34,7 +34,7 @@ namespace JiME.Views
 		//token drawing
 		bool dragging;
 
-		public TokenEditorWindow( HexTile hex, Scenario s )
+		public TokenEditorWindow( HexTile hex, Scenario s, bool fromRandom = false )
 		{
 			InitializeComponent();
 			DataContext = this;
@@ -63,6 +63,9 @@ namespace JiME.Views
 				exploreStatus.Text = "Exploration Text is Empty";
 			else
 				exploreStatus.Text = "Exploration Text is Set";
+
+			if ( fromRandom )
+				explorationBox.Visibility = Visibility.Collapsed;
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -223,6 +226,7 @@ namespace JiME.Views
 			if ( selected != null && ( (ComboBox)sender ).SelectedItem != null )
 			{
 				selected.tokenType = ( (IInteraction)( (ComboBox)sender )?.SelectedItem ).tokenType;
+				selected.personType = ( (IInteraction)( (ComboBox)sender )?.SelectedItem ).personType;
 				selected.dataName = selected.tokenType.ToString();
 				selected.ReColor();
 			}

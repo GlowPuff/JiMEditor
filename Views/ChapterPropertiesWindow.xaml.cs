@@ -31,13 +31,24 @@ namespace JiME.Views
 			DataContext = this;
 
 			cancelButton.Visibility = c == null ? Visibility.Visible : Visibility.Collapsed;
-			chapter = c ?? new Chapter( "New Chapter" );
+			chapter = c ?? new Chapter( "New Block" );
 			scenario = s;
 			//currentRandomToggle = chapter.isRandomTiles;
 			if ( chapter.dataName != "Start" )
-				preExCB.IsEnabled = false;
+			{
+				preExCB.Visibility = Visibility.Collapsed;
+				preExText.Visibility = Visibility.Collapsed;
+			}
 			else
+			{//disable some settings for Start block
 				useRandomCB.IsEnabled = false;
+				randomBlock.Visibility = Visibility.Collapsed;
+				//hintBlock.Visibility = Visibility.Collapsed;
+				dynamicCB.Visibility = Visibility.Collapsed;
+				dynText.Visibility = Visibility.Collapsed;
+				flavorBox.Visibility = Visibility.Collapsed;
+				exploreBox.Visibility = Visibility.Collapsed;
+			}
 
 			var ri = from inter in scenario.interactionObserver where inter.isTokenInteraction select inter.dataName;
 			HashSet<string> hash = new HashSet<string>( new string[] { "None" } );
@@ -78,6 +89,12 @@ namespace JiME.Views
 
 		bool TryClose()
 		{
+			if ( !useRandomCB.IsChecked.Value )
+			{
+				chapter.randomInteractionGroup = "None";
+				randInter.SelectedItem = "None";
+			}
+
 			if ( chapter.dataName != "Start"
 				&& ( chapter.triggeredBy == "None" /*|| chapter.triggeredBy == "Trigger Random Event" */) )
 			{
@@ -171,15 +188,21 @@ namespace JiME.Views
 		private void useRandomCB_Click( object sender, RoutedEventArgs e )
 		{
 			//clear tokenlist if using a random group
-			if ( ( (CheckBox)sender ).IsChecked.Value )
+			//if ( ( (CheckBox)sender ).IsChecked.Value )
+			//{
+			//	for ( int i = 0; i < chapter.tileObserver.Count; i++ )
+			//	{
+			//		( (HexTile)chapter.tileObserver[i] ).tokenList.Clear();
+			//	}
+			//}
+			//else
+
+			//clear random group name if NOT using random groups
+			if ( !( (CheckBox)sender ).IsChecked.Value )
 			{
-				for ( int i = 0; i < chapter.tileObserver.Count; i++ )
-				{
-					( (HexTile)chapter.tileObserver[i] ).tokenList.Clear();
-				}
+				chapter.randomInteractionGroup = "None";
+				randInter.SelectedItem = "None";
 			}
-			else//otherwise clear random group name
-				chapter.randomInteractionGroup = "";
 		}
 
 		private void RandomToggleCB_Click( object sender, RoutedEventArgs e )
@@ -223,15 +246,21 @@ namespace JiME.Views
 
 		void UpdateTexts()
 		{
-			selectedInfoText.Text = $"There are {numinters} Token Interactions in this group.";
+
+			int fixedTokenCount = 0;
+			if ( chapter.tileObserver.Count > 0 )
+				fixedTokenCount = chapter.tileObserver.Select( x => (HexTile)x ).Select( x => x.tokenList.Count ).Aggregate( ( acc, cur ) => acc + cur );
+
+			selectedInfoText.Text = $"There are {numinters} Token Interactions in the selected Group.";
+			fixedCountText.Text = $"There are {fixedTokenCount} fixed Tokens in this Block.";
 
 			int numspaces = chapter.tileObserver.Aggregate( 0, ( acc, cur ) =>
 			{
 				return acc + ( cur.idNumber / 100 ) % 10;
 			} );
-			spaceInfoText2.Text = $"There are {numspaces} spaces available on this Chapter's tiles to place Tokens.";
+			spaceInfoText2.Text = $"There are {numspaces} total spaces available on this Blocks's tiles to place Tokens.";
 
-			int max = Math.Min( numinters, numspaces );
+			int max = Math.Min( numinters, numspaces - fixedTokenCount );
 			numIntersUsedText.Text = $"Randomly use how many of the Interactions from the selected Interaction Group, up to a maximum of {max}:";
 
 			max = Math.Min( requestedInters, max );

@@ -7,7 +7,7 @@ namespace JiME
 	{
 		string _dataName, _bonuses;
 		int _count, _health, _damage, _fear, _shieldValue, _sorceryValue, _loreReward, _movementValue, _maxMovementValue;
-		bool _isLarge, _isBloodThirsty, _isArmored, _isElite, _defaultStats;
+		bool _isLarge, _isBloodThirsty, _isArmored, _isElite, _defaultStats, _isEasy, _isNormal, _isHard;
 
 		public Guid GUID { get; set; }
 		public string dataName
@@ -201,8 +201,35 @@ namespace JiME
 				NotifyPropertyChanged( "defaultStats" );
 			}
 		}
+		public bool isEasy
+		{
+			get { return _isEasy; }
+			set
+			{
+				_isEasy = value;
+				NotifyPropertyChanged( "isEasy" );
+			}
+		}
+		public bool isNormal
+		{
+			get { return _isNormal; }
+			set
+			{
+				_isNormal = value;
+				NotifyPropertyChanged( "isNormal" );
+			}
+		}
+		public bool isHard
+		{
+			get { return _isHard; }
+			set
+			{
+				_isHard = value;
+				NotifyPropertyChanged( "isHard" );
+			}
+		}
 
-		public string specialAbility {get; set; }
+		public string specialAbility { get; set; }
 		public Ability negatedBy { get; set; }
 		public MonsterType monsterType { get; set; }
 		public int count
@@ -239,6 +266,8 @@ namespace JiME
 			movementValue = 2;
 			maxMovementValue = 4;
 			defaultStats = true;
+			specialAbility = "";
+			isEasy = isNormal = isHard = true;
 		}
 
 		public void NotifyPropertyChanged( string propName )

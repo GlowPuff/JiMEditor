@@ -30,8 +30,8 @@ namespace JiME
 		public string triggerName { get; set; }
 
 		//vars
-		bool _noFlavorText, _isRandomTiles, _isPreExplored, _usesRandomGroups;
-		string _triggeredBy, _exploreTrigger, _randomInteractionGroup;
+		bool _noFlavorText, _isRandomTiles, _isPreExplored, _usesRandomGroups, _isDynamic;
+		string _triggeredBy, _exploreTrigger, _randomInteractionGroup, _attachHint;
 		int _randomInteractionGroupCount;
 
 		public bool noFlavorText
@@ -105,6 +105,24 @@ namespace JiME
 				PropChanged( "usesRandomGroups" );
 			}
 		}
+		public bool isDynamic
+		{
+			get => _isDynamic;
+			set
+			{
+				_isDynamic = value;
+				PropChanged( "isDynamic" );
+			}
+		}
+		public string attachHint
+		{
+			get => _attachHint;
+			set
+			{
+				_attachHint = value;
+				PropChanged( "attachHint" );
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -125,16 +143,19 @@ namespace JiME
 			else
 				isPreExplored = false;
 			usesRandomGroups = false;
+			isDynamic = false;
+			attachHint = "None";
 		}
 
-		public Chapter CreateDefault()
-		{
-			return new Chapter( "Start" )
-			{
-				isEmpty = true,
-				isPreExplored = true
-			};
-		}
+		//public Chapter CreateDefault()
+		//{
+		//	return new Chapter( "Start" )
+		//	{
+		//		isEmpty = true,
+		//		isPreExplored = true,
+		//		isDynamic = false
+		//	};
+		//}
 
 		public void AddTile( HexTile t )
 		{

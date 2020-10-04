@@ -137,7 +137,7 @@ namespace JiME
 			);
 		public static readonly RoutedUICommand NewThreatInteraction = new RoutedUICommand
 			(
-				"New Monster Threat",
+				"New Enemy Event",
 				"NewThreatInteraction",
 				typeof( MyCommands ),
 				new InputGestureCollection()

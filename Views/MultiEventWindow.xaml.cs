@@ -55,6 +55,13 @@ namespace JiME.Views
 				interaction.isTokenInteraction = false;
 			}
 
+			if ( interaction.isTokenInteraction && interaction.tokenType == TokenType.Person )
+				personType.Visibility = Visibility.Visible;
+			humanRadio.IsChecked = interaction.personType == PersonType.Human;
+			elfRadio.IsChecked = interaction.personType == PersonType.Elf;
+			hobbitRadio.IsChecked = interaction.personType == PersonType.Hobbit;
+			dwarfRadio.IsChecked = interaction.personType == PersonType.Dwarf;
+
 			personRadio.IsChecked = interaction.tokenType == TokenType.Person;
 			searchRadio.IsChecked = interaction.tokenType == TokenType.Search;
 			darkRadio.IsChecked = interaction.tokenType == TokenType.Darkness;
@@ -65,8 +72,13 @@ namespace JiME.Views
 
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
 		{
-			if ( isTokenCB.IsChecked.Value )
+			if ( isTokenCB.IsChecked == true )
+			{
 				interaction.triggerName = "None";
+				personType.Visibility = personRadio.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+			}
+			else
+				personType.Visibility = Visibility.Collapsed;
 		}
 
 		private void EditFlavorButton_Click( object sender, RoutedEventArgs e )
@@ -102,6 +114,15 @@ namespace JiME.Views
 				interaction.tokenType = TokenType.Darkness;
 			if ( threatRadio.IsChecked.HasValue && threatRadio.IsChecked.Value )
 				interaction.tokenType = TokenType.Threat;
+
+			if ( humanRadio.IsChecked == true )
+				interaction.personType = PersonType.Human;
+			if ( elfRadio.IsChecked == true )
+				interaction.personType = PersonType.Elf;
+			if ( hobbitRadio.IsChecked == true )
+				interaction.personType = PersonType.Hobbit;
+			if ( dwarfRadio.IsChecked == true )
+				interaction.personType = PersonType.Dwarf;
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
@@ -256,6 +277,15 @@ namespace JiME.Views
 		private void triggerCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
 		{
 			addSelectedTriggerButton.IsEnabled = triggerCB.SelectedIndex != 0;
+		}
+
+		private void tokenTypeClick( object sender, RoutedEventArgs e )
+		{
+			RadioButton rb = e.Source as RadioButton;
+			if ( ( (string)rb.Content ) == "Person" )
+				personType.Visibility = Visibility.Visible;
+			else
+				personType.Visibility = Visibility.Collapsed;
 		}
 	}
 }

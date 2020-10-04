@@ -47,6 +47,7 @@
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
+									<TextBlock Text="For Stat Tests, Lore is only rewarded after the Test is PASSED." Style="{StaticResource SubText}" Margin="10,0" VerticalAlignment="Center" TextWrapping="Wrap" Width="217"/>
 								</StackPanel>
 							</StackPanel>
 
@@ -59,13 +60,6 @@
 									<TextBlock x:Name="groupInfo" Margin="0,5,0,0" Style="{StaticResource SubText}" Text="This Event is in the following group: None"/>
 								</StackPanel>
 							</StackPanel>
-
-							<!--<StackPanel>
-									<CheckBox x:Name="randomCB2" Content="This Event is Random" Foreground="White" IsChecked="{Binding interaction.isRandom}" Click="RandomCB_Click"/>
-									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							Random Events are placed in a pool to be drawn from during the course of the game, usually activated by the built-in Random Event Trigger. They are only fired once unless it's a Monster Threat with Recycle checked.
-									</TextBlock>
-								</StackPanel>-->
 						</UniformGrid>
 					</Border>
 
@@ -81,10 +75,17 @@
 
 							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal" Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
 								<TextBlock Style="{StaticResource Heading}" Text="Token Type:" Margin="0,0,10,0"/>
-								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0"/>
-								<RadioButton x:Name="searchRadio" Content="Search" Margin="0,0,20,0"/>
-								<RadioButton x:Name="threatRadio" Content="Threat" Margin="0,0,20,0"/>
-								<RadioButton x:Name="darkRadio" Content="Darkness"/>
+								<RadioButton x:Name="personRadio" Content="Person" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="searchRadio" Content="Search" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="threatRadio" Content="Threat" Margin="0,0,20,0" Click="tokenTypeClick"/>
+								<RadioButton x:Name="darkRadio" Content="Darkness" Click="tokenTypeClick"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Name="personType" Visibility="Collapsed">
+								<TextBlock Text="Person Type:" Style="{StaticResource Heading}" Margin="0,0,10,0"/>
+								<RadioButton x:Name="humanRadio" Content="Human" Margin="0,0,20,0"/>
+								<RadioButton x:Name="elfRadio" Content="Elf" Margin="0,0,20,0"/>
+								<RadioButton x:Name="hobbitRadio" Content="Hobbit" Margin="0,0,20,0"/>
+								<RadioButton x:Name="dwarfRadio" Content="Dwarf"/>
 							</StackPanel>
 
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
@@ -154,7 +155,7 @@
 						<StackPanel>
 							<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Use the Event Text to describe the actual Event that has been triggered. Example: Describe a Monster Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
+					Use the Event Text to describe the actual Event that has been triggered. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
 							</TextBlock>
 							<Grid>
 								<Grid.ColumnDefinitions>

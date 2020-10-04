@@ -67,27 +67,38 @@
 			<TextBlock Grid.Column="1" Width="64"/>
 
 			<!--selected info-->
-			<StackPanel Grid.Column="2">
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Selected Tile:" Style="{StaticResource Heading}"/>
-					<TextBlock Text="{Binding selected.idNumber}" Style="{StaticResource SubText}" Margin="10,0,0,0" VerticalAlignment="Center"/>
-				</StackPanel>
+			<Border Grid.Column="2" Style="{StaticResource callout}" Margin="0,0,10,10">
+				<StackPanel Grid.Column="2">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Selected Tile:" Style="{StaticResource Heading}"/>
+						<TextBlock Text="{Binding selected.idNumber}" Style="{StaticResource SubText}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+					</StackPanel>
 
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Tile Side:" Style="{StaticResource Heading}" Margin="0,5,10,0"/>
-					<RadioButton x:Name="sideA" Content="A" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideA_Click" IsEnabled="False"/>
-					<RadioButton x:Name="sideB" Content="B" Foreground="White" VerticalAlignment="Bottom" Margin="20,0" GroupName="side" Click="sideB_Click" IsEnabled="False"/>
-					<RadioButton x:Name="sideRandom" Content="Random" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideRandom_Click" IsEnabled="False"/>
-				</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Tile Side:" Style="{StaticResource Heading}" Margin="0,5,10,0"/>
+						<RadioButton x:Name="sideA" Content="A" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideA_Click" IsEnabled="False"/>
+						<RadioButton x:Name="sideB" Content="B" Foreground="White" VerticalAlignment="Bottom" Margin="20,0" GroupName="side" Click="sideB_Click" IsEnabled="False"/>
+						<RadioButton x:Name="sideRandom" Content="Random" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideRandom_Click" IsEnabled="False"/>
+					</StackPanel>
 
-				<StackPanel Orientation="Horizontal" Margin="0,5">
-					<Button x:Name="tokenEditButton" Background="MediumSeaGreen" Margin="0,10,0,10" Content="Edit Tokens" Foreground="White" Click="tokenEditButton_Click" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False">
-					</Button>
-					<TextBlock Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" MaxWidth="200">
-						If this Chapter is using Random Token Interaction Groups, or the Tile Side is <Bold>Random</Bold>, Tokens will be placed automatically.
-					</TextBlock>
+					<Grid Margin="0,5">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Button x:Name="tokenEditButton" Background="MediumSeaGreen" Margin="0,10,0,10" Content="Edit Tokens" Foreground="White" Click="tokenEditButton_Click" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False">
+						</Button>
+						<TextBlock Grid.Column="1" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap">
+						If this Tile Side is <Bold>Random</Bold>, Tokens will be placed automatically on it.
+						</TextBlock>
+					</Grid>
+
+					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
+					<Button x:Name="addFlavor" Background="MediumSeaGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click" Width="150" IsEnabled="False"/>
+					<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus" Visibility="Collapsed"/>
+
 				</StackPanel>
-			</StackPanel>
+			</Border>
 		</Grid>
 
 		<!--<Border Style="{StaticResource callout}" Margin="10,0,10,10">

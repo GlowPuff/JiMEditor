@@ -10,6 +10,7 @@ namespace JiME
 		bool _isTokenInteraction;
 		int _loreReward;
 		TokenType _tokenType;
+		PersonType _personType;
 
 		public string dataName
 		{
@@ -70,6 +71,11 @@ namespace JiME
 				NotifyPropertyChanged( "tokenType" );
 			}
 		}
+		public PersonType personType
+		{
+			get => _personType;
+			set { _personType = value; NotifyPropertyChanged( "personType" ); }
+		}
 		public TextBookData textBookData { get; set; }
 		public TextBookData eventBookData { get; set; }
 		public int loreReward
@@ -95,6 +101,7 @@ namespace JiME
 				loreReward = 0,
 				isEmpty = true,
 				tokenType = TokenType.None,
+				personType = PersonType.Human,
 				isTokenInteraction = false
 			};
 			return empty;

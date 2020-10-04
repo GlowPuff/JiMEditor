@@ -162,8 +162,8 @@
 
 			<Button x:Name="newOChapterButton" Padding="5" Margin="5,0" Command="local:MyCommands.NewChapter" Background="{StaticResource bgButtonColor}" Style="{StaticResource btn}">
 				<StackPanel Orientation="Horizontal">
-					<Image Source="Assets/chapter.png" Height="24"/>
-					<TextBlock Text="New Chapter" VerticalAlignment="Center" Margin="5,0"/>
+					<Image Source="Assets/addtileblock.png" Height="24"/>
+					<TextBlock Text="New Tile Block" VerticalAlignment="Center" Margin="5,0"/>
 				</StackPanel>
 			</Button>
 
@@ -293,7 +293,7 @@
 
 									<Button x:Name="removeChapterButton" Background="{StaticResource bgCancelDelete}" HorizontalAlignment="Stretch" IsEnabled="{Binding isEmpty, Converter={StaticResource b2vis}}" DataContext="{Binding}" Click="RemoveChapterButton_Click">
 										<StackPanel Orientation="Horizontal">
-											<TextBlock Foreground="White" Text="Remove Chapter" VerticalAlignment="Center"/>
+											<TextBlock Foreground="White" Text="Remove Block" VerticalAlignment="Center"/>
 											<Image Source="Assets/cancel.png" Width="24" Margin="10,0,0,0"/>
 										</StackPanel>
 									</Button>

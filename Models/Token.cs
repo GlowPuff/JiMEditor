@@ -14,6 +14,7 @@ namespace JiME
 		string _dataName;
 		string _triggerName, _triggeredByName;
 		TokenType _tokenType;
+		PersonType _personType;
 
 		public string dataName
 		{
@@ -53,6 +54,15 @@ namespace JiME
 				Prop( "tokenType" );
 			}
 		}
+		public PersonType personType
+		{
+			get => _personType;
+			set
+			{
+				_personType = value;
+				Prop( "personType" );
+			}
+		}
 		public int idNumber { get; set; }
 		public Vector position { get; set; }
 		public string triggeredByName
@@ -84,6 +94,7 @@ namespace JiME
 			triggerName = "None";
 			triggeredByName = "None";
 			tokenType = ttype;
+			personType = PersonType.Human;
 			position = new Vector( 256, 256 );
 
 			BuildShape();

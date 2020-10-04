@@ -19,7 +19,7 @@
 					<StackPanel>
 						<TextBlock Style="{StaticResource Heading}" Text="What Are Token Interaction Groups?"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-When you create a Chapter with a Random Tile Pool, there needs to be a way to create a pool of Tokens with Interactions that randomly spawn on those random Tiles. That's where Token Interaction Groups come in - they provide a way to make a pool of Events from which to randomly spawn Tokens on the tiles.
+When you create a Tile Block with a Random Tile Pool, there needs to be a way to create a pool of Tokens with Interactions that randomly spawn on those random Tiles. That's where Token Interaction Groups come in - they provide a way to make a pool of Events from which to randomly spawn Tokens on the tiles.
 						</TextBlock>
 
 						<TextBlock Margin="0,10,0,0" Style="{StaticResource Heading}" Text="Creating Token Interaction Groups"/>
@@ -41,19 +41,19 @@ When you create a Chapter with a Random Tile Pool, there needs to be a way to cr
 							The Interaction Group dropdown menu lists all the Token Interaction Groups you've created. When you select a Token Interaction Group from the dropdown menu, the interface tells you how many Events were found using that group name.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Chapter. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement.
+							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Block. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
 							It's up to you if you want to use all of the Token Interactions in the group, or only a small selection of them, randomly chosen during the game. Specify this number in the text box. You can only use as many Token Interactions as there are Tile spaces available to hold them.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							If you add or remove Token Interactions from the Group assigned to this Chapter, you will probably want to revisit these settings to adjust this number.
+							If you add or remove Token Interactions from the Group assigned to this Block, you will probably want to revisit these settings to adjust this number.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
 							Example: Using Tiles 201 and 202, we have 4 spaces available. Let's say we assign an Interaction Group to this Tile Pool with 6 different Events in it. We can use a maximum of 4 of those 6 Events because there are only 4 spaces available on the Tiles we're using. However, we only want 2 of those 6 Events to randomly spawn Tokens on these Tiles, so we enter 2 into the text box. During the game, the Companion App will randomly choose and spawn 2 Tokens out of the Group. The other 4 are discarded.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							<Bold><Italic>CAUTION</Italic></Bold>: If you assign a Token Interaction Group to more than one Chapter, the same Events could be seen by players more than once, causing confusion. On the other hand, Events can be created that are generic enough to appear more than once by design. A good example of this would be creating a Group with 5 different enemy Threat Events in it. This Group can be used over and over to randomly spawn one of the Threats in the Group when it's triggered.
+							<Bold><Italic>CAUTION</Italic></Bold>: If you assign the same Token Interaction Group to more than one Block, the same Events could be seen by players more than once, causing confusion. On the other hand, Events can be created that are generic enough to appear more than once by design. A good example of this would be creating a Group with 5 different enemy Threat Events in it. This Group can be used over and over to randomly spawn one of the Threats in the Group when it's triggered.
 						</TextBlock>
 					</StackPanel>
 				</Border>
@@ -111,6 +111,101 @@ A Token Interaction Event is the same as a normal Event except for HOW it is act
 Marking an Event as a Token Interaction will make it available to assign to a Token in the Token Editor. Only Events with Token Interaction checked can be assigned to Tokens.
 						</TextBlock>
 
+					</StackPanel>
+				</Border>
+			</TabItem>
+		</TabControl>
+
+		<TabControl x:Name="threatHelp" Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
+			<TabItem Header="Damage" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="Designing Enemy Groups"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							Design your Enemy Groups for NORMAL Difficulty and 2 HEROES. The Companion App will automatically adjust Groups for each other Difficulty (Easy and Hard) and Hero counts. See the <Bold>Difficulty</Bold> and <Bold>Hero Count</Bold> tabs for more information.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="Default Stats" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+Checking "Use Default Stats" will auto-fill this Enemy's stats with default Damage, Fear, Health and Attributes.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How is Enemy Damage Calculated?" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+<Bold>Whether using Default Stats or your own values, the companion app will use the indicated Damage/Fear number, randomly modified by +/- (0-1) and randomly split between the two.</Bold> For example, an indicated value of 2 could become 1, 2, or 3, randomly split between Damage and Fear, when the Enemy is spawned in the companion app. Plan your numbers accordingly when not using Default Stats.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="Enemy Count" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+				Increasing the number of Enemies in this group (up to 3) will also <Bold>automatically increase the base Damage/Fear the group does by +1 per count above 1</Bold>. These increased values are <Bold>only shown in the Companion App</Bold> during Combat. As Enemies in the group are defeated in the Companion App, the Damage/Fear decreases back down to the base value seen in the Editor when only 1 Enemy remains in the group.
+						</TextBlock>
+
+						<TextBlock Margin="0,10,0,0" Style="{StaticResource Heading}" TextWrapping="Wrap">
+				<Bold>Things To Remember:</Bold></TextBlock>
+						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap">- The base Damage/Fear value in the Editor, whether Default or your own, is that used as if there is only ONE Enemy in this group. The value is automatically modified by the Companion App when the Enemy Count is greater than ONE.</TextBlock>
+
+						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,0">- Enemy Health and Attributes are automatically affected by Difficulty. See the "Difficulty" tab for more information.</TextBlock>
+					</StackPanel>
+				</Border>
+			</TabItem>
+
+			<TabItem Header="Difficulty" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="What Does Game Difficulty Affect?"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							Damage/Fear and Enemy Count are NOT affected by Difficulty. Only Health and Attributes are affected by Difficulty. <Bold>Since Groups should be designed with Normal Difficulty in mind, Groups are left UNMODIFIED at that Difficulty.</Bold>
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Difficulty Affects Health" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							Base Health is modified by +1 at Hard Difficulty and -1 at Easy Difficulty.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Difficulty Affects Attributes" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							At Easy Difficulty, all Attributes are stripped from Enemies. At Hard Difficulty, any Attributes already set to at least 1 are increased by 1. If an Enemy has no Attributes, it is given a Shield value of 1.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Difficulty Affects Elite Bonuses" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							At Easy Difficulty, Elite Bonuses are kept as-is. At Hard Difficulty, 1 additional Bonus is randomly added.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="Custom Difficulty Settings" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							You can customize which Difficulty mode the Group appears in by marking the appropriate check boxes. By default, a Group appears in all Difficulties. Usage example: You could create a particularly easy or hard Group that only shows up in the specified Difficulty mode. Or you could create a Group of extra enemies that only appears in Hard mode.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" TextWrapping="Wrap" Text="IMPORTANT" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" FontWeight="Bold" Text="Keep in mind that creating a Threat Event with only ONE Group, with that Group set to only appear in Hard mode will naturally not spawn ANYTHING in Easy or Normal modes. The Flavor Text will still be shown, but no Enemies will spawn, possibly causing confusion to players."/>
+						<TextBlock Style="{StaticResource Heading}" TextWrapping="Wrap" Text="When creating a Threat Event, be sure to create an assortment of Groups that appear in ALL Difficulties to avoid this situation." Margin="0,5,0,0"/>
+					</StackPanel>
+				</Border>
+			</TabItem>
+
+			<TabItem Header="Hero Count" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="What Does Hero Count Affect?"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							Hero Count affects Enemy health, Enemy Count and Attributes. <Bold>Since Groups should be designed with a Hero count of 2 in mind, Groups are left UNMODIFIED at that Hero count.</Bold>
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Hero Count Affects Health" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							Base Health is NOT modified at Hero counts of 1 or 2. At more than 2 Heroes, the health of each Enemy in the Group is increased by 1.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Hero Count Affects Enemy Count" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							With 1 Hero, the Group's Enemy Count is reduced by 1 to a minimum of 1. Enemy count is left as-is at 2 Heroes. With more than 2 Heroes, the Group's Enemy Count is increased by 1 to a maximum of 3. <Bold>Enemy Count is only modified if it's NOT UNIQUELY NAMED. This way your unique Enemy won't unexpectedly get a twin with greater than 2 Heroes.</Bold>
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Hero Count Affects Attributes" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							With 1 Hero, Attributes with a value greater than 0 are decreased by 1 to a minimum of 1. Attributes are left as-is at 2 Heroes. With more than 2 Heroes, Attributes with a value greater than 0 are increased by 1 for EACH Hero over 2.
+						</TextBlock>
 					</StackPanel>
 				</Border>
 			</TabItem>

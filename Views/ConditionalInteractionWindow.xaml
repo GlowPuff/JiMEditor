@@ -45,10 +45,10 @@
 								</TextBlock>
 								<TextBox x:Name="nameTB" Text="{Binding interaction.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" TextChanged="nameTB_TextChanged"/>
 
-								<StackPanel Orientation="Horizontal">
+								<!--<StackPanel Orientation="Horizontal">
 									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
-								</StackPanel>
+								</StackPanel>-->
 							</StackPanel>
 
 							<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
