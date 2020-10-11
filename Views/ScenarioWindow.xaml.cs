@@ -97,6 +97,7 @@ namespace JiME.Views
 
 		bool currentType;
 
+
 		public ScenarioWindow( Scenario s )
 		{
 			InitializeComponent();

@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        Title="Scenario Settings" Style="{StaticResource DefaultWindow}" Width="750" SizeToContent="Height" WindowStartupLocation="CenterOwner" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+        Title="Scenario Settings" Style="{StaticResource DefaultWindow}" Width="750" SizeToContent="Height" WindowStartupLocation="CenterOwner" ContentRendered="Window_ContentRendered" Closing="Window_Closing" MaxHeight="850">
 
 	<Window.Resources>
+		<Style TargetType="ScrollBar">
+			<Setter Property="Background" Value="#333337"/>
+			<Setter Property="BorderBrush" Value="Transparent"/>
+		</Style>
 		<Style TargetType="TextBox">
 			<Setter Property="FontSize" Value="16"/>
 		</Style>
@@ -80,31 +84,75 @@
 
 		<!--Threat-->
 		<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Threat Settings" Foreground="Silver" Margin="10,0" FontSize="14" Padding="5">
-			<StackPanel>
-				<Grid>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto"/>
+					<RowDefinition Height="auto"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+
+				<Grid Grid.Row="0">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
 						<ColumnDefinition Width="auto"/>
 					</Grid.ColumnDefinitions>
 					<CheckBox x:Name="noThreatCheck" Content="Don't use Threat" Foreground="White" IsChecked="{Binding scenario.threatNotUsed}"/>
 
-					<Button x:Name="addThreatButton" Grid.Column="1" VerticalAlignment="Center" Background="MediumSeaGreen" Click="addThreatButton_Click" IsEnabled="{Binding ElementName=noThreatCheck, Path=IsChecked, Converter={StaticResource binv}}" HorizontalAlignment="Left" Margin="0.2,0,0,0.4" Width="46">
-						<Image Source="/JiME;component/Assets/add2.png" Height="32" Width="32"/>
+					<Button x:Name="addThreatButton" Grid.Column="1" VerticalAlignment="Center" Background="MediumSeaGreen" Click="addThreatButton_Click" IsEnabled="{Binding ElementName=noThreatCheck, Path=IsChecked, Converter={StaticResource binv}}" HorizontalAlignment="Left" Margin="0.2,0,0,0.4"  Height="40">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Add Threat" Style="{StaticResource Heading}" Margin="5,0" VerticalAlignment="Center"/>
+							<Image Source="/JiME;component/Assets/add2.png" Height="24" Width="24"/>
+						</StackPanel>
 					</Button>
 				</Grid>
-				<Grid Visibility="{Binding ElementName=noThreatCheck,Path=IsChecked,Converter={StaticResource b2vis}}">
+				<Grid Grid.Row="1" Visibility="{Binding ElementName=noThreatCheck,Path=IsChecked,Converter={StaticResource b2vis}}" Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="auto"/>
 						<ColumnDefinition Width="auto"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<TextBlock Text="Threat Max:" Style="{StaticResource Heading}"/>
+					<TextBlock Text="Max Threat:" Style="{StaticResource Heading}"/>
 					<TextBox Grid.Column="1" Width="32" Text="{Binding scenario.threatMax}" Margin="10,0" VerticalAlignment="Center"/>
 					<TextBlock Grid.Column="3" FontWeight="Bold" Text="Only Events that are not Token Interactions can be assigned to Threat Threshold Trigger Events." TextWrapping="Wrap" Style="{StaticResource SubText}" VerticalAlignment="Center"/>
 				</Grid>
 
-				<ItemsControl x:Name="threatList" Visibility="{Binding ElementName=noThreatCheck,Path=IsChecked,Converter={StaticResource b2vis}}">
+				<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" MaxHeight="200">
+					<ItemsControl x:Name="threatList" Background="{StaticResource  bgColor}" BorderThickness="0">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel IsItemsHost="True" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Border Style="{StaticResource callout}" Padding="5" Margin="0,2" HorizontalAlignment="Stretch">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="auto"/>
+											<ColumnDefinition Width="*"/>
+										</Grid.ColumnDefinitions>
+
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="Threshold:" VerticalAlignment="Center" Foreground="White"/>
+											<TextBox Margin="10,0" VerticalAlignment="Center" Text="{Binding theThreat.threshold, UpdateSourceTrigger=PropertyChanged}" Width="32"/>
+
+											<TextBlock Text="Triggered Event:" VerticalAlignment="Center" Margin="20,0,10,0"  Foreground="White"/>
+											<ComboBox x:Name="eventInteractionCB" ItemsSource="{Binding threatItemCollection}" DisplayMemberPath="trigger.dataName" SelectedItem="{Binding selectedItem}" SelectionChanged="EventInteractionCB_SelectionChanged" VerticalAlignment="Center" Width="250"/>
+										</StackPanel>
+
+										<Button Grid.Column="1" x:Name="removeThreat" Background="{StaticResource bgCancelDelete}" Click="RemoveThreat_Click" Width="32" HorizontalAlignment="Right" Margin="10,0,0,0">
+											<Image Width="16" Source="/JiME;component/Assets/remove.png"/>
+										</Button>
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+
+				<!--<ItemsControl x:Name="threatList" Visibility="{Binding ElementName=noThreatCheck,Path=IsChecked,Converter={StaticResource b2vis}}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<Border Background="{StaticResource bgColorLight}" Padding="10" CornerRadius="4" Margin="5">
@@ -124,9 +172,11 @@
 										</Grid.ColumnDefinitions>
 										<ComboBox x:Name="eventInteractionCB" ItemsSource="{Binding threatItemCollection}" DisplayMemberPath="trigger.dataName" SelectedItem="{Binding selectedItem}" SelectionChanged="EventInteractionCB_SelectionChanged" VerticalAlignment="Center"/>
 
-										<!--<Button x:Name="AddThreatEvent" Grid.Column="1" Margin="5,0,0,0" Background="MediumSeaGreen" Click="AddThreatTrigger_Click" DataContext="{Binding}">
+										-->
+				<!--<Button x:Name="AddThreatEvent" Grid.Column="1" Margin="5,0,0,0" Background="MediumSeaGreen" Click="AddThreatTrigger_Click" DataContext="{Binding}">
 											<Image Width="16" Source="/JiME;component/Assets/add.png"/>
 										</Button>-->
+				<!--
 									</Grid>
 								</StackPanel>
 							</Border>
@@ -138,9 +188,9 @@
 							<WrapPanel IsItemsHost="True" />
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
-				</ItemsControl>
+				</ItemsControl>-->
 
-			</StackPanel>
+			</Grid>
 		</GroupBox>
 
 
