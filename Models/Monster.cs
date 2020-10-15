@@ -6,7 +6,7 @@ namespace JiME
 	public class Monster : INotifyPropertyChanged, ICommonData
 	{
 		string _dataName, _bonuses;
-		int _count, _health, _damage, _fear, _shieldValue, _sorceryValue, _loreReward, _movementValue, _maxMovementValue;
+		int _count, _health, _damage, /*_fear,*/ _shieldValue, _sorceryValue, _loreReward, _movementValue, _maxMovementValue;
 		bool _isLarge, _isBloodThirsty, _isArmored, _isElite, _defaultStats, _isEasy, _isNormal, _isHard;
 
 		public Guid GUID { get; set; }
@@ -96,18 +96,6 @@ namespace JiME
 				{
 					_damage = value;
 					NotifyPropertyChanged( "damage" );
-				}
-			}
-		}
-		public int fear
-		{
-			get => _fear;
-			set
-			{
-				if ( value != _fear )
-				{
-					_fear = value;
-					NotifyPropertyChanged( "fear" );
 				}
 			}
 		}
@@ -254,7 +242,7 @@ namespace JiME
 			GUID = Guid.NewGuid();
 			dataName = name;
 			damage = 1;
-			fear = 1;
+			//fear = 1;
 			health = 5;
 			triggerName = "None";
 			negatedBy = Ability.Might;

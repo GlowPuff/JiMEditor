@@ -271,10 +271,6 @@
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
 
-					<!--<ItemsControl.Items>
-
-					</ItemsControl.Items>-->
-
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<Border Style="{StaticResource callout}" Width="160" Margin="0,0,5,5">

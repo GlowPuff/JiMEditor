@@ -181,11 +181,30 @@
 
 			<TabItem Padding="5" Header="Enemy Groups">
 				<StackPanel Margin="0,5,0,0" HorizontalAlignment="Stretch">
-					<TextBlock Style="{StaticResource SubText}" Margin="0,0,0,10" TextWrapping="Wrap">When a Monster Event is activated, one or more Monster Groups that you create below will be spawned.</TextBlock>
-					<Button x:Name="addMonsterButton" Background="MediumSeaGreen" Height="46" HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddMonsterButton_Click">
+					<Grid Margin="0,0,0,10">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="auto"/>
+						</Grid.ColumnDefinitions>
+
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+						<Bold>Scripted Enemy Groups</Bold> allow you to design unique, non-standard Enemies with your own values for Health, Damage/Fear and Elite Modifiers. The <Bold>Enemy Pool System</Bold> automates the creation of Enemy Events that are random yet balanced, and automatically scale with Player Count and Game Difficulty.
+						</TextBlock>
+
+						<Button HorizontalAlignment="Right" Grid.Column="1" x:Name="help" Background="#FFC98800" Height="32"  Click="help_Click" Margin="10,0,0,0">
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
+								<TextBlock Text="Event Help" Style="{StaticResource Heading}" Margin="5,0,0,0"/>
+							</StackPanel>
+						</Button>
+
+					</Grid>
+
+
+					<Button x:Name="addMonsterButton" Background="MediumSeaGreen"  HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddMonsterButton_Click">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Add Enemy Group" Style="{StaticResource ButtonHeading}" Margin="0,0,10,0"/>
-							<Image Source="/JiME;component/Assets/add2.png"/>
+							<TextBlock Text="Add Scripted Enemy Group" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/add2.png" Height="24"/>
 						</StackPanel>
 					</Button>
 
@@ -254,49 +273,70 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 
-					<!--<Border Style="{StaticResource callout}" Margin="0,10,0,0" >
-						<StackPanel>
-							<CheckBox Content="Recycle" Margin="0,5,0,0" Foreground="White" IsChecked="{Binding interaction.isReuseable}" IsEnabled="{Binding interaction.isRandom}"/>
-							<TextBlock Style="{StaticResource SubText}" Text="If this Event is Random, Monster Threats can be Recycled. A Recycled Monster Threat can be triggered multiple times out of the random event pool, instead of just once." TextWrapping="Wrap"/>
-						</StackPanel>
-					</Border>-->
-
-					<!--key/help-->
+					<!--pool-->
 					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
-							<UniformGrid Columns="2">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Style="{StaticResource Heading}" Text="Difficulty Key:"/>
-									<Border  Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" Background="Green" HorizontalAlignment="Left">
-										<TextBlock Text="Easy" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
-									</Border>
-									<Border  Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" Background="Yellow" HorizontalAlignment="Left">
-										<TextBlock Text="Normal" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
-									</Border>
-									<Border  Height="32" Margin="10,0" BorderThickness="2" BorderBrush="White" Background="Red" HorizontalAlignment="Left">
-										<TextBlock Text="Hard" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
-									</Border>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<StackPanel>
+									<TextBlock Text="Enemy Pool System" Style="{StaticResource Heading}"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" VerticalAlignment="Top">
+								The <Bold>Enemy Pool</Bold> guides the Companion App in generating random, balanced encounters for this Event.
+									</TextBlock>
 								</StackPanel>
+							</Grid>
 
-								<!--info-->
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*"/>
-										<ColumnDefinition Width="auto"/>
-									</Grid.ColumnDefinitions>
-									<StackPanel>
-										<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Learn how to properly setup Enemy Groups." VerticalAlignment="Center"/>
-										<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Groups are automatically modified by Difficulty and Hero Count by the Companion App." VerticalAlignment="Center"/>
-									</StackPanel>
-									<Button x:Name="help" Grid.Column="1" Background="#FFC98800" Height="32" Width="80" Click="help_Click" Margin="10,0,0,0">
-										<StackPanel Orientation="Horizontal">
-											<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
-											<TextBlock Text="Help" Style="{StaticResource Heading}" Margin="5,0,0,0"/>
-										</StackPanel>
-									</Button>
-								</Grid>
-							</UniformGrid>
-							<TextBlock Style="{StaticResource Heading}" TextWrapping="Wrap" Text="Be sure to create an assortment of Groups that appear in ALL Difficulties to avoid a situation where no enemies are spawned at all." Margin="0,10,0,0"/>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+
+							</Grid>
+
+							<!--pool points-->
+							<Grid Margin="0,5,0,10">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+									<TextBlock Style="{StaticResource Heading}" Text="Base Pool Points:" Margin="0,0,10,0"/>
+									<TextBox x:Name="poolPointsBox"  Width="32" VerticalAlignment="Center" Text="{Binding interaction.basePoolPoints}"/>
+								</StackPanel>
+								<TextBlock Grid.Column="1" Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="10,0,0,0">
+									This value provides a baseline for determining the difficulty of the Enemies generated for this Event.  It defaults to 10, representing <Bold>1 Hero at Normal Difficulty</Bold>, and is automatically scaled by Easy/Hard Difficulty and additional Heroes in the Companion App. See <Bold>Event Help</Bold> for details.
+								</TextBlock>
+							</Grid>
+
+							<!--bias-->
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Style="{StaticResource Heading}" Text="Difficulty Bias:"/>
+								<RadioButton x:Name="biasLight" Content="Light (+3/Hero)" Margin="10,5" GroupName="bias"/>
+								<RadioButton x:Name="biasMedium" Content="Medium (+5/Hero)" GroupName="bias"/>
+								<RadioButton x:Name="biasHeavy" Content="Heavy (+7/Hero)" Margin="10,0" GroupName="bias"/>
+							</StackPanel>
+
+							<TextBlock Text="Difficulty Bias changes how the Companion App increases the Pool Points based on Hero Counts above 1." TextWrapping="Wrap" Style="{StaticResource SubText}"/>
+
+							<TextBlock Style="{StaticResource Heading}" Text="Include These Enemies (Point Value in Parentheses):" Margin="0,10,0,5"/>
+
+							<StackPanel Orientation="Horizontal">
+								<CheckBox x:Name="rufCB" Content="Ruffian (3)" Foreground="White"/>
+								<CheckBox x:Name="gobCB" Content="Goblin Scout (3)" Foreground="White" Margin="15,0"/>
+								<CheckBox x:Name="huntCB" Content="Orc Hunter (6)" Foreground="White"/>
+								<CheckBox x:Name="marCB" Content="Orc Marauder (6)" Foreground="White" Margin="15,0"/>
+								<CheckBox x:Name="wargCB" Content="Warg (7)" Foreground="White"/>
+								<CheckBox x:Name="wightCB" Content="Wight (7)" Foreground="White" Margin="15,0"/>
+								<CheckBox x:Name="hTrollCB" Content="Hill Troll (9)" Foreground="White"/>
+							</StackPanel>
+
+							<TextBlock Text="The Companion App will randomly spend the Base Pool Points to create Enemy Groups using the Enemies you check above."  Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"/>
+
+							<Button x:Name="simulateBtn" Click="simulateBtn_Click" Content="Simulate..." HorizontalAlignment="Left" Margin="0,10,0,0" Background="MediumSeaGreen" Foreground="White"/>
 						</StackPanel>
 					</Border>
 

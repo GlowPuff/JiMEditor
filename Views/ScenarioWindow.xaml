@@ -98,9 +98,9 @@
 					</Grid.ColumnDefinitions>
 					<CheckBox x:Name="noThreatCheck" Content="Don't use Threat" Foreground="White" IsChecked="{Binding scenario.threatNotUsed}"/>
 
-					<Button x:Name="addThreatButton" Grid.Column="1" VerticalAlignment="Center" Background="MediumSeaGreen" Click="addThreatButton_Click" IsEnabled="{Binding ElementName=noThreatCheck, Path=IsChecked, Converter={StaticResource binv}}" HorizontalAlignment="Left" Margin="0.2,0,0,0.4"  Height="40">
+					<Button x:Name="addThreatButton" Grid.Column="1" VerticalAlignment="Center" Background="MediumSeaGreen" Click="addThreatButton_Click" IsEnabled="{Binding ElementName=noThreatCheck, Path=IsChecked, Converter={StaticResource binv}}" HorizontalAlignment="Left">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Add Threat" Style="{StaticResource Heading}" Margin="5,0" VerticalAlignment="Center"/>
+							<TextBlock Text="Add Threat" Style="{StaticResource Heading}" Margin="0,0,5,0" VerticalAlignment="Center"/>
 							<Image Source="/JiME;component/Assets/add2.png" Height="24" Width="24"/>
 						</StackPanel>
 					</Button>

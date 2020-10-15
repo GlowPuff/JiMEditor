@@ -48,7 +48,7 @@
 		{
 			"name": "HillTroll",
 			"health": 14,
-			"speed": "light",
+			"speed": "medium",
 			"damage": "heavy",
 			"armor": 2,
 			"sorcery": 0,

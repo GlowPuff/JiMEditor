@@ -21,8 +21,8 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 		<StackPanel Margin="10">
-			<TextBlock Style="{StaticResource Heading}" Text="Monster Name:"/>
-			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="The Monster Name defaults to the Monster Type. Customize a name for a special monster with a unique name, otherwise leave it blank to use the default."/>
+			<TextBlock Style="{StaticResource Heading}" Text="Enemy Name:"/>
+			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="The Enemy Name defaults to the Enemy Type. Customize a name for a special enemy with a unique name, otherwise leave it blank to use the default."/>
 			<StackPanel Orientation="Horizontal" Margin="0,5">
 				<TextBox x:Name="nameTB" Text="{Binding monster.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Width="350" HorizontalAlignment="Left"/>
 				<TextBlock Text="Enemy Count:" Style="{StaticResource Heading}" Margin="25,0,0,0"/>
@@ -36,21 +36,21 @@
 					<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
 					<TextBox Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.loreReward}"/>
 				</StackPanel>
-				<!--<TextBlock Text="Elite?" Style="{StaticResource Heading}" Margin="5,0,0,0"/>
-				<CheckBox Content="Yes" Foreground="White" IsChecked="{Binding monster.isElite}" VerticalAlignment="Center" Margin="5,0,0,0"></CheckBox>-->
 			</StackPanel>
+
+			<TextBlock Style="{StaticResource SubText}" Text="This Lore Reward is only awarded for defeating this particular Enemy Group. The Lore Reward in the Event's General Properties is still awarded for defeating all Groups in the Event." TextWrapping="Wrap"/>
 
 			<Border Style="{StaticResource callout}" Margin="0,5">
 				<StackPanel>
-					<TextBlock Text="Monster Type:" Style="{StaticResource Heading}"/>
+					<TextBlock Text="Enemy Type:" Style="{StaticResource Heading}"/>
 					<StackPanel Orientation="Horizontal">
 						<RadioButton x:Name="ruffianRB" Content="Ruffian" Click="monsterType_Click"/>
 						<RadioButton x:Name="goblinRB" Content="Goblin Scout" Margin="20,0" Click="monsterType_Click"/>
 						<RadioButton x:Name="hunterRB" Content="Orc Hunter" Click="monsterType_Click"/>
 						<RadioButton x:Name="orcRB" Content="Orc Marauder" Margin="20,0" Click="monsterType_Click"/>
 						<RadioButton x:Name="wargRB" Content="Warg" Click="monsterType_Click"/>
-						<RadioButton x:Name="trollRB" Content="Hill Troll" Margin="20,0" Click="monsterType_Click"/>
-						<RadioButton x:Name="wightRB" Content="Wight" Click="monsterType_Click"/>
+						<RadioButton x:Name="wightRB" Content="Wight" Click="monsterType_Click" Margin="20,0"/>
+						<RadioButton x:Name="trollRB" Content="Hill Troll" Click="monsterType_Click"/>
 					</StackPanel>
 				</StackPanel>
 			</Border>
@@ -84,11 +84,6 @@
 							</StackPanel>
 							<TextBlock Style="{StaticResource SubText}" Margin="10,0,10,0" Text="Damage and Fear share one value randomly split between them." TextWrapping="Wrap"/>
 						</StackPanel>
-
-						<!--<StackPanel Orientation="Horizontal">
-							<Image Source="/JiME;component/Assets/fear.png" Height="40" Margin="10,0,5,0"/>
-							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding monster.fear, UpdateSourceTrigger=PropertyChanged}"/>
-						</StackPanel>-->
 					</StackPanel>
 
 					<StackPanel x:Name="stats2" Grid.Column="2" IsEnabled="True">
@@ -108,14 +103,10 @@
 								<TextBlock Text="Movement:" Style="{StaticResource Heading}"/>
 								<StackPanel Orientation="Horizontal">
 									<TextBox Margin="0,0,10,0" Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.movementValue}"/>
-									<!--<TextBlock Text="to" Style="{StaticResource Heading}"/>
-									<TextBox Margin="10,0,0,0" Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.maxMovementValue}"/>
-									<TextBlock Margin="5,0,0,0" Text="(If No Target)" Style="{StaticResource Heading}"/>-->
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
-
 				</Grid>
 			</Border>
 
@@ -172,28 +163,13 @@
 					<TextBlock Text="Custom Difficulty Setting:" Style="{StaticResource Heading}"/>
 					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
 						<TextBlock Text="This Group appears in the following Difficulties:" Style="{StaticResource SubText}"/>
-						<CheckBox Content="Easy" Foreground="White" Margin="10,0,0,0" IsChecked="{Binding monster.isEasy}"/>
-						<CheckBox Content="Normal" Foreground="White" Margin="10,0,0,0" IsChecked="{Binding monster.isNormal}"/>
-						<CheckBox Content="Hard" Foreground="White" Margin="10,0,0,0" IsChecked="{Binding monster.isHard}"/>
+						<CheckBox Content="Easy" Foreground="Green" Margin="10,0,0,0" IsChecked="{Binding monster.isEasy}" FontWeight="Bold"/>
+						<CheckBox Content="Normal" Foreground="Yellow" Margin="10,0,0,0" IsChecked="{Binding monster.isNormal}" FontWeight="Bold"/>
+						<CheckBox Content="Hard" Foreground="Red" Margin="10,0,0,0" IsChecked="{Binding monster.isHard}" FontWeight="Bold"/>
 					</StackPanel>
 					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="This setting allows the design of flexible encounters with the creation of Groups that only appear in specific Difficulty modes. No matter which Difficulties you select, always design the Group for Normal Difficulty with 2 Players. The Companion App will modify the Group automatically." Margin="0,5,0,0"/>
 				</StackPanel>
 			</Border>
-			<!--help-->
-
-			<!--negated-->
-			<!--<Border Style="{StaticResource callout}" Margin="0,5">
-				<StackPanel>
-					<TextBlock Text="Attack Negated By:" Style="{StaticResource Heading}"/>
-					<UniformGrid VerticalAlignment="Center" Columns="5">
-						<RadioButton x:Name="mightRB" Content="Might"/>
-						<RadioButton x:Name="agilityRB" Content="Agility"/>
-						<RadioButton x:Name="wisdomRB" Content="Wisdom"/>
-						<RadioButton x:Name="spiritRB" Content="Spirit"/>
-						<RadioButton x:Name="witRB" Content="Wit"/>
-					</UniformGrid>
-				</StackPanel>
-			</Border>-->
 		</StackPanel>
 
 		<!--footer-->

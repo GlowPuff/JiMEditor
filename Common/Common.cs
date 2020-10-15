@@ -26,6 +26,8 @@ namespace JiME
 	public enum TokenType { Search, Person, Threat, Darkness, Exploration, None }
 	public enum PersonType { Human, Elf, Hobbit, Dwarf }
 	public enum HelpType { Token, Grouping, Enemies }
+	public enum DifficultyBias { Light, Medium, Heavy }
+
 
 	public interface ITile
 	{
@@ -150,8 +152,8 @@ namespace JiME
 		/// AKA "Engine Version" in the companion app
 		/// Update this number every time the file format changes with new features
 		/// </summary>
-		public static string formatVersion = "1.4";
-		public static string appVersion = "0.10-alpha";
+		public static string formatVersion = "1.5";
+		public static string appVersion = "0.11-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;
@@ -214,13 +216,6 @@ namespace JiME
 
 			//load default enemy stats
 			defaultStats = LoadDefaultStats().ToArray();
-		}
-
-		public static T FirstOr<T>( this IEnumerable<T> source, T alternate )
-		{
-			foreach ( T t in source )
-				return t;
-			return alternate;
 		}
 
 		public static float RemapValue( float value, float low1, float high1, float low2, float high2 )
@@ -374,6 +369,56 @@ namespace JiME
 		{
 			return new Vector( p.X, p.Y );
 		}
+
+		public static T[] Fill<T>( this T[] arr, T value )
+		{
+			for ( int i = 0; i < arr.Length; i++ )
+			{
+				arr[i] = value;
+			}
+			return arr;
+		}
+
+		public static T FirstOr<T>( this IEnumerable<T> source, T alternate )
+		{
+			foreach ( T t in source )
+				return t;
+			return alternate;
+		}
+	}
+
+	public class SimulatorData
+	{
+		public bool[] includedEnemies = new bool[7];
+		public DifficultyBias difficultyBias;
+		public int poolPoints;
+	}
+
+	public class MonsterSim
+	{
+		public string dataName { get; set; }
+		public int health { get; set; }
+		public int shieldValue { get; set; }
+		public int sorceryValue { get; set; }
+		//public int damage { get; set; }
+		public string specialAbility
+		{
+			get
+			{
+				string ret = "";
+				for ( int i = 0; i < modList.Count; i++ )
+				{
+					ret += modList[i];
+					if ( i < Math.Max( 0, modList.Count - 1 ) )
+						ret += ", ";
+				}
+				return ret;
+			}
+		}
+		public int count { get; set; }
+		public int cost { get; set; }
+		public int singlecost { get; set; }
+		public List<string> modList { get; set; } = new List<string>();
 	}
 
 	//public class DebugTraceListener : TraceListener

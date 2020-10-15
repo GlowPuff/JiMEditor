@@ -60,6 +60,18 @@ namespace JiME.Views
 			threatRadio.IsChecked = interaction.tokenType == TokenType.Threat;
 
 			oldName = interaction.dataName;
+
+			rufCB.IsChecked = interaction.includedEnemies[0];
+			gobCB.IsChecked = interaction.includedEnemies[1];
+			huntCB.IsChecked = interaction.includedEnemies[2];
+			marCB.IsChecked = interaction.includedEnemies[3];
+			wargCB.IsChecked = interaction.includedEnemies[4];
+			hTrollCB.IsChecked = interaction.includedEnemies[5];
+			wightCB.IsChecked = interaction.includedEnemies[6];
+
+			biasLight.IsChecked = interaction.difficultyBias == DifficultyBias.Light;
+			biasMedium.IsChecked = interaction.difficultyBias == DifficultyBias.Medium;
+			biasHeavy.IsChecked = interaction.difficultyBias == DifficultyBias.Heavy;
 		}
 
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
@@ -154,6 +166,21 @@ namespace JiME.Views
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
+			interaction.includedEnemies[0] = rufCB.IsChecked.Value;
+			interaction.includedEnemies[1] = gobCB.IsChecked.Value;
+			interaction.includedEnemies[2] = huntCB.IsChecked.Value;
+			interaction.includedEnemies[3] = marCB.IsChecked.Value;
+			interaction.includedEnemies[4] = wargCB.IsChecked.Value;
+			interaction.includedEnemies[5] = hTrollCB.IsChecked.Value;
+			interaction.includedEnemies[6] = wightCB.IsChecked.Value;
+
+			if ( biasLight.IsChecked == true )
+				interaction.difficultyBias = DifficultyBias.Light;
+			if ( biasMedium.IsChecked == true )
+				interaction.difficultyBias = DifficultyBias.Medium;
+			if ( biasHeavy.IsChecked == true )
+				interaction.difficultyBias = DifficultyBias.Heavy;
+
 			closing = true;
 			DialogResult = true;
 		}
@@ -242,6 +269,26 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Visible;
 			else
 				personType.Visibility = Visibility.Collapsed;
+		}
+
+		private void simulateBtn_Click( object sender, RoutedEventArgs e )
+		{
+			var sd = new SimulatorData()
+			{
+				poolPoints = interaction.basePoolPoints,
+				difficultyBias = biasLight.IsChecked == true ? DifficultyBias.Light : ( biasMedium.IsChecked == true ? DifficultyBias.Medium : DifficultyBias.Heavy )
+			};
+
+			sd.includedEnemies[0] = rufCB.IsChecked.Value;
+			sd.includedEnemies[1] = gobCB.IsChecked.Value;
+			sd.includedEnemies[2] = huntCB.IsChecked.Value;
+			sd.includedEnemies[3] = marCB.IsChecked.Value;
+			sd.includedEnemies[4] = wargCB.IsChecked.Value;
+			sd.includedEnemies[5] = hTrollCB.IsChecked.Value;
+			sd.includedEnemies[6] = wightCB.IsChecked.Value;
+
+			var sim = new EnemyCalculator( sd );
+			sim.ShowDialog();
 		}
 	}
 }

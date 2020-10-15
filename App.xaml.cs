@@ -15,7 +15,9 @@ namespace JiME
 			//PresentationTraceSources.DataBindingSource.Listeners.Add( new DebugTraceListener() );
 			//PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Warning | SourceLevels.Error;
 
+#if !DEBUG
 			Application.Current.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+#endif
 		}
 
 		//generic, app-wide error handler to catch any unhandled exceptions

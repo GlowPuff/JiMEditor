@@ -117,94 +117,61 @@ Marking an Event as a Token Interaction will make it available to assign to a To
 		</TabControl>
 
 		<TabControl x:Name="threatHelp" Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
-			<TabItem Header="Damage" Padding="5">
+			<TabItem Header="Scripted Enemy Groups" Padding="5">
 				<Border Style="{StaticResource callout}">
 					<StackPanel>
-						<TextBlock Style="{StaticResource Heading}" Text="Designing Enemy Groups"/>
+						<TextBlock Style="{StaticResource Heading}" Text="Designing Enemy Events"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							Design your Enemy Groups for NORMAL Difficulty and 2 HEROES. The Companion App will automatically adjust Groups for each other Difficulty (Easy and Hard) and Hero counts. See the <Bold>Difficulty</Bold> and <Bold>Hero Count</Bold> tabs for more information.
+							Enemy Events are generated from two potential sources of enemies: <Bold>Scripted Enemy Groups</Bold> and the <Bold>Enemy Pool</Bold>. Scripted Enemy Groups allow you to fully customize an Enemy Group's combat values and Difficulty. Enemies generated from the Enemy Pool are randomly created from a Points System using default combat values. The Base Pool Points are automatically adjusted by Hero Count, Game Difficulty, and parameters you specify.
 						</TextBlock>
 
-						<TextBlock Style="{StaticResource Heading}" Text="Default Stats" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource Heading}" Text="Scripted Enemy Groups" Margin="0,10,0,0"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-Checking "Use Default Stats" will auto-fill this Enemy's stats with default Damage, Fear, Health and Attributes.
+Enemies you design yourself are Scripted Enemies. They can use either default or custom values for Health, Damage/Fear and Elite Modifiers. They can be uniquely named and assigned to specific Game Difficulty modes. Since they are not part of the Enemy Pool, they are guaranteed to spawn exactly how you design them when the Event activates. Use Scripted Enemy Groups to create tailored encounters that are guaranteed to spawn. They can also be used to create unique enemies, such as Captains or special characters using unique names.
 						</TextBlock>
+						<TextBlock Text="Using Scripted Enemies is entirely optional, as the standard method of enemy generation uses the automated yet customizable Enemy Pool system." TextWrapping="Wrap" FontWeight="Bold" Style="{StaticResource SubText}" Margin="0,5,0,0"/>
 
-						<TextBlock Style="{StaticResource Heading}" Text="How is Enemy Damage Calculated?" Margin="0,10,0,0"/>
+						<TextBlock Margin="0,10,0,0" Style="{StaticResource Heading}" TextWrapping="Wrap">
+				<Bold>Things To Remember:</Bold></TextBlock>
+						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap">- For Scripted Groups, the base Damage/Fear value in the Enemy Editor is that used as if there is only ONE Enemy in the group. The value is automatically modified by the Companion App when the Enemy Count is greater than ONE. See the Enemy Damage and Enemy Count tab.</TextBlock>
+
+						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,0">- If you wish to ONLY use Scripted Enemy Groups in the Event, simply enter 0 (zero) for the Base Pool Points.</TextBlock>
+
+						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,0">- Raise or lower the Base Points from 10 to make the generated enemies more difficult or easier than usual, respectively. Scale the overall difficulty even further by changing the Difficulty Bias.</TextBlock>
+					</StackPanel>
+				</Border>
+			</TabItem>
+
+			<!--pool-->
+			<TabItem Header="Enemy Pool System" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="Enemy Pool System"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap"><Run Text="The Enemy Pool System automates the creation of Enemy Events that are random yet balanced, and automatically scale with Player Count and Game Difficulty. In spite of its automation, you still have control over how it works."/></TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"><Run Text="You can think of the Base Pool Points as a "/><Bold><Run Text="currency"/></Bold><Run Text=". Different enemy types have a "/><Bold><Run Text="cost"/></Bold><Run Text=" associated with them. Points are randomly &quot;spent&quot; from the Base Pool to &quot;purchase&quot; enemies for the encounter. Leftover points are used to &quot;purchase&quot; Elite Modifiers for the chosen enemies."/></TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">The <Bold>Base Pool Points</Bold> defaults to 10, and it represents the amount of points available as if 1 Hero was playing at Normal difficulty. The Base Pool Points you enter is automatically increased or decreased by the Companion App based on Game Difficulty and Hero Count. To make the Event more difficult, assign more than 10 points. To make the Event easier, assign less points.</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+							In Easy Difficulty mode, the Base Pool Points are automatically reduced by 25% by the Companion App. In Hard Difficulty mode, the Pool points are automatically increased by 50%. This adjustment is made AFTER Difficulty Bias is calculated in.
+						</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"><Run Text="The "/><Bold><Run Text="Difficulty Bias"/></Bold><Run Text=" affects the number of points added by the Companion App per additional Hero Count above 1. At the default of "/><Bold><Run Text="Medium"/></Bold><Run Text=", 5 points are added to the Pool per additional Hero. At Light, only 3 points are added per additional Hero. At Heavy, 7 points are added per additional Hero."/></TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"><Run Text="Use the checkboxes to control which enemy types can potentially be chosen by the Pool System when the Event is activated. Only the types with a check have a chance to be spawned by the Event. Enemies chosen by the Pool System will use Default Stats for their Health and Damage/Fear."/></TextBlock>
+
+					</StackPanel>
+				</Border>
+			</TabItem>
+
+			<!--damage-->
+			<TabItem Header="Enemy Damage and Enemy Count" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="How is Enemy Damage Calculated?"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-<Bold>Whether using Default Stats or your own values, the companion app will use the indicated Damage/Fear number, randomly modified by +/- (0-1) and randomly split between the two.</Bold> For example, an indicated value of 2 could become 1, 2, or 3, randomly split between Damage and Fear, when the Enemy is spawned in the companion app. Plan your numbers accordingly when not using Default Stats.
+<Bold>Whether using Scripted Enemy Groups or the Enemy Pool System, the Companion App will use the enemy's Damage/Fear value, randomly modified by +/- (0-1) and randomly split between the two.</Bold> For example, a value of 2 could become 1, 2, or 3, randomly split between Damage and Fear, when the Enemy is spawned in the Companion App. When creating Scripted Enemies, plan your numbers accordingly when not using Default Stats.
 						</TextBlock>
 
 						<TextBlock Style="{StaticResource Heading}" Text="Enemy Count" Margin="0,10,0,0"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-				Increasing the number of Enemies in this group (up to 3) will also <Bold>automatically increase the base Damage/Fear the group does by +1 per count above 1</Bold>. These increased values are <Bold>only shown in the Companion App</Bold> during Combat. As Enemies in the group are defeated in the Companion App, the Damage/Fear decreases back down to the base value seen in the Editor when only 1 Enemy remains in the group.
-						</TextBlock>
-
-						<TextBlock Margin="0,10,0,0" Style="{StaticResource Heading}" TextWrapping="Wrap">
-				<Bold>Things To Remember:</Bold></TextBlock>
-						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap">- The base Damage/Fear value in the Editor, whether Default or your own, is that used as if there is only ONE Enemy in this group. The value is automatically modified by the Companion App when the Enemy Count is greater than ONE.</TextBlock>
-
-						<TextBlock Style="{StaticResource SubText}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,5,0,0">- Enemy Health and Attributes are automatically affected by Difficulty. See the "Difficulty" tab for more information.</TextBlock>
-					</StackPanel>
-				</Border>
-			</TabItem>
-
-			<TabItem Header="Difficulty" Padding="5">
-				<Border Style="{StaticResource callout}">
-					<StackPanel>
-						<TextBlock Style="{StaticResource Heading}" Text="What Does Game Difficulty Affect?"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							Damage/Fear and Enemy Count are NOT affected by Difficulty. Only Health and Attributes are affected by Difficulty. <Bold>Since Groups should be designed with Normal Difficulty in mind, Groups are left UNMODIFIED at that Difficulty.</Bold>
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="How Difficulty Affects Health" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							Base Health is modified by +1 at Hard Difficulty and -1 at Easy Difficulty.
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="How Difficulty Affects Attributes" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							At Easy Difficulty, all Attributes are stripped from Enemies. At Hard Difficulty, any Attributes already set to at least 1 are increased by 1. If an Enemy has no Attributes, it is given a Shield value of 1.
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="How Difficulty Affects Elite Bonuses" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							At Easy Difficulty, Elite Bonuses are kept as-is. At Hard Difficulty, 1 additional Bonus is randomly added.
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="Custom Difficulty Settings" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							You can customize which Difficulty mode the Group appears in by marking the appropriate check boxes. By default, a Group appears in all Difficulties. Usage example: You could create a particularly easy or hard Group that only shows up in the specified Difficulty mode. Or you could create a Group of extra enemies that only appears in Hard mode.
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" TextWrapping="Wrap" Text="IMPORTANT" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" FontWeight="Bold" Text="Keep in mind that creating a Threat Event with only ONE Group, with that Group set to only appear in Hard mode will naturally not spawn ANYTHING in Easy or Normal modes. The Flavor Text will still be shown, but no Enemies will spawn, possibly causing confusion to players."/>
-						<TextBlock Style="{StaticResource Heading}" TextWrapping="Wrap" Text="When creating a Threat Event, be sure to create an assortment of Groups that appear in ALL Difficulties to avoid this situation." Margin="0,5,0,0"/>
-					</StackPanel>
-				</Border>
-			</TabItem>
-
-			<TabItem Header="Hero Count" Padding="5">
-				<Border Style="{StaticResource callout}">
-					<StackPanel>
-						<TextBlock Style="{StaticResource Heading}" Text="What Does Hero Count Affect?"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							Hero Count affects Enemy health, Enemy Count and Attributes. <Bold>Since Groups should be designed with a Hero count of 2 in mind, Groups are left UNMODIFIED at that Hero count.</Bold>
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="How Hero Count Affects Health" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							Base Health is NOT modified at Hero counts of 1 or 2. At more than 2 Heroes, the health of each Enemy in the Group is increased by 1.
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="How Hero Count Affects Enemy Count" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							With 1 Hero, the Group's Enemy Count is reduced by 1 to a minimum of 1. Enemy count is left as-is at 2 Heroes. With more than 2 Heroes, the Group's Enemy Count is increased by 1 to a maximum of 3. <Bold>Enemy Count is only modified if it's NOT UNIQUELY NAMED. This way your unique Enemy won't unexpectedly get a twin with greater than 2 Heroes.</Bold>
-						</TextBlock>
-
-						<TextBlock Style="{StaticResource Heading}" Text="How Hero Count Affects Attributes" Margin="0,10,0,0"/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-							With 1 Hero, Attributes with a value greater than 0 are decreased by 1 to a minimum of 1. Attributes are left as-is at 2 Heroes. With more than 2 Heroes, Attributes with a value greater than 0 are increased by 1 for EACH Hero over 2.
+				Increasing the number of Enemies in Scripted Groups (up to 3) will also <Bold>automatically increase the base Damage/Fear the group does by +1 per count above 1</Bold>. These increased values are <Bold>only shown in the Companion App</Bold> during Combat. As Enemies in the group are defeated in the Companion App, the Damage/Fear decreases back down to the base value seen in the Editor when only 1 Enemy remains in the group.
 						</TextBlock>
 					</StackPanel>
 				</Border>

@@ -9,9 +9,11 @@ namespace JiME
 		//common
 		string _dataName, _triggerName, _triggerAfterName, _triggerDefeatedName;
 		bool _isTokenInteraction;
-		int _loreReward;
+		bool[] _includedEnemies;
+		int _loreReward, _basePoolPoints;
 		TokenType _tokenType;
 		PersonType _personType;
+		DifficultyBias _difficultyBias;
 
 		public string dataName
 		{
@@ -88,11 +90,38 @@ namespace JiME
 				NotifyPropertyChanged( "triggerDefeatedName" );
 			}
 		}
+		public int basePoolPoints
+		{
+			get => _basePoolPoints;
+			set
+			{
+				_basePoolPoints = value;
+				NotifyPropertyChanged( "basePoolPoints" );
+			}
+		}
+		public bool[] includedEnemies
+		{
+			get => _includedEnemies;
+			set
+			{
+				_includedEnemies = value;
+				NotifyPropertyChanged( "includedEnemies" );
+			}
+		}
+		public DifficultyBias difficultyBias
+		{
+			get => _difficultyBias;
+			set
+			{
+				_difficultyBias = value;
+				NotifyPropertyChanged( "difficultyBias" );
+			}
+		}
+
 
 		//IInteraction properties
 		public InteractionType interactionType { get; set; }
 
-		//Threat
 		public ObservableCollection<Monster> monsterCollection { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -114,6 +143,9 @@ namespace JiME
 			eventBookData = new TextBookData();
 			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe an Enemy Threat, present a Test, describe a Decision, etc." );
 			loreReward = 0;
+			basePoolPoints = 10;
+			includedEnemies = new bool[7].Fill( true );
+			difficultyBias = DifficultyBias.Medium;
 
 			monsterCollection = new ObservableCollection<Monster>();
 		}
