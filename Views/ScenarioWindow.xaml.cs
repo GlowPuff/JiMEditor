@@ -309,5 +309,17 @@ namespace JiME.Views
 			if ( !closing && !TryClose() )
 				e.Cancel = true;
 		}
+
+		private void specialBtn_Click( object sender, RoutedEventArgs e )
+		{
+			TextBookData tbd = new TextBookData( "Scenario Special Instructions" );
+			tbd.pages.Add( scenario.specialInstructions );
+
+			TextEditorWindow te = new TextEditorWindow( scenario, EditMode.Special, tbd );
+			if ( te.ShowDialog() == true )
+			{
+				scenario.specialInstructions = te.textBookController.pages[0];
+			}
+		}
 	}
 }

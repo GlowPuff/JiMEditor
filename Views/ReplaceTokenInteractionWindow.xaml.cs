@@ -1,20 +1,21 @@
-﻿using System.ComponentModel;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
+using System.Collections.ObjectModel;
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for DecisionInteractionWindow.xaml
+	/// Interaction logic for ReplaceTokenInteractionWindow.xaml
 	/// </summary>
-	public partial class DecisionInteractionWindow : Window, INotifyPropertyChanged
+	public partial class ReplaceTokenInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public DecisionInteraction interaction { get; set; }
+		public ReplaceTokenInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -28,15 +29,18 @@ namespace JiME.Views
 				PropChanged( "isThreatTriggered" );
 			}
 		}
+		public ObservableCollection<IInteraction> eventToReplace { get; set; }
+		public ObservableCollection<IInteraction> replaceWith { get; set; }
 
-		public DecisionInteractionWindow( Scenario s, DecisionInteraction inter = null )
+		public ReplaceTokenInteractionWindow( Scenario s, ReplaceTokenInteraction inter = null )
 		{
 			InitializeComponent();
+
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new DecisionInteraction( "New Decision Event" );
+			interaction = inter ?? new ReplaceTokenInteraction( "New Replace Token Event" );
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -60,6 +64,16 @@ namespace JiME.Views
 			threatRadio.IsChecked = interaction.tokenType == TokenType.Threat;
 
 			oldName = interaction.dataName;
+
+			eventToReplace = new ObservableCollection<IInteraction>( scenario.interactionObserver.Where( x =>
+			( x.isTokenInteraction || x.dataName == "None" )
+			&& x.dataName != interaction.dataName
+			&& !x.dataName.Contains( "GRP" ) ) );
+
+			replaceWith = new ObservableCollection<IInteraction>( scenario.interactionObserver.Where( x =>
+			( x.isTokenInteraction || x.dataName == "None" )
+			&& x.dataName != interaction.dataName
+			&& !x.dataName.Contains( "GRP" ) ) );
 		}
 
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
@@ -96,9 +110,28 @@ namespace JiME.Views
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Decision Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Replace Token Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				return false;
+			}
+
+			if ( interaction.eventToReplace == interaction.dataName
+				|| interaction.replaceWithEvent == interaction.dataName )
+			{
+				MessageBox.Show( "This Event can't replace or be replaced with itself.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				return false;
+			}
+
+			if ( interaction.eventToReplace == "None" || interaction.replaceWithEvent == "None" )
+			{
+				MessageBox.Show( "The target and source Events can't be set to None.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				return false;
+			}
+
+			if ( interaction.eventToReplace == interaction.replaceWithEvent )
+			{
+				MessageBox.Show( "The target and source replacement Events can't be the same.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
 			}
 
@@ -109,10 +142,6 @@ namespace JiME.Views
 		{
 			if ( !closing )
 				e.Cancel = true;
-			//if ( !closing && !TryClosing() )
-			//	e.Cancel = true;
-			//else if ( !closing )
-			//	DialogResult = false;
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -139,6 +168,12 @@ namespace JiME.Views
 				interaction.personType = PersonType.Dwarf;
 
 			scenario.UpdateEventReferences( oldName, interaction );
+
+			interaction.eventToReplace = ( (IInteraction)eventToReplaceList.SelectedItem ).dataName;
+
+			interaction.replaceWithEvent = ( (IInteraction)replaceWithList.SelectedItem ).dataName;
+
+			interaction.replaceWithGUID = scenario.interactionObserver.Where( x => x.dataName == interaction.replaceWithEvent ).Select( x => x.GUID ).First();
 
 			closing = true;
 			DialogResult = true;
@@ -171,33 +206,6 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.triggerName = tw.triggerName;
-			}
-		}
-
-		private void AddTrigger1Button_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.choice1Trigger = tw.triggerName;
-			}
-		}
-
-		private void AddTrigger2Button_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.choice2Trigger = tw.triggerName;
-			}
-		}
-
-		private void AddTrigger3Button_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.choice3Trigger = tw.triggerName;
 			}
 		}
 

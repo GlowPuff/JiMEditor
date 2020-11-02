@@ -56,7 +56,7 @@
 									<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 								</Button>
 								<StackPanel Margin="10,0,0,0">
-									<TextBlock Style="{StaticResource SubText}" Text="You can place this Event into an Interaction Group for use on randomly generated Tiles." TextWrapping="Wrap" VerticalAlignment="Center" Width="290"/>
+									<TextBlock Style="{StaticResource SubText}" Text="You can place this Event into a Random Interaction Group." TextWrapping="Wrap" VerticalAlignment="Center" Width="290"/>
 									<TextBlock x:Name="groupInfo" Margin="0,5,0,0" Style="{StaticResource SubText}" Text="This Event is in the following group: None"/>
 								</StackPanel>
 							</StackPanel>
@@ -178,41 +178,71 @@
 			<TabItem Padding="5" Header="Decision">
 				<StackPanel Margin="0,5,0,0">
 					<TextBlock Style="{StaticResource SubText}" Text="Decisions are Events that present a choice to the player. Use the Event Text from the General Properties page to describe the choices. When the player is presented with this Decision Event in the Companion App, buttons labeled with the choices below will be presented along with the Event Text in the General Properties tab. Decision Events can have 2 or 3 choices to select from. These labels appear on the buttons presented to the player, so keep them very short." VerticalAlignment="Center" TextWrapping="Wrap" />
-					<Border Style="{StaticResource callout}" Margin="0,5" HorizontalAlignment="Left">
+					<Border Style="{StaticResource callout}" Margin="0,5">
 						<StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Style="{StaticResource Heading}" Text="First Choice:" Margin="0,0,10,0"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice1}"/>
-								<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
-								<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice1Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
-								<Button x:Name="addTrigger1Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger1Button_Click">
-									<Image Source="/JiME;component/Assets/add2.png"/>
-								</Button>
-							</StackPanel>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
 
-							<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-								<TextBlock Style="{StaticResource Heading}" Text="Second Choice:" Margin="0,0,10,0"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice2}"/>
-								<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
-								<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice2Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
-								<Button x:Name="addTrigger2Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger2Button_Click">
-									<Image Source="/JiME;component/Assets/add2.png"/>
-								</Button>
-							</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Style="{StaticResource Heading}" Text="First Choice:" Margin="0,0,10,0"/>
+									<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice1}"/>
+								</StackPanel>
+
+								<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+									<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
+									<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice1Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
+									<Button x:Name="addTrigger1Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger1Button_Click">
+										<Image Source="/JiME;component/Assets/add2.png"/>
+									</Button>
+								</StackPanel>
+							</Grid>
+
+							<Grid Margin="0,5,0,0">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Style="{StaticResource Heading}" Text="Second Choice:" Margin="0,0,10,0"/>
+									<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice2}"/>
+								</StackPanel>
+
+								<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+									<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
+									<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice2Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
+									<Button x:Name="addTrigger2Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger2Button_Click">
+										<Image Source="/JiME;component/Assets/add2.png"/>
+									</Button>
+								</StackPanel>
+							</Grid>
 
 						</StackPanel>
 					</Border>
 
-					<Border Style="{StaticResource callout}" HorizontalAlignment="Left">
-						<StackPanel Orientation="Horizontal">
-							<CheckBox x:Name="choice3" Content="Third Choice:" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" IsChecked="{Binding interaction.isThreeChoices}"/>
-							<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice3}" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}"/>
-							<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
-							<ComboBox ItemsSource="{Binding scenario.triggersObserver}" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice3Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
-							<Button x:Name="addTrigger3Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger3Button_Click" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}">
-								<Image Source="/JiME;component/Assets/add2.png"/>
-							</Button>
-						</StackPanel>
+					<Border Style="{StaticResource callout}">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+
+							<StackPanel Orientation="Horizontal">
+								<CheckBox x:Name="choice3" Content="Third Choice:" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" IsChecked="{Binding interaction.isThreeChoices}"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice3}" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+								<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
+								<ComboBox ItemsSource="{Binding scenario.triggersObserver}" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice3Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
+								<Button x:Name="addTrigger3Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger3Button_Click" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}">
+									<Image Source="/JiME;component/Assets/add2.png"/>
+								</Button>
+							</StackPanel>
+						</Grid>
 					</Border>
 				</StackPanel>
 			</TabItem>

@@ -12,11 +12,12 @@ namespace JiME
 	{
 		//public ErrorChecker errorChecker { get; set; }
 
-		string _scenarioName, _fileName, _objectiveName, _fileVersion;
+		string _scenarioName, _fileName, _objectiveName, _fileVersion, _specialInstructions;
 		bool _isDirty;
-		int _threatMax, _loreReward, _xpReward, _shadowFear;
+		int _threatMax, _loreReward, _xpReward, _shadowFear, _loreStartValue;
 		bool _scenarioTypeJourney;
 		int[] _wallTypes;
+		Guid _scenarioGUID, _campaignGUID;
 		//titleChangedToken is ONLY used to trigger the window Title converter
 		Tuple<bool, string, Guid, ProjectType> _titleChangedToken;
 		public int[] wallTypes
@@ -132,6 +133,11 @@ namespace JiME
 			get => _loreReward;
 			set { _loreReward = value; PropChanged( "loreReward" ); }
 		}
+		public int loreStartValue
+		{
+			get => _loreStartValue;
+			set { _loreStartValue = value; PropChanged( "loreStartValue" ); }
+		}
 		public int xpReward
 		{
 			get => _xpReward;
@@ -141,6 +147,33 @@ namespace JiME
 		{
 			get => _shadowFear;
 			set { _shadowFear = value; PropChanged( "shadowFear" ); }
+		}
+		public Guid scenarioGUID
+		{
+			get => _scenarioGUID;
+			set
+			{
+				_scenarioGUID = value;
+				PropChanged( "scenarioGUID" );
+			}
+		}
+		public Guid campaignGUID
+		{
+			get => _campaignGUID;
+			set
+			{
+				_campaignGUID = value;
+				PropChanged( "campaignGUID" );
+			}
+		}
+		public string specialInstructions
+		{
+			get => _specialInstructions;
+			set
+			{
+				_specialInstructions = value;
+				PropChanged( "specialInstructions" );
+			}
 		}
 		#endregion
 
@@ -161,14 +194,10 @@ namespace JiME
 
 		public Scenario( string name )
 		{
-			//errorChecker = new ErrorChecker();
-
 			scenarioName = name;
-			objectiveName = "None";
 			isDirty = true;
 			projectType = ProjectType.Standalone;
 			titleChangedToken = new Tuple<bool, string, Guid, ProjectType>( true, string.Empty, Guid.NewGuid(), ProjectType.Standalone );
-			loreReward = xpReward = 0;
 
 			interactionObserver = new ObservableCollection<IInteraction>();
 			triggersObserver = new ObservableCollection<Trigger>();
@@ -206,6 +235,13 @@ namespace JiME
 			s.loreReward = fm.loreReward;
 			s.xpReward = fm.xpReward;
 			s.shadowFear = fm.shadowFear;
+			s.loreStartValue = fm.loreStartValue;
+			s.scenarioGUID = fm.scenarioGUID;
+			s.campaignGUID = fm.campaignGUID;
+			s.specialInstructions = fm.specialInstructions ?? "";
+
+			if ( s.scenarioGUID.ToString() == "00000000-0000-0000-0000-000000000000" )
+				s.scenarioGUID = Guid.NewGuid();
 
 			//sort the observer lists by name
 			//List<IInteraction> sorted = s.interactionObserver.OrderBy( key => key.dataName != "None" ).ThenBy( key => key.dataName ).ToList();
@@ -234,10 +270,13 @@ namespace JiME
 
 		void CreateDefaults()
 		{
+			scenarioGUID = Guid.NewGuid();
+			campaignGUID = Guid.NewGuid();
+			specialInstructions = "";
 			threatMax = 60;
 			scenarioTypeJourney = true;
 			objectiveName = "None";
-			loreReward = xpReward = 0;
+			loreReward = loreStartValue = xpReward = 0;
 			shadowFear = 2;
 			fileVersion = Utils.formatVersion;
 
@@ -319,6 +358,14 @@ namespace JiME
 				case InteractionType.Conditional:
 					interactionObserver.Add( interaction );
 					break;
+				case InteractionType.Dialog:
+					interactionObserver.Add( interaction );
+					break;
+				case InteractionType.Replace:
+					interactionObserver.Add( interaction );
+					break;
+				default:
+					throw new Exception( "Interaction type not supported: " + interaction.interactionType );
 			}
 
 			//sort by name
@@ -414,49 +461,6 @@ namespace JiME
 			triggersObserver.Where( t => t.dataName == oldName ).First().isMultiTrigger = isMulti;
 
 			return true;
-		}
-
-		//TODO get by GUID?
-		//this isn't really safe because different Observer TYPES than the one being asked for could be using the same dataName
-		public ICommonData GetData<T>( string name )
-		{
-			if ( typeof( T ) == typeof( IInteraction ) )
-			{
-				var obj = interactionObserver.GetData( name );
-				if ( obj != null )
-					return obj;
-			}
-			else if ( typeof( T ) == typeof( Trigger ) )
-			{
-				var obj = triggersObserver.GetData( name );
-				if ( obj != null )
-					return obj;
-			}
-			else if ( typeof( T ) == typeof( Objective ) )
-			{
-				var obj = objectiveObserver.GetData( name );
-				if ( obj != null )
-					return obj;
-			}
-			else if ( typeof( T ) == typeof( TextBookData ) )
-			{
-				var obj = resolutionObserver.GetData( name );
-				if ( obj != null )
-					return obj;
-			}
-			else if ( typeof( T ) == typeof( Threat ) )
-			{
-				var obj = threatObserver.GetData( name );
-				if ( obj != null )
-					return obj;
-			}
-			else if ( typeof( T ) == typeof( Chapter ) )
-			{
-				var obj = chapterObserver.GetData( name );
-				if ( obj != null )
-					return obj;
-			}
-			return null;
 		}
 
 		/// <summary>

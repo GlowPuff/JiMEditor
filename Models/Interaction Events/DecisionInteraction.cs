@@ -127,7 +127,7 @@ namespace JiME
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public DecisionInteraction( string name, bool random )
+		public DecisionInteraction( string name )
 		{
 			interactionType = InteractionType.Decision;
 			dataName = name;

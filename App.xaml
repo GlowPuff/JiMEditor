@@ -52,7 +52,7 @@
 			<!--callout box-->
 			<Style x:Key="callout" TargetType="Border">
 				<Setter Property="Padding" Value="10"/>
-				<Setter Property="CornerRadius" Value="4"/>
+				<Setter Property="CornerRadius" Value="5"/>
 				<Setter Property="Background" Value="{StaticResource bgColorLight}"/>
 			</Style>
 
@@ -61,7 +61,10 @@
 				<Setter Property="Foreground" Value="Silver"/>
 				<Setter Property="Margin" Value="10"/>
 				<Setter Property="FontSize" Value="14"/>
-				<Setter Property="Padding" Value="10"/>
+				<Setter Property="Padding" Value="0"/>
+
+				<!--<Setter Property="Background" Value="{StaticResource bgColorLight}"/>-->
+
 			</Style>
 
 			<!--default textbox-->
@@ -108,7 +111,7 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="Button">
-							<Border x:Name="border" CornerRadius="2" Background="{TemplateBinding Background}" BorderThickness="2" BorderBrush="Black" Padding="5">
+							<Border x:Name="border" CornerRadius="2" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="Black" Padding="5">
 								<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
 							</Border>
 

@@ -16,6 +16,9 @@ namespace JiME
 		/// <summary>
 		/// This number is updated every time the file format changes with new features
 		/// </summary>
+		public Guid scenarioGUID { get; set; }
+		public Guid campaignGUID { get; set; }
+		public string specialInstructions { get; set; }
 		public string fileVersion { get; set; }
 		public string fileName { get; set; }
 		public string saveDate { get; set; }
@@ -26,6 +29,7 @@ namespace JiME
 		public bool threatNotUsed { get; set; }
 		public bool scenarioTypeJourney { get; set; }
 		public int loreReward { get; set; }
+		public int loreStartValue { get; set; }
 		public int xpReward { get; set; }
 		public int shadowFear { get; set; }
 
@@ -46,10 +50,14 @@ namespace JiME
 
 		public FileManager( Scenario source )
 		{
+			scenarioGUID = source.scenarioGUID;
+			campaignGUID = source.campaignGUID;
+			specialInstructions = source.specialInstructions;
 			fileName = source.fileName;
 			fileVersion = Utils.formatVersion;
 			saveDate = source.saveDate;
 			loreReward = source.loreReward;
+			loreStartValue = source.loreStartValue;
 			xpReward = source.xpReward;
 			shadowFear = source.shadowFear;
 
@@ -133,7 +141,7 @@ namespace JiME
 				{
 					json = sr.ReadToEnd();
 				}
-				//ObservableCollection
+
 				var fm = JsonConvert.DeserializeObject<FileManager>( json );
 				fm.fileName = new FileInfo( filename ).Name;
 				return Scenario.CreateInstance( fm );

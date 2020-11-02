@@ -31,7 +31,7 @@
 						<TextBlock Text="Points Left Over:" Style="{StaticResource Heading}" Margin="50,0,0,0"/>
 						<TextBlock Text="{Binding leftOvers}" Style="{StaticResource Heading}" Margin="5,0"/>
 					</StackPanel>
-					<TextBlock Text="Scaled Points are calculated using the same algorithm as the Companion App. Hero Count, Difficulty mode and Difficulty Bias affect the scaling of Enemy Events." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="0,0,0,10"/>
+					<TextBlock Text="Simulated encounters are generated using the same algorithm as the Companion App. Hero Count, Difficulty mode and Difficulty Bias affect the scaling of Enemy Events." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="0,0,0,10"/>
 
 					<UniformGrid Columns="3">
 						<Button Content="Re-Roll This Encounter" Name="rerollBtn" Click="rerollBtn_Click" Background="MediumSeaGreen" Foreground="White" Width="150" HorizontalAlignment="Left"/>

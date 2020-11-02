@@ -36,7 +36,7 @@ namespace JiME.Views
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new BranchInteraction( "New Branch Event", false );
+			interaction = inter ?? new BranchInteraction( "New Branch Event" );
 
 			eventTestRB.IsChecked = interaction.branchTestEvent;
 			triggerTestRB.IsChecked = !interaction.branchTestEvent;

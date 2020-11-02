@@ -15,8 +15,9 @@ namespace JiME.Views
 		enum DifficultyMode { Easy, Normal, Hard }
 		SimulatorData simulatorData;
 		string _scaledPoints;
-		int _selectedDifficulty, _selectedPlayers, _leftOvers, _modPoints;
+		int _selectedDifficulty, _selectedPlayers, _modPoints;
 		int numSingleGroups, lastEnemyIndex;
+		float _leftOvers;
 		Random random = new Random();
 
 		public ObservableCollection<MonsterSim> calculatedItems { get; set; }
@@ -29,7 +30,7 @@ namespace JiME.Views
 				PropChanged( "selectedPlayers" );
 			}
 		}
-		public int leftOvers
+		public float leftOvers
 		{
 			get => _leftOvers;
 			set
@@ -105,8 +106,8 @@ namespace JiME.Views
 			leftOvers = 0;
 			modPoints = 0;
 
-			int poolCount = CalculateScaledPoints();
-			int starting = poolCount;
+			float poolCount = CalculateScaledPoints();
+			float starting = poolCount;
 
 			//if no enemies checked, returns 1000
 			int lowestCost = LowestRequestedEnemyCost();
@@ -127,16 +128,16 @@ namespace JiME.Views
 			List<MonsterSim> mList = new List<MonsterSim>();
 			while ( poolCount >= lowestCost )//lowest enemy cost
 			{
-				Tuple<MonsterSim, int> generated = GenerateMonster( poolCount );
+				Tuple<MonsterSim, float> generated = GenerateMonster( poolCount );
 				if ( generated.Item1.dataName != "modifier" )
 				{
-					poolCount = Math.Max( 0, poolCount - generated.Item2 );
+					poolCount = Math.Max( 0f, poolCount - generated.Item2 );
 					mList.Add( generated.Item1 );
 				}
 				else
 				{
 					//use dummy point
-					poolCount = Math.Max( 0, poolCount - 1 );
+					poolCount = Math.Max( 0f, poolCount - 1f );
 				}
 			}
 
@@ -153,7 +154,7 @@ namespace JiME.Views
 					//% chance to add another
 					if ( random.Next( 100 ) < 50 && sim.count < 2 && sim.singlecost <= poolCount )
 					{
-						poolCount = Math.Max( 0, poolCount - sim.singlecost );
+						poolCount = Math.Max( 0f, poolCount - sim.singlecost );
 						sim.count++;
 						sim.cost += sim.singlecost;
 					}
@@ -176,7 +177,8 @@ namespace JiME.Views
 				}
 			}
 
-			leftOvers = poolCount;
+			//round it to 2 decimal places
+			leftOvers = (float)Math.Round( poolCount * 100f ) / 100f;
 
 			//finally add finished groups to collection
 			foreach ( MonsterSim ms in mList )
@@ -207,10 +209,10 @@ namespace JiME.Views
 		/// <summary>
 		/// returns monster type and group cost
 		/// </summary>
-		Tuple<MonsterSim, int> GenerateMonster( int points )
+		Tuple<MonsterSim, float> GenerateMonster( float points )
 		{
 			//monster type/cost
-			List<Tuple<MonsterType, int>> mList = new List<Tuple<MonsterType, int>>();
+			List<Tuple<MonsterType, float>> mList = new List<Tuple<MonsterType, float>>();
 			//create list of enemy candidates
 			for ( int i = 0; i < simulatorData.includedEnemies.Length; i++ )
 			{
@@ -221,7 +223,7 @@ namespace JiME.Views
 				//includedEnemies lines up with MonsterType enum and MonsterCost array
 				if ( simulatorData.includedEnemies[i] && points >= MonsterCost[i] )
 				{
-					mList.Add( new Tuple<MonsterType, int>( (MonsterType)i, MonsterCost[i] ) );
+					mList.Add( new Tuple<MonsterType, float>( (MonsterType)i, MonsterCost[i] ) );
 				}
 			}
 
@@ -230,11 +232,20 @@ namespace JiME.Views
 			{
 				//pick 1 at random
 				int pick = random.Next( 0, mList.Count );
-				//Debug.Log( pick );
 
 				MonsterSim ms = MonsterFactory( mList[pick].Item1 );
-				int upTo = points / mList[pick].Item2;
-				upTo = Math.Min( upTo, 3 );//max of 3 in group
+				//.6 of cost per count above 1
+				float groupcost = mList[pick].Item2;
+				int upTo = groupcost <= points ? 1 : 0;
+				for ( int i = 0; i < 2; i++ )
+				{
+					if ( ( groupcost + .6f * mList[pick].Item2 ) <= points )
+					{
+						upTo += 1;
+						groupcost += .6f * mList[pick].Item2;
+					}
+				}
+
 				int count = random.Next( 1, upTo + 1 );
 				//avoid a bunch of 1 enemy groups
 				if ( count == 1 && numSingleGroups >= 1 )
@@ -247,38 +258,40 @@ namespace JiME.Views
 						else
 						{
 							MonsterSim skip = new MonsterSim() { dataName = "modifier", cost = 1 };
-							return new Tuple<MonsterSim, int>( skip, 0 );
+							return new Tuple<MonsterSim, float>( skip, 0 );
 						}
 					}
 					else//no more room, 30% to add a modifier point instead
 					{
 						MonsterSim skip = new MonsterSim() { dataName = "modifier", cost = 0 };
-						return new Tuple<MonsterSim, int>( skip, random.Next( 100 ) > 30 ? 1 : 0 );
+						return new Tuple<MonsterSim, float>( skip, random.Next( 100 ) > 30 ? 1 : 0 );
 					}
 				}
 
+				if ( count == 1 )
+					numSingleGroups++;
+
+				groupcost = mList[pick].Item2 + ( ( count - 1 ) * ( .6f * mList[pick].Item2 ) );
 				lastEnemyIndex = (int)mList[pick].Item1;
 				ms.count = count;
 				ms.singlecost = mList[pick].Item2;
-				ms.cost = mList[pick].Item2 * count;
-				if ( count == 1 )
-					numSingleGroups++;
-				return new Tuple<MonsterSim, int>( ms, mList[pick].Item2 * count );
+				ms.cost = groupcost;
+				return new Tuple<MonsterSim, float>( ms, mList[pick].Item2 * count );
 			}
 			else
 			{
 				MonsterSim skip = new MonsterSim() { dataName = "modifier", cost = 1 };
-				return new Tuple<MonsterSim, int>( skip, 1 );
+				return new Tuple<MonsterSim, float>( skip, 1 );
 			}
 		}
 
-		private int CalculateScaledPoints()
+		private float CalculateScaledPoints()
 		{
 			float difficultyScale = 0;
 			int bias = 0;
 
 			//set the base pool
-			int poolCount = simulatorData.poolPoints;
+			float poolCount = simulatorData.poolPoints;
 
 			//set the difficulty bias
 			if ( simulatorData.difficultyBias == DifficultyBias.Light )
@@ -298,9 +311,10 @@ namespace JiME.Views
 			poolCount += ( selectedPlayers ) * bias;
 
 			//modify pool based on difficulty scale
-			poolCount += (int)Math.Round( (float)poolCount * difficultyScale );
+			poolCount += poolCount * difficultyScale;
 
 			scaledPoints = poolCount.ToString();
+			leftOvers = modPoints = 0;
 
 			return poolCount;
 		}

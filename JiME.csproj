@@ -90,9 +90,11 @@
     <Compile Include="Models\Interaction Events\ConditionalInteraction.cs" />
     <Compile Include="Models\Interaction Events\DarknessInteraction.cs" />
     <Compile Include="Models\Interaction Events\DecisionInteraction.cs" />
+    <Compile Include="Models\Interaction Events\DialogInteraction.cs" />
     <Compile Include="Models\Interaction Events\MultiEventInteraction.cs" />
     <Compile Include="Models\Interaction Events\NoneInteraction.cs" />
     <Compile Include="Models\Interaction Events\PersistentTokenInteraction.cs" />
+    <Compile Include="Models\Interaction Events\ReplaceTokenInteraction.cs" />
     <Compile Include="Models\Interaction Events\TestInteraction.cs" />
     <Compile Include="Models\Interaction Events\TextInteraction.cs" />
     <Compile Include="Models\Interaction Events\ThreatInteraction.cs" />
@@ -112,6 +114,9 @@
     <Compile Include="Views\DecisionInteractionWindow.xaml.cs">
       <DependentUpon>DecisionInteractionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DialogInteractionWindow.xaml.cs">
+      <DependentUpon>DialogInteractionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EnemyCalculator.xaml.cs">
       <DependentUpon>EnemyCalculator.xaml</DependentUpon>
     </Compile>
@@ -126,6 +131,9 @@
     </Compile>
     <Compile Include="Views\PersistentInteractionWindow.xaml.cs">
       <DependentUpon>PersistentInteractionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReplaceTokenInteractionWindow.xaml.cs">
+      <DependentUpon>ReplaceTokenInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestInteractionWindow.xaml.cs">
       <DependentUpon>TestInteractionWindow.xaml</DependentUpon>
@@ -200,6 +208,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DialogInteractionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EnemyCalculator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PersistentInteractionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReplaceTokenInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

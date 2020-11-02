@@ -57,6 +57,14 @@ namespace JiME
 					case 8:
 						interaction = item.ToObject<ConditionalInteraction>();
 						break;
+					case 9:
+						interaction = item.ToObject<DialogInteraction>();
+						break;
+					case 10:
+						interaction = item.ToObject<ReplaceTokenInteraction>();
+						break;
+					default:
+						throw new Exception( "IInteraction not recognized:\r\n" + item.ToString() );
 				}
 				interactionList.Add( interaction );
 			}

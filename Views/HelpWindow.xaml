@@ -154,6 +154,9 @@ Enemies you design yourself are Scripted Enemies. They can use either default or
 							In Easy Difficulty mode, the Base Pool Points are automatically reduced by 25% by the Companion App. In Hard Difficulty mode, the Pool points are automatically increased by 50%. This adjustment is made AFTER Difficulty Bias is calculated in.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"><Run Text="The "/><Bold><Run Text="Difficulty Bias"/></Bold><Run Text=" affects the number of points added by the Companion App per additional Hero Count above 1. At the default of "/><Bold><Run Text="Medium"/></Bold><Run Text=", 5 points are added to the Pool per additional Hero. At Light, only 3 points are added per additional Hero. At Heavy, 7 points are added per additional Hero."/></TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+							As enemies are added to Groups, their cost does not decrease the available points linearly. Instead, the first enemy in the Group is full cost, but any additional enemies in the Group are .6 of the full cost.
+						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"><Run Text="Use the checkboxes to control which enemy types can potentially be chosen by the Pool System when the Event is activated. Only the types with a check have a chance to be spawned by the Event. Enemies chosen by the Pool System will use Default Stats for their Health and Damage/Fear."/></TextBlock>
 
 					</StackPanel>

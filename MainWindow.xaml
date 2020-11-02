@@ -28,6 +28,8 @@
 		<CommandBinding Command="local:MyCommands.NewMultiInteraction" Executed="CommandNewMultiInteraction_Executed" CanExecute="CommandNewMultiInteraction_CanExecute"/>
 		<CommandBinding Command="local:MyCommands.NewPersistentInteraction" Executed="CommandNewPersistentInteraction_Executed" CanExecute="CommandNewPersistentInteraction_CanExecute"/>
 		<CommandBinding Command="local:MyCommands.NewConditionalInteraction" Executed="CommandNewConditionalInteraction_Executed" CanExecute="CommandNewConditionalInteraction_CanExecute"/>
+		<CommandBinding Command="local:MyCommands.NewDialogInteraction" Executed="CommandNewDialogInteraction_Executed" CanExecute="CommandNewDialogInteraction_CanExecute"/>
+		<CommandBinding Command="local:MyCommands.NewReplaceTokenInteraction" Executed="CommandNewReplaceTokenInteraction_Executed" CanExecute="CommandNewReplaceTokenInteraction_CanExecute"/>
 
 	</Window.CommandBindings>
 
@@ -62,6 +64,14 @@
                }">
 			</MenuItem>
 			<MenuItem Command="local:MyCommands.NewConditionalInteraction" CommandTarget="{Binding Path=PlacementTarget,
+                        RelativeSource={RelativeSource AncestorType=ContextMenu}
+               }">
+			</MenuItem>
+			<MenuItem Command="local:MyCommands.NewDialogInteraction" CommandTarget="{Binding Path=PlacementTarget,
+                        RelativeSource={RelativeSource AncestorType=ContextMenu}
+               }">
+			</MenuItem>
+			<MenuItem Command="local:MyCommands.NewReplaceTokenInteraction" CommandTarget="{Binding Path=PlacementTarget,
                         RelativeSource={RelativeSource AncestorType=ContextMenu}
                }">
 			</MenuItem>
@@ -187,25 +197,6 @@
 					<TextBlock Text="New Trigger" VerticalAlignment="Center" Margin="5,0"/>
 				</StackPanel>
 			</Button>
-
-			<!--<TextBlock VerticalAlignment="Center" >Objectives:</TextBlock>
-
-			<ComboBox x:Name="objectiveLB" Margin="5, 5" MinWidth="100" DisplayMemberPath="objectiveName"/>
-
-			<Button x:Name="addObjectiveButton" ToolTip="Add Objective" Margin="4,0" Background="MediumSeaGreen" Click="OnAddObjective" Style="{StaticResource btn}" Width="30" Height="30">
-				<Image Source="Assets/add.png" Stretch="Uniform" />
-			</Button>
-
-			<Button x:Name="removeObjectiveButton" ToolTip="Remove Objective" Margin="4,0" Background="#ff4200" Click="OnRemoveObjective" Style="{StaticResource btn}" Width="30" Height="30">
-				<Image Source="Assets/remove.png" Stretch="Uniform" />
-			</Button>
-
-			<Button x:Name="objectiveSettingsButton" Click="OnSettingsObjective" ToolTip="Edit Objective" Background="Silver" Margin="3,0,0,0" Style="{StaticResource btn}" Width="30" Height="30">
-				<Image Source="Assets/settings.png" Stretch="Uniform"/>
-			</Button>-->
-
-			<!--<Separator Margin="10,0"/>-->
-
 		</ToolBar>
 
 		<Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="#FF46464A">

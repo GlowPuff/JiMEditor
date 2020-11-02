@@ -109,7 +109,7 @@ namespace JiME
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public BranchInteraction( string name, bool random )
+		public BranchInteraction( string name )
 		{
 			interactionType = InteractionType.Branch;
 			dataName = name;

@@ -29,6 +29,7 @@ namespace JiME
 			scenario = s ?? new Scenario();
 			scenario.TriggerTitleChange( false );
 			DataContext = scenario;
+			Debug.Log( scenario.scenarioGUID );
 
 			appVersion.Text = Utils.appVersion;
 			formatVersion.Text = Utils.formatVersion;
@@ -162,6 +163,16 @@ namespace JiME
 			else if ( interactionsUC.dataListView.SelectedItem is ConditionalInteraction )
 			{
 				ConditionalInteractionWindow bw = new ConditionalInteractionWindow( scenario, (ConditionalInteraction)interactionsUC.dataListView.SelectedItem );
+				bw.ShowDialog();
+			}
+			else if ( interactionsUC.dataListView.SelectedItem is DialogInteraction )
+			{
+				DialogInteractionWindow bw = new DialogInteractionWindow( scenario, (DialogInteraction)interactionsUC.dataListView.SelectedItem );
+				bw.ShowDialog();
+			}
+			else if ( interactionsUC.dataListView.SelectedItem is ReplaceTokenInteraction )
+			{
+				ReplaceTokenInteractionWindow bw = new ReplaceTokenInteractionWindow( scenario, (ReplaceTokenInteraction)interactionsUC.dataListView.SelectedItem );
 				bw.ShowDialog();
 			}
 		}
@@ -494,6 +505,30 @@ namespace JiME
 			}
 		}
 		private void CommandNewConditionalInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
+		{
+			e.CanExecute = true;
+		}
+		private void CommandNewDialogInteraction_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
+		{
+			DialogInteractionWindow ew = new DialogInteractionWindow( scenario );
+			if ( ew.ShowDialog() == true )
+			{
+				scenario.AddInteraction( ew.interaction );
+			}
+		}
+		private void CommandNewDialogInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
+		{
+			e.CanExecute = true;
+		}
+		private void CommandNewReplaceTokenInteraction_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
+		{
+			ReplaceTokenInteractionWindow ew = new ReplaceTokenInteractionWindow( scenario );
+			if ( ew.ShowDialog() == true )
+			{
+				scenario.AddInteraction( ew.interaction );
+			}
+		}
+		private void CommandNewReplaceTokenInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
 		{
 			e.CanExecute = true;
 		}

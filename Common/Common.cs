@@ -14,12 +14,12 @@ using System.ComponentModel;
 namespace JiME
 {
 	public enum ScenarioType { Journey, Battle }
-	public enum InteractionType { Text, Threat, StatTest, Decision, Branch, Darkness, MultiEvent, Persistent, Conditional }
+	public enum InteractionType { Text, Threat, StatTest, Decision, Branch, Darkness, MultiEvent, Persistent, Conditional, Dialog, Replace }
 	public enum MonsterType { Ruffian, GoblinScout, OrcHunter, OrcMarauder, Warg, HillTroll, Wight }
 	public enum TileType { Hex, Battle }
 	public enum ThreatAttributes { }//armor, elite, etc
 	public enum ProjectType { Standalone, Campaign }
-	public enum EditMode { Intro, Resolution, Objective, Flavor, Pass, Fail, Progress }
+	public enum EditMode { Intro, Resolution, Objective, Flavor, Pass, Fail, Progress, Dialog, Special, Persistent }
 	public enum EditorMode { Information, Threat, Decision, Test, Branch }
 	public enum Ability { Might, Agility, Wisdom, Spirit, Wit, None }
 	public enum TerrainToken { None, Pit, Mist, Barrels, Table, FirePit, Statue }
@@ -152,8 +152,8 @@ namespace JiME
 		/// AKA "Engine Version" in the companion app
 		/// Update this number every time the file format changes with new features
 		/// </summary>
-		public static string formatVersion = "1.5";
-		public static string appVersion = "0.11-alpha";
+		public static string formatVersion = "1.6";
+		public static string appVersion = "0.14-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;
@@ -391,7 +391,7 @@ namespace JiME
 	{
 		public bool[] includedEnemies = new bool[7];
 		public DifficultyBias difficultyBias;
-		public int poolPoints;
+		public float poolPoints;
 	}
 
 	public class MonsterSim
@@ -416,8 +416,8 @@ namespace JiME
 			}
 		}
 		public int count { get; set; }
-		public int cost { get; set; }
-		public int singlecost { get; set; }
+		public float cost { get; set; }
+		public float singlecost { get; set; }
 		public List<string> modList { get; set; } = new List<string>();
 	}
 

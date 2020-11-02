@@ -62,6 +62,18 @@ namespace JiME.Views
 			oldName = interaction.dataName;
 		}
 
+		private void editPersText_Click( object sender, RoutedEventArgs e )
+		{
+			TextBookData tbd = new TextBookData( "Persistent Text" );
+			tbd.pages.Add( interaction.persistentText );
+
+			TextEditorWindow te = new TextEditorWindow( scenario, EditMode.Persistent, tbd );
+			if ( te.ShowDialog() == true )
+			{
+				interaction.persistentText = te.textBookController.pages[0];
+			}
+		}
+
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
 		{
 			if ( isTokenCB.IsChecked == true )

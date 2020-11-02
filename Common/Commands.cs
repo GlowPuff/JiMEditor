@@ -195,5 +195,25 @@ namespace JiME
 					//new KeyGesture(Key.C, ModifierKeys.Alt)
 				}
 			);
+		public static readonly RoutedUICommand NewDialogInteraction = new RoutedUICommand
+			(
+				"New Dialog Event",
+				"NewDialogInteraction",
+				typeof( MyCommands ),
+				new InputGestureCollection()
+				{
+					//new KeyGesture(Key.C, ModifierKeys.Alt)
+				}
+			);
+		public static readonly RoutedUICommand NewReplaceTokenInteraction = new RoutedUICommand
+			(
+				"New Replace Token Event",
+				"NewReplaceTokenInteraction",
+				typeof( MyCommands ),
+				new InputGestureCollection()
+				{
+					//new KeyGesture(Key.C, ModifierKeys.Alt)
+				}
+			);
 	}
 }

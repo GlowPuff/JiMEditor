@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace JiME
 {
-	public class TextInteraction : INotifyPropertyChanged, ICommonData, IInteraction
+	public class ReplaceTokenInteraction : INotifyPropertyChanged, ICommonData, IInteraction
 	{
 		//common
 		string _dataName, _triggerName, _triggerAfterName;
@@ -79,42 +79,62 @@ namespace JiME
 			}
 		}
 
-		bool _isPersistent;
-		string _persistentText;
-		public bool isPersistent
-		{
-			get => _isPersistent;
-			set
-			{
-				_isPersistent = value;
-				NotifyPropertyChanged( "isPersistent" );
-			}
-		}
-		public string persistentText
-		{
-			get => _persistentText;
-			set
-			{
-				_persistentText = value;
-				NotifyPropertyChanged( "persistentText" );
-			}
-		}
-
 		//IInteraction properties
 		public InteractionType interactionType { get; set; }
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public TextInteraction( string name )
+		//replace event
+		string _eventToReplace, _replaceWithEvent;
+		bool _noText;
+		Guid _replaceWithGUID;
+
+		public string eventToReplace
 		{
-			interactionType = InteractionType.Text;
+			get => _eventToReplace;
+			set
+			{
+				_eventToReplace = value;
+				NotifyPropertyChanged( "eventToReplace" );
+			}
+		}
+		public string replaceWithEvent
+		{
+			get => _replaceWithEvent;
+			set
+			{
+				_replaceWithEvent = value;
+				NotifyPropertyChanged( "replaceWithEvent" );
+			}
+		}
+		public bool noText
+		{
+			get => _noText;
+			set
+			{
+				_noText = value;
+				NotifyPropertyChanged( "noText" );
+			}
+		}
+		public Guid replaceWithGUID
+		{
+			get => _replaceWithGUID;
+			set
+			{
+				_replaceWithGUID = value;
+				NotifyPropertyChanged( "replaceWithGUID" );
+			}
+		}
+
+		public ReplaceTokenInteraction( string name )
+		{
+			interactionType = InteractionType.Replace;
 			dataName = name;
 			GUID = Guid.NewGuid();
 			isEmpty = false;
 			triggerName = "None";
 			triggerAfterName = "None";
 			isTokenInteraction = false;
-			tokenType = TokenType.None;
+			tokenType = TokenType.Search;
 			personType = PersonType.Human;
 			textBookData = new TextBookData();
 			textBookData.pages.Add( "Default Flavor Text\n\nUse this text to describe the Event situation and present choices, depending on the type of Event this is." );
@@ -122,8 +142,9 @@ namespace JiME
 			eventBookData.pages.Add( "Default Event Text.\n\nThis text is shown after the Event is triggered. Use it to tell about the actual event that has been triggered Example: Describe an Enemy Threat, present a Test, describe a Decision, etc." );
 			loreReward = 0;
 
-			isPersistent = false;
-			persistentText = "";
+			eventToReplace = replaceWithEvent = "None";
+			noText = true;
+			replaceWithGUID = Guid.Empty;
 		}
 
 		public void NotifyPropertyChanged( string propName )

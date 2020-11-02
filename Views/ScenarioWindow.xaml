@@ -16,19 +16,10 @@
 			<Setter Property="FontSize" Value="16"/>
 		</Style>
 		<local:BoolInvertVisibility x:Key="b2vis"/>
-		<!--<local:RadioBoolToScenarioTypeConverter x:Key="radioConv"/>-->
 		<local:BoolInvertConverter x:Key="binv"/>
 	</Window.Resources>
 
 	<StackPanel>
-		<!--<Grid.RowDefinitions>
-			<RowDefinition Height="auto"/>
-			<RowDefinition Height="auto"/>
-			<RowDefinition Height="auto"/>
-			<RowDefinition Height="auto"/>
-			<RowDefinition Height="auto"/>
-		</Grid.RowDefinitions>-->
-
 		<Grid Margin="10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="auto"/>
@@ -53,33 +44,61 @@
 				</StackPanel>
 			</Border>
 		</Grid>
+
 		<!--rewards-->
 		<Border  Grid.Row="1" Style="{StaticResource callout}" Margin="10,0,10,10">
-			<UniformGrid Columns="3">
-				<StackPanel>
-					<TextBlock Text="Scenario Rewards:" Style="{StaticResource Heading}" Margin="0,5,0,5"/>
-					<StackPanel Orientation="Horizontal">
-						<!--rewards-->
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Lore Reward:" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-							<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.loreReward}"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
 
-							<TextBlock Text="XP Reward:" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="15,0,10,0"/>
-							<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.xpReward}"/>
-						</StackPanel>
+				<StackPanel Grid.Column="2" Orientation="Horizontal">
+					<!--rewards-->
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Starting Lore:" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+						<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.loreStartValue}"/>
 					</StackPanel>
 				</StackPanel>
 
-				<StackPanel Margin="40,0,0,0" HorizontalAlignment="Center">
+				<StackPanel Grid.Column="0" HorizontalAlignment="Center">
 					<TextBlock Text="First Objective (Optional):" Style="{StaticResource Heading}"/>
 					<ComboBox Name="objectiveCB" ItemsSource="{Binding scenario.objectiveObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding scenario.objectiveName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
 				</StackPanel>
 
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<StackPanel Grid.Column="1" Margin="40,0,40,0" Orientation="Horizontal" HorizontalAlignment="Right">
 					<TextBlock Text="Shadow Phase Fear:" Style="{StaticResource Heading}"/>
 					<TextBox Text="{Binding scenario.shadowFear}" Width="32" Margin="10,0,0,0" VerticalAlignment="Center"/>
 				</StackPanel>
-			</UniformGrid>
+
+				<Button x:Name="specialBtn" Grid.Column="3" Content="Special Instructions" Background="MediumSeaGreen" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Click="specialBtn_Click" Height="36"/>
+			</Grid>
+		</Border>
+		<!--rewards-->
+		<Border  Grid.Row="2" Style="{StaticResource callout}" Margin="10,0,10,5">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="Scenario Rewards" Style="{StaticResource Heading}"/>
+
+				<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="20,0,0,0">
+					<!--rewards-->
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Lore Reward:" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+						<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.loreReward}"/>
+
+						<TextBlock Text="XP Reward:" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="15,0,10,0"/>
+						<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.xpReward}"/>
+					</StackPanel>
+				</StackPanel>
+
+				<TextBlock Margin="0,0,0,0" Grid.Column="2" Text="Lore and XP Rewards are only relevant for Campaigns." Style="{StaticResource SubText}" TextWrapping="Wrap" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+			</Grid>
 		</Border>
 
 		<!--Threat-->
@@ -192,7 +211,6 @@
 
 			</Grid>
 		</GroupBox>
-
 
 		<!--Flavor Text-->
 		<GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="Flavor Text" Foreground="Silver" Margin="10,10,10,10" FontSize="14">
