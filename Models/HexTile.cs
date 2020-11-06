@@ -56,6 +56,12 @@ namespace JiME
 
 		[JsonIgnore]
 		public Path hexPathShape;
+		[JsonIgnore]
+		public Image tileImage;
+		[JsonIgnore]
+		public bool useGraphic;
+
+		//Rect originalPathRect = Rect.Empty;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -91,6 +97,7 @@ namespace JiME
 			if ( !skipBuild )
 			{
 				BuildShape();
+				BuildImage();
 				Update();
 			}
 		}
@@ -157,6 +164,19 @@ namespace JiME
 			//Debug.Log( "NEW:" + position );
 		}
 
+		void BuildImage()
+		{
+			tileImage = new Image();
+			int idx = Utils.LoadTiles().IndexOf( idNumber );
+			if ( tileSide == "A" )
+				tileImage.Source = Utils.tileSourceA[idx];
+			else
+				tileImage.Source = Utils.tileSourceB[idx];
+			tileImage.Width = Math.Ceiling( tileImage.Source.Width );
+			tileImage.Height = Math.Ceiling( tileImage.Source.Height );
+			tileImage.IsHitTestVisible = false;
+		}
+
 		PathFigure BuildRegularPolygon( Point c, double r, int numSides, double offsetDegree )
 		{
 			// c is the center, r is the radius,
@@ -209,7 +229,10 @@ namespace JiME
 		public void ChangeColor( int idx )
 		{
 			color = idx;
-			hexPathShape.Fill = Utils.hexColors[Math.Max( idx, 0 )];
+			if ( !useGraphic )
+				hexPathShape.Fill = Utils.hexColors[Math.Max( idx, 0 )];
+			else
+				hexPathShape.Fill = new SolidColorBrush( Colors.White );
 		}
 
 		/// <summary>
@@ -217,34 +240,222 @@ namespace JiME
 		/// </summary>
 		void Update()
 		{
-			hexPathShape.RenderTransformOrigin = new Point( 0, 0 );//.5d, .5d );
+			hexPathShape.RenderTransformOrigin = new Point( 0, 0 );
 			TranslateTransform tf = new TranslateTransform( position.X, position.Y );
-			//RotateTransform rt = new RotateTransform( angle );
 
 			TransformGroup grp = new TransformGroup();
-			//grp.Children.Add( rt );
 			grp.Children.Add( tf );
 			hexPathShape.RenderTransform = grp;
+
+			//get size dimensions of PATH object
+			Vector dims;
+			if ( tileSide == "A" )
+				dims = new Vector( Utils.hexDictionary[idNumber].width, Utils.hexDictionary[idNumber].height );
+			else
+				dims = new Vector( Utils.hexDictionaryB[idNumber].width, Utils.hexDictionary[idNumber].height );
+
+			//calculate the SCALE of largest side (width or height)
+			double scale;
+			if ( tileImage.Source.Width > tileImage.Source.Height )
+				scale = dims.X / 512;
+			else
+				scale = dims.Y / 512;
+
+			TransformGroup tilegrp = new TransformGroup();
+
+			ScaleTransform scaleTransform = new ScaleTransform( scale, scale );
+
+			RotateTransform rotateTransform = new RotateTransform( angle );
+			rotateTransform.CenterX = 32f;
+			rotateTransform.CenterY = 55.4256256f;
+			if ( hexRoot.X != 0 )
+				rotateTransform.CenterX = 64f * ( hexRoot.X );
+			if ( hexRoot.Y != 1 )
+			{
+				rotateTransform.CenterY = 55.4256256f * ( hexRoot.Y - 2 );
+			}
+
+			//if ( p.y != 1 )
+			//	tilefix = new Vector3( 0, 0, -.4330127f * ( p.y - 1f ) );
+			//if ( p.x != 0 )
+			//	tilefix = new Vector3( p.x * .75f, 0, 0 );
+			var modified = tileSide == "A" ? HandleSpecialCaseA( rotateTransform ) : HandleSpecialCaseB( rotateTransform );
+
+			float yoffset = modified.Item2;
+			TranslateTransform translateTransform = new TranslateTransform( position.X - 32f, position.Y - ( 27.7128128f + yoffset ) );
+
+			tilegrp.Children.Add( scaleTransform );
+			tilegrp.Children.Add( rotateTransform );
+			tilegrp.Children.Add( translateTransform );
+
+			tileImage.RenderTransform = tilegrp;
+
+			//dims 64 x 55.4256256
+			//27.7128128
+		}
+
+		Tuple<RotateTransform, float> HandleSpecialCaseA( RotateTransform rotateTransform )
+		{
+			float yoffset = 0;
+
+			if ( idNumber == 201 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 205 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterX = 64f * ( hexRoot.X ) - 16;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 206 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 5f;
+			}
+			else if ( idNumber == 207 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 209 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 3f;
+			}
+			else if ( idNumber == 304 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 4f;
+			}
+			else if ( idNumber == 305 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 307 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 400 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+
+			return new Tuple<RotateTransform, float>( rotateTransform, yoffset );
+		}
+
+		Tuple<RotateTransform, float> HandleSpecialCaseB( RotateTransform rotateTransform )
+		{
+			float yoffset = 0;
+
+			if ( idNumber == 200 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 5f;
+			}
+			else if ( idNumber == 201 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f * 3f;
+			}
+			else if ( idNumber == 204 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 205 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f;
+			}
+			else if ( idNumber == 206 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 2f;
+			}
+			else if ( idNumber == 207 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 2f;
+			}
+			else if ( idNumber == 209 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 2f;
+			}
+			else if ( idNumber == 302 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 5f;
+			}
+			else if ( idNumber == 303 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 4f;
+			}
+			else if ( idNumber == 304 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 1f;
+			}
+			else if ( idNumber == 305 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f * 4f;
+			}
+			else if ( idNumber == 306 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 3f;
+			}
+			else if ( idNumber == 307 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f * 2f;
+			}
+			else if ( idNumber == 308 )
+			{
+				rotateTransform.CenterY = 27.7128128f * 1f;
+			}
+			else if ( idNumber == 400 )
+			{
+				yoffset = -27.7128128f;
+				rotateTransform.CenterY = 27.7128128f * 5f;
+			}
+
+			return new Tuple<RotateTransform, float>( rotateTransform, yoffset );
 		}
 
 		public void Select()
 		{
 			hexPathShape.Stroke = new SolidColorBrush( Colors.Red );
 			Canvas.SetZIndex( hexPathShape, 100 );
+			Canvas.SetZIndex( tileImage, 101 );
 		}
 
 		public void Unselect()
 		{
 			hexPathShape.Stroke = new SolidColorBrush( Colors.White );
 			Canvas.SetZIndex( hexPathShape, 0 );
+			Canvas.SetZIndex( tileImage, 1 );
 		}
 
 		public void Rehydrate( Canvas canvas )
 		{
 			BuildShape();
+			BuildImage();
 			hexPathShape.DataContext = this;
 			canvas.Children.Add( hexPathShape );
+			if ( useGraphic )
+				canvas.Children.Add( tileImage );
 			Update();
+		}
+
+		public void ToggleGraphic( Canvas canvas )
+		{
+			if ( useGraphic )
+			{
+				if ( !canvas.Children.Contains( tileImage ) )
+					canvas.Children.Add( tileImage );
+			}
+			else
+			{
+				canvas.Children.Remove( tileImage );
+			}
+			ChangeColor( color );
 		}
 
 		public void ChangeTileSide( string side, Canvas canvas )
@@ -261,6 +472,7 @@ namespace JiME
 		{
 			//4,57.7128128
 			canvas.Children.Remove( hexPathShape );
+			canvas.Children.Remove( tileImage );
 			angle += amount;
 			angle %= 360;
 			Rehydrate( canvas );
@@ -272,6 +484,7 @@ namespace JiME
 		{
 			clickV = new Point();
 			TransformGroup grp = hexPathShape.RenderTransform as TransformGroup;
+
 			if ( grp?.Children.Count == 1 )
 			{
 				Vector gv = new Vector( ( (TranslateTransform)grp.Children[0] ).X, ( (TranslateTransform)grp.Children[0] ).Y );

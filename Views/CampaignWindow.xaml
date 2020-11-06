@@ -1,0 +1,160 @@
+﻿<Window x:Class="JiME.Views.CampaignWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JiME"
+        mc:Ignorable="d"
+        Title="Your Journey - New Campaign" Width="800" Background="{StaticResource bgColor}" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+		<Border Style="{StaticResource callout}" Margin="10">
+			<StackPanel>
+				<TextBlock Style="{StaticResource Heading}" Text="Campaign Name:"/>
+				<TextBlock Style="{StaticResource SubText}" Text="This is the name players will see in the Companion App."/>
+				<TextBox x:Name="campaignNameTB" Text="{Binding campaign.campaignName,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" HorizontalAlignment="Left" Width="450"/>
+
+				<TextBlock Style="{StaticResource Heading}" Text="Campaign Scenarios" Margin="0,5,0,0"/>
+
+				<StackPanel Orientation="Horizontal">
+					<Button x:Name="createNew" Background="DodgerBlue"  HorizontalAlignment="Left" Margin="0,5,0,0" Click="createNew_Click" Height="44">
+						<StackPanel Orientation="Horizontal" Margin="5,0">
+							<TextBlock Text="Create And Add New Scenario..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/add2.png" Height="24"/>
+						</StackPanel>
+					</Button>
+
+					<Button x:Name="addExisting" Background="MediumSeaGreen"  HorizontalAlignment="Left" Margin="10,5,0,0" Click="addExisting_Click" Height="44">
+						<StackPanel Orientation="Horizontal" Margin="5,0">
+							<TextBlock Text="Add Existing Scenario..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/addpage.png" Height="24"/>
+						</StackPanel>
+					</Button>
+				</StackPanel>
+
+				<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" MaxHeight="245" MinHeight="150">
+					<ItemsControl x:Name="scenarioList" Background="{StaticResource  bgColor}" BorderThickness="0" VerticalAlignment="Stretch" Margin="0,5,0,0" ItemsSource="{Binding campaign.scenarioCollection}" HorizontalContentAlignment="Stretch">
+
+						<!--item template-->
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+									</Grid.ColumnDefinitions>
+									<Border Style="{StaticResource callout}" Padding="5" Margin="2">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*"/>
+												<ColumnDefinition Width="auto"/>
+											</Grid.ColumnDefinitions>
+
+											<StackPanel VerticalAlignment="Center">
+												<TextBlock Text="{Binding scenarioName}" Style="{StaticResource Heading}" VerticalAlignment="Center"/>
+												<TextBlock Text="{Binding fileName}" Style="{StaticResource SubText}"/>
+											</StackPanel>
+
+											<!--up/down/edit/remove buttons-->
+											<StackPanel Orientation="Horizontal" Grid.Column="1">
+												<!--up-->
+												<Button x:Name="moveUp" Background="Gainsboro" Margin="0,0,5,0" RenderTransformOrigin="0.5,0.5" Width="35" Height="35" Click="moveUp_Click">
+													<Button.RenderTransform>
+														<TransformGroup>
+															<ScaleTransform/>
+															<SkewTransform/>
+															<RotateTransform Angle="-90"/>
+															<TranslateTransform/>
+														</TransformGroup>
+													</Button.RenderTransform>
+													<Image Source="/JiME;component/Assets/arrow.png"/>
+												</Button>
+
+												<!--down-->
+												<Button x:Name="moveDown" Background="Gainsboro" RenderTransformOrigin="0.5,0.5" Width="35" Height="35" Margin="0,0,10,0" Click="moveDown_Click">
+													<Button.RenderTransform>
+														<TransformGroup>
+															<ScaleTransform/>
+															<SkewTransform/>
+															<RotateTransform Angle="90"/>
+															<TranslateTransform/>
+														</TransformGroup>
+													</Button.RenderTransform>
+													<Image Source="/JiME;component/Assets/arrow.png"/>
+												</Button>
+
+												<!--edit-->
+												<Button x:Name="editSelected" Background="DodgerBlue" Foreground="White" Height="35" Width="160" HorizontalAlignment="Left" Click="editSelected_Click">
+													<StackPanel Orientation="Horizontal">
+														<TextBlock HorizontalAlignment="Left" Text="Edit Scenario..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+														<Image Source="/JiME;component/Assets/edit.png" Stretch="Uniform"/>
+													</StackPanel>
+												</Button>
+
+												<!--remove-->
+												<Button x:Name="removeScenario" Background="{StaticResource bgCancelDelete}" Click="removeScenario_Click" Width="46" Height="35" ToolTip="Removes the Scenario from the Campaign. The Scenario is NOT deleted." VerticalAlignment="Bottom" Margin="10,0,0,0">
+													<Image Source="/JiME;component/Assets/cancel.png" Stretch="Uniform" Margin="0"/>
+												</Button>
+											</StackPanel>
+										</Grid>
+									</Border>
+								</Grid>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+
+				<UniformGrid Columns="2" Margin="0,10,0,0">
+					<StackPanel VerticalAlignment="Center">
+						<TextBlock x:Name="cGUID" Text="Campaign GUID: " Style="{StaticResource Heading}" FontSize="12"/>
+						<TextBlock Text="The Package is a ZIP file of this Campaign's Scenarios and other data. It's saved to the Campaign's folder and can be shared." Style="{StaticResource SubText}" FontSize="12" TextWrapping="Wrap"/>
+					</StackPanel>
+
+					<Button x:Name="packageCampaign" Background="DodgerBlue" Foreground="White" HorizontalAlignment="Right" Click="packageCampaign_Click" Height="44">
+						<StackPanel Orientation="Horizontal" Margin="5,0">
+							<TextBlock Text="Create Package" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/package.png" Height="32"/>
+						</StackPanel>
+					</Button>
+				</UniformGrid>
+
+			</StackPanel>
+		</Border>
+
+		<!--footer-->
+		<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
+			<Grid Margin="10,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="auto"/>
+				</Grid.ColumnDefinitions>
+
+				<Button x:Name="deleteCampaign" Margin="0,10,10,10" Background="Red" Click="deleteCampaign_Click" Height="44" HorizontalAlignment="Left">
+					<StackPanel Orientation="Horizontal" Margin="5,0">
+						<TextBlock Text="Delete Campaign..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+						<Image Source="/JiME;component/Assets/cancel.png" Height="24"/>
+					</StackPanel>
+				</Button>
+
+				<StackPanel Grid.Column="1" Orientation="Horizontal">
+					<Button x:Name="okButton" Background="MediumSeaGreen" Click="okButton_Click" IsDefault="True" Height="44">
+						<StackPanel Orientation="Horizontal" Margin="5,0">
+							<TextBlock Text="Save and Close" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/save.png" Height="24"/>
+						</StackPanel>
+					</Button>
+
+					<Button x:Name="cancelButton" Margin="10,10,0,10" Background="{StaticResource bgCancelDelete}" Click="cancelButton_Click" Height="44">
+						<StackPanel Orientation="Horizontal" Margin="5,0">
+							<TextBlock Text="Cancel" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/cancel.png" Height="24"/>
+						</StackPanel>
+					</Button>
+				</StackPanel>
+			</Grid>
+		</Border>
+	</Grid>
+</Window>

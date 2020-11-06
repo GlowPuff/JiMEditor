@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System;
 
 namespace JiME.Views
 {
@@ -118,6 +119,12 @@ namespace JiME.Views
 			introTB.Text = scenario.introBookData.pages[0];
 			resolutionCB.ItemsSource = scenario.resolutionObserver;
 			threatList.ItemsSource = threatCollection;//bind dummy
+
+			if ( scenario.campaignGUID != Guid.Empty )
+			{
+				campaignNotice.Visibility = Visibility.Visible;
+				campaignGUID.Text = scenario.campaignGUID.ToString();
+			}
 		}
 
 		void UpdateThreatPanel()

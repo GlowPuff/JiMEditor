@@ -65,6 +65,8 @@
 							<TextBlock Text="Token Slots Available" Style="{StaticResource Heading}" HorizontalAlignment="Center"/>
 							<TextBlock Text="{Binding hexTile.tokenCount}" Style="{StaticResource SubText}" HorizontalAlignment="Center"/>
 
+							<Button x:Name="addToken"  Background="MediumSeaGreen" Margin="0,10,0,0" Foreground="White" Content="Add Token" Click="addToken_Click"/>
+
 							<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 								<StackPanel>
 									<TextBlock Text="Selected Token:" Foreground="White" HorizontalAlignment="Center"/>
@@ -81,11 +83,11 @@
 										</Button>
 									</Grid>
 
-									<TextBlock Text="Trigger This Event:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-									<ComboBox Name="interactionCB" ItemsSource="{Binding tokenInteractions}" DisplayMemberPath="dataName" SelectedValue="{Binding selected.triggerName}" SelectedValuePath="dataName" VerticalAlignment="Center" SelectionChanged="interactionCB_SelectionChanged"/>
-									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Only Events marked as Token Interactions will appear in this dropdown."/>
+									<TextBlock Text="Trigger This Event:" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+									<ComboBox Name="interactionCB" ItemsSource="{Binding tokenInteractions}" DisplayMemberPath="dataName" SelectedValue="{Binding selected.triggerName}" SelectedValuePath="dataName" VerticalAlignment="Center" SelectionChanged="interactionCB_SelectionChanged" Margin="0,5,0,0"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Only Events marked as Token Interactions will appear in this dropdown." Margin="0,5,0,0"/>
 
-									<TextBlock Text="Triggered By:" Foreground="White" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+									<TextBlock Text="Triggered By:" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,0"/>
 									<Grid>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="*"/>
@@ -97,11 +99,9 @@
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
 									</Grid>
-									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Tokens with Triggered By set will ONLY spawn when they are Triggered, NOT when the Chapter is activated."/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Tokens with Triggered By set will ONLY spawn when they are Triggered, NOT when the Chapter is activated." Margin="0,3,0,0"/>
 								</StackPanel>
 							</Border>
-
-							<Button x:Name="addToken"  Background="MediumSeaGreen" Margin="0,10,0,0" Foreground="White" Content="Add Token" Click="addToken_Click"/>
 
 							<!--<UniformGrid Columns="2" Margin="0,5,0,0">
 								<Button x:Name="addSearch" Background="ForestGreen" Margin="0,0,2,0" Foreground="White" Content="+ Search" Click="addSearch_Click"/>
@@ -115,7 +115,7 @@
 						</StackPanel>
 					</Border>
 
-					<Border x:Name="explorationBox" Style="{StaticResource callout}" Background="{StaticResource bgColor}" Margin="0,10">
+					<Border x:Name="explorationBox" Style="{StaticResource callout}" Background="{StaticResource bgColor}" Margin="0,10,0,0">
 						<StackPanel>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
 							<Button x:Name="addFlavor" Background="MediumSeaGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click"/>
@@ -124,7 +124,7 @@
 					</Border>
 
 					<!--color key-->
-					<Border Style="{StaticResource callout}" Background="{StaticResource bgColor}">
+					<Border Style="{StaticResource callout}" Background="{StaticResource bgColor}" Margin="0,10,0,0">
 						<StackPanel>
 							<TextBlock Text="Color Key" Style="{StaticResource Heading}" HorizontalAlignment="Center"/>
 

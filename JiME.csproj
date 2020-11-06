@@ -56,6 +56,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,6 +86,7 @@
     <Compile Include="Common\TextBook.cs" />
     <Compile Include="Common\TileConverter.cs" />
     <Compile Include="Models\BattleTile.cs" />
+    <Compile Include="Models\Campaign.cs" />
     <Compile Include="Models\HexTile.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Interaction Events\BranchInteraction.cs" />
@@ -128,6 +131,9 @@
     </Compile>
     <Compile Include="Views\MultiEventWindow.xaml.cs">
       <DependentUpon>MultiEventWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CampaignWindow.xaml.cs">
+      <DependentUpon>CampaignWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PersistentInteractionWindow.xaml.cs">
       <DependentUpon>PersistentInteractionWindow.xaml</DependentUpon>
@@ -225,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MultiEventWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CampaignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -476,6 +486,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\addtileblock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\package.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

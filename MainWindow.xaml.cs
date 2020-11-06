@@ -14,10 +14,11 @@ namespace JiME
 	{
 		public Scenario scenario { get; set; }
 
-		public MainWindow() : this( null )
+		public MainWindow( Guid campaignGUID ) : this( null )
 		{
-
+			scenario.campaignGUID = campaignGUID;
 		}
+
 		public MainWindow( Scenario s = null )
 		{
 			InitializeComponent();
@@ -350,7 +351,6 @@ namespace JiME
 
 		private void CommandSaveProject_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
 		{
-			//TODO run scenario.FixOrphans and show dialog with results
 			FileManager fm = new FileManager( scenario );
 			if ( fm.Save() )
 			{
@@ -382,9 +382,8 @@ namespace JiME
 
 		private void CommandSaveProjectAs_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
 		{
-			//TODO run scenario.FixOrphans and show dialog with results
 			FileManager fm = new FileManager( scenario );
-			if ( fm.Save( true ) )
+			if ( fm.SaveAs() )
 			{
 				scenario.fileName = fm.fileName;
 				scenario.saveDate = fm.saveDate;

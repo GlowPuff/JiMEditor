@@ -8,6 +8,7 @@ namespace JiME
 		public string coords { get; set; }
 		public float rotation { get; set; }
 		public int tileCount;
+		public double width, height;
 
 		public void Init()
 		{

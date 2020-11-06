@@ -77,6 +77,13 @@ namespace JiME
 		public string fileVersion { get; set; }
 	}
 
+	public class CampaignItem
+	{
+		public string scenarioName { get; set; }
+		///file NAME only, not path
+		public string fileName { get; set; }
+	}
+
 	class TileSorter : IComparer<int>
 	{
 		public int Compare( int x, int y )
@@ -153,7 +160,7 @@ namespace JiME
 		/// Update this number every time the file format changes with new features
 		/// </summary>
 		public static string formatVersion = "1.6";
-		public static string appVersion = "0.14-alpha";
+		public static string appVersion = "0.16-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;
@@ -183,8 +190,9 @@ namespace JiME
 				dragSnapY[i] = 55.4256256d / 2 * i;//27.7128128
 
 			//max hex area of any composite shape
-			hexSnapX = new double[20];
-			hexSnapY = new double[21];
+			hexSnapX = new double[25];//20
+			hexSnapY = new double[26];//21
+
 			//hexSnapX = new double[8];
 			//hexSnapY = new double[9];
 			//double xx = 36d, yy = 30;//offset onto canvas
@@ -238,6 +246,9 @@ namespace JiME
 			return Math.Abs( value1 - value2 ) <= tolerance;
 		}
 
+		/// <summary>
+		/// returns tile ID data in an array
+		/// </summary>
 		public static List<int> LoadTiles()
 		{
 			var assembly = Assembly.GetExecutingAssembly();
@@ -297,10 +308,13 @@ namespace JiME
 					{
 						data.Init();
 						if ( item == "A" )
+						{
 							hexDictionary.Add( data.id, data );
+						}
 						else
+						{
 							hexDictionaryB.Add( data.id, data );
-
+						}
 					}
 				}
 			}

@@ -43,8 +43,10 @@ namespace JiME.Views
 			//rehydrate existing tiles in this chapter
 			for ( int i = 0; i < chapter.tileObserver.Count; i++ )
 			{
+				( (HexTile)chapter.tileObserver[i] ).useGraphic = scenario.useTileGraphics;
 				( (HexTile)chapter.tileObserver[i] ).Rehydrate( canvas );
 				( (HexTile)chapter.tileObserver[i] ).ChangeColor( i );
+				( (HexTile)chapter.tileObserver[i] ).ToggleGraphic( canvas );
 			}
 
 			editTokenButton.IsEnabled = !chapter.usesRandomGroups;
@@ -109,6 +111,7 @@ namespace JiME.Views
 				{
 					scenario.globalTilePool.Add( selected.idNumber );
 					canvas.Children.Remove( selected.hexPathShape );
+					canvas.Children.Remove( selected.tileImage );
 					chapter.RemoveTile( selected );
 					selected = null;
 					//sort list
@@ -135,9 +138,12 @@ namespace JiME.Views
 
 			int color = GetUnusedColor();
 			HexTile hex = new HexTile( (int)tilePool.SelectedItem );
+			hex.useGraphic = scenario.useTileGraphics;
 			chapter.AddTile( hex );
 			hex.ChangeColor( color );
 			canvas.Children.Add( hex.hexPathShape );
+			if ( scenario.useTileGraphics )
+				canvas.Children.Add( hex.tileImage );
 			selected = hex;
 			selected.Select();
 			radioA.IsChecked = selected.tileSide == "A";
@@ -152,6 +158,7 @@ namespace JiME.Views
 			{
 				scenario.globalTilePool.Add( selected.idNumber );
 				canvas.Children.Remove( selected.hexPathShape );
+				canvas.Children.Remove( selected.tileImage );
 				chapter.RemoveTile( selected );
 				selected = null;
 				//sort list
@@ -263,6 +270,7 @@ namespace JiME.Views
 				if ( selected.tileSide == "A" )
 					return;
 				canvas.Children.Remove( selected.hexPathShape );
+				canvas.Children.Remove( selected.tileImage );
 				selected.ChangeTileSide( "A", canvas );
 			}
 		}
@@ -274,6 +282,7 @@ namespace JiME.Views
 				if ( selected.tileSide == "B" )
 					return;
 				canvas.Children.Remove( selected.hexPathShape );
+				canvas.Children.Remove( selected.tileImage );
 				selected.ChangeTileSide( "B", canvas );
 			}
 		}
@@ -311,6 +320,15 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				selected.triggerName = tw.triggerName;
+			}
+		}
+
+		private void toggleUseGraphics_Click( object sender, RoutedEventArgs e )
+		{
+			for ( int i = 0; i < chapter.tileObserver.Count; i++ )
+			{
+				( (HexTile)chapter.tileObserver[i] ).useGraphic = scenario.useTileGraphics;
+				( (HexTile)chapter.tileObserver[i] ).ToggleGraphic( canvas );
 			}
 		}
 	}

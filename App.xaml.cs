@@ -16,7 +16,7 @@ namespace JiME
 			//PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Warning | SourceLevels.Error;
 
 			//#if !DEBUG
-			Application.Current.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+			//Application.Current.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
 			//#endif
 		}
 

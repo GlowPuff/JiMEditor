@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using JiME.Views;
 
 namespace JiME
 {
@@ -10,6 +12,7 @@ namespace JiME
 	/// </summary>
 	public partial class ProjectWindow : Window, INotifyPropertyChanged
 	{
+		//scenarioName, fileName
 		public ObservableCollection<ProjectItem> projectCollection;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -37,7 +40,7 @@ namespace JiME
 			}
 			else
 			{
-				throw new System.Exception( "Could not properly load scenario projects." );
+				throw new Exception( "Could not properly load scenario projects." );
 			}
 
 			formatVersion.Text = "Scenario Format Version: v." + Utils.formatVersion;
@@ -79,27 +82,41 @@ namespace JiME
 
 		private void ScenarioButton_Click( object sender, RoutedEventArgs e )
 		{
-			MainWindow mainWindow = new MainWindow();
+			MainWindow mainWindow = new MainWindow( Guid.Empty );
 			mainWindow.Show();
 			Close();
 		}
 
 		private void CampaignButton_Click( object sender, RoutedEventArgs e )
 		{
+			CampaignWindow campaignWindow = new CampaignWindow();
+			campaignWindow.Show();
+			Close();
 		}
 
 		private void ProjectLV_SelectionChanged( object sender, SelectionChangedEventArgs e )
 		{
 			ProjectItem item = ( (ListView)e.Source ).SelectedItem as ProjectItem;
-			var project = FileManager.LoadProject( item.fileName );
-			if ( project != null )
+			if ( item != null && item.projectType == ProjectType.Standalone )
 			{
-				MainWindow mainWindow = new MainWindow( project );
-				mainWindow.Show();
-				Close();
+				var project = FileManager.LoadProject( item.fileName );
+				if ( project != null )
+				{
+					MainWindow mainWindow = new MainWindow( project );
+					mainWindow.Show();
+					Close();
+				}
 			}
-			else
+			else if ( item != null && item.projectType == ProjectType.Campaign )
 			{
+				//load the campaign object from item.filename
+				Campaign c = FileManager.LoadCampaign( item.fileName );
+				if ( c != null )
+				{
+					CampaignWindow cw = new CampaignWindow( c );
+					cw.Show();
+					Close();
+				}
 			}
 		}
 

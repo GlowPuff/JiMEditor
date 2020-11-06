@@ -174,7 +174,7 @@ Use the Event Text to describe the actual Event that has been triggered. Example
 
 			<TabItem Padding="5" Header="Dialog">
 				<StackPanel Margin="0,5,0,0">
-					<TextBlock Style="{StaticResource SubText}" Text="Dialog Events present the players with a choice of up to 3 dialog options to choose from. Choosing a dialog option uses an Action. After choosing a dialog choice, the players are shown the story text associated with that option. Dialog Event Tokens are persistent so they can be interacted with again." VerticalAlignment="Center" TextWrapping="Wrap" />
+					<TextBlock Style="{StaticResource SubText}" Text="Dialog Events present the players with a choice of up to 3 dialog options to choose from. Choosing a dialog option uses an Action. After choosing a dialog choice, the players are shown the story text associated with that option. Dialog Event Tokens are removed from the tile after all Dialog Options have been used, unless the persistent checkbox below is checked." VerticalAlignment="Center" TextWrapping="Wrap" />
 
 					<Border Style="{StaticResource callout}" Margin="0,5">
 						<TextBlock Text="To disable a dialog option in the Companion App, leave the textbox empty." Style="{StaticResource Heading}" HorizontalAlignment="Center"/>

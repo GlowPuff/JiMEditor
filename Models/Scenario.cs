@@ -13,9 +13,8 @@ namespace JiME
 		//public ErrorChecker errorChecker { get; set; }
 
 		string _scenarioName, _fileName, _objectiveName, _fileVersion, _specialInstructions;
-		bool _isDirty;
+		bool _isDirty, _scenarioTypeJourney, _useTileGraphics;
 		int _threatMax, _loreReward, _xpReward, _shadowFear, _loreStartValue;
-		bool _scenarioTypeJourney;
 		int[] _wallTypes;
 		Guid _scenarioGUID, _campaignGUID;
 		//titleChangedToken is ONLY used to trigger the window Title converter
@@ -68,6 +67,9 @@ namespace JiME
 				}
 			}
 		}
+		/// <summary>
+		/// just the file NAME, not the path
+		/// </summary>
 		public string fileName
 		{
 			get => _fileName;
@@ -175,6 +177,15 @@ namespace JiME
 				PropChanged( "specialInstructions" );
 			}
 		}
+		public bool useTileGraphics
+		{
+			get => _useTileGraphics;
+			set
+			{
+				_useTileGraphics = value;
+				PropChanged( "useTileGraphics" );
+			}
+		}
 		#endregion
 
 		public ObservableCollection<IInteraction> interactionObserver { get; set; }
@@ -239,6 +250,7 @@ namespace JiME
 			s.scenarioGUID = fm.scenarioGUID;
 			s.campaignGUID = fm.campaignGUID;
 			s.specialInstructions = fm.specialInstructions ?? "";
+			s.useTileGraphics = fm.useTileGraphics;
 
 			if ( s.scenarioGUID.ToString() == "00000000-0000-0000-0000-000000000000" )
 				s.scenarioGUID = Guid.NewGuid();
@@ -279,6 +291,7 @@ namespace JiME
 			loreReward = loreStartValue = xpReward = 0;
 			shadowFear = 2;
 			fileVersion = Utils.formatVersion;
+			useTileGraphics = true;
 
 			introBookData = new TextBookData( "Default Introduction Text" );
 			introBookData.pages.Add( "Default Introduction text.\n\nThis text is displayed at the beginning of the Scenario to describe the mission and Objectives.\n\nScenarios have one Introduction Text." );

@@ -55,6 +55,7 @@
 			</Grid.ColumnDefinitions>
 
 			<Canvas x:Name="canvas" MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove" Width="512" Height="512" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="canvas_MouseLeftButtonDown">
+				<!--<Image Source="/JiME;component/Assets/TilesA/101.png" />-->
 				<!--<Path Style="{StaticResource hex}"/>
 				<Path Style="{StaticResource hex}">
 					<Path.RenderTransform>
@@ -93,6 +94,8 @@
 
 								<Button x:Name="tileGalleryButton" Background="MediumSeaGreen" Margin="0,10,0,0" Content="Add From Tile Gallery" Foreground="White" Click="tileGalleryButton_Click">
 								</Button>
+
+								<CheckBox x:Name="toggleUseGraphics" Content="Use Tile Graphics" IsChecked="{Binding scenario.useTileGraphics}" Foreground="White" Margin="0,10,0,0" Click="toggleUseGraphics_Click"/>
 							</StackPanel>
 						</Border>
 
@@ -158,9 +161,9 @@
 						<ColumnDefinition Width="auto"/>
 					</Grid.ColumnDefinitions>
 
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<TextBlock Style="{StaticResource Heading}" Text="Add Up To 5 Tiles" Margin="0,0,100,0"/>
-						<TextBlock Style="{StaticResource Heading}" Text="Rotate: Page Up/Page Down" Margin="20"/>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+						<TextBlock Style="{StaticResource Heading}" Text="Add Up To 5 Tiles" Margin="0,0,0,0"/>
+						<TextBlock Style="{StaticResource Heading}" Text="Rotate: Page Up/Page Down" Margin="80,0"/>
 						<TextBlock Style="{StaticResource Heading}" Text="Remove Selected Tile: Del" />
 					</StackPanel>
 

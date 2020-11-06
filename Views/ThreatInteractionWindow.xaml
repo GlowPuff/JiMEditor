@@ -197,9 +197,7 @@
 								<TextBlock Text="Event Help" Style="{StaticResource Heading}" Margin="5,0,0,0"/>
 							</StackPanel>
 						</Button>
-
 					</Grid>
-
 
 					<Button x:Name="addMonsterButton" Background="MediumSeaGreen"  HorizontalAlignment="Left" Margin="0,0,0,10" Click="AddMonsterButton_Click">
 						<StackPanel Orientation="Horizontal">

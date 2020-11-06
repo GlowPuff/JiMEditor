@@ -32,6 +32,7 @@ namespace JiME
 		public int loreStartValue { get; set; }
 		public int xpReward { get; set; }
 		public int shadowFear { get; set; }
+		public bool useTileGraphics { get; set; }
 
 		[JsonConverter( typeof( InteractionConverter ) )]
 		public List<IInteraction> interactions { get; set; }
@@ -60,6 +61,7 @@ namespace JiME
 			loreStartValue = source.loreStartValue;
 			xpReward = source.xpReward;
 			shadowFear = source.shadowFear;
+			useTileGraphics = source.useTileGraphics;
 
 			interactions = source.interactionObserver.ToList();
 			triggers = source.triggersObserver.ToList();
@@ -78,10 +80,39 @@ namespace JiME
 			scenarioTypeJourney = source.scenarioTypeJourney;
 		}
 
-		public bool Save( bool saveAs = false )
+		/// <summary>
+		/// saves Scenario. Detects if scenario is part of campaign, saves to proper folder
+		/// </summary>
+		public bool Save()
 		{
-			//string basePath = Path.Combine( System.AppDomain.CurrentDomain.BaseDirectory, "Projects" );
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			if ( campaignGUID == Guid.Empty )
+				return Save( false, Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" ) );
+			else
+				return Save( false, Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey", campaignGUID.ToString() ) );
+		}
+
+		/// <summary>
+		/// saves a NEW standalone scenario to base project folder
+		/// </summary>
+		public bool SaveAs()
+		{
+			return Save( true, Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" ) );
+		}
+
+		/// <summary>
+		/// saves a NEW scenario to campaign folder
+		/// </summary>
+		public bool SaveAs( string campaignFolder )
+		{
+			return Save( true, campaignFolder );
+		}
+
+		/// <summary>
+		/// outFolder is the full path, excluding filename. Creates folder if it doesn't exist
+		/// </summary>
+		private bool Save( bool saveAs, string outFolder )
+		{
+			string basePath = outFolder;//Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
 
 			if ( saveAs || string.IsNullOrEmpty( fileName ) )
 			{
@@ -90,7 +121,7 @@ namespace JiME
 					var di = Directory.CreateDirectory( basePath );
 					if ( di == null )
 					{
-						MessageBox.Show( "Could not create the scenario project folder.\r\nTried to create: " + basePath, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+						MessageBox.Show( "Could not create the Scenario project folder.\r\nTried to create: " + basePath, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
 						return false;
 					}
 				}
@@ -167,17 +198,29 @@ namespace JiME
 				return null;
 			}
 
-			//string basePath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Projects" );
 			return Load( Path.Combine( basePath, filename ) );
 		}
 
 		/// <summary>
-		/// Return ProjectItem info for files in Project folder
+		/// supply the campaign base path and scenario filename
+		/// </summary>
+		public static Scenario LoadProjectFromPath( string basePath, string filename )
+		{
+			//make sure the folder exists
+			if ( !Directory.Exists( basePath ) )
+			{
+				MessageBox.Show( "Could not find the campaign project folder.\r\nTried to find: " + basePath, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				return null;
+			}
+
+			return Load( Path.Combine( basePath, filename ) );
+		}
+
+		/// <summary>
+		/// Return ProjectItem info for scenarios and campaigns in Project folder
 		/// </summary>
 		public static IEnumerable<ProjectItem> GetProjects()
 		{
-			//string basePath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Projects" );
-
 			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
 
 			//make sure the project folder exists
@@ -194,6 +237,24 @@ namespace JiME
 			List<ProjectItem> items = new List<ProjectItem>();
 			DirectoryInfo di = new DirectoryInfo( basePath );
 			FileInfo[] files = di.GetFiles().Where( file => file.Extension == ".jime" ).ToArray();
+			//find campaigns
+			foreach ( DirectoryInfo dInfo in di.GetDirectories() )
+			{
+				Campaign c = LoadCampaign( dInfo.Name );
+				if ( c != null )
+				{
+					FileInfo fi = new FileInfo( Path.Combine( basePath, dInfo.Name, dInfo.Name + ".json" ) );
+					ProjectItem pi = new ProjectItem();
+					pi.projectType = ProjectType.Campaign;
+					pi.Date = fi.LastWriteTime.ToString( "M/d/yyyy" );
+					pi.Title = c.campaignName;
+					pi.fileName = dInfo.Name;
+					pi.fileVersion = c.fileVersion;
+					items.Add( pi );
+				}
+			}
+
+			//find scenario files
 			foreach ( FileInfo fi in files )
 			{
 				//Debug.Log( fi.FullName );
@@ -202,6 +263,30 @@ namespace JiME
 					items.Add( new ProjectItem() { Title = s.scenarioName, projectType = s.projectType, Date = s.saveDate, fileName = fi.Name, fileVersion = s.fileVersion } );
 			}
 			return items;
+		}
+
+		public static Campaign LoadCampaign( string campaignGUID )
+		{
+			if ( campaignGUID == "Saves" )
+				return null;
+
+			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey", campaignGUID );
+			string json = "";
+			try
+			{
+				using ( StreamReader sr = new StreamReader( Path.Combine( basePath, campaignGUID + ".json" ) ) )
+				{
+					json = sr.ReadToEnd();
+				}
+
+				var c = JsonConvert.DeserializeObject<Campaign>( json );
+				return c;
+			}
+			catch ( Exception e )
+			{
+				MessageBox.Show( "Could not load the Campaign data.\r\n\r\nException:\r\n" + e.Message, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				return null;
+			}
 		}
 	}
 }

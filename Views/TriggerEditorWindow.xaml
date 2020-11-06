@@ -23,10 +23,10 @@
 					Triggers are <Italic>True / False</Italic> values that are set during the Scenario to keep track of player actions. <Bold>All Triggers start off with a value of <Italic>False</Italic></Bold>.
 			</TextBlock>
 			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-				Triggers are also used by many components for notification to be activated. For example, Triggers can activate Events, start and end Objectives, activate Chapters, end the Scenario, and other actions that use Triggers.
+				Triggers are also used by many components to get notified of when to activate. For example, Triggers can activate Events, start and end Objectives, activate Chapters, end the Scenario, and other actions that use Triggers.
 			</TextBlock>
 			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-				<Bold>Triggers can only activate a component once</Bold>. Firing a Trigger more than once is ignored by the companion app. If more than one component is set to be activated by the same Trigger, only the first one the companion app finds will be Triggered. The rest are ignored.
+				<Bold>Triggers can only be fired once</Bold>. Firing a Trigger more than once is ignored by the companion app. If more than one component is set to be activated by the same Trigger, for example an Objective and a Token, <Bold>only the first one the companion app finds will be Triggered</Bold>. The rest are ignored.
 			</TextBlock>
 
 			<TextBlock Style="{StaticResource Heading}" Text="Special Instructions For Events" Margin="0,10,0,0"/>
@@ -39,14 +39,8 @@
 				If a Trigger is marked as a <Bold>Multi-Trigger</Bold>, the normal behavior changes, and it will <Bold>activate all components listening for it, including all Events set to be triggered by it. Multi-Triggers can be fired multiple times, and once they are, their value will always be <Italic>True</Italic></Bold>.
 			</TextBlock>
 			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="14">
-				<Bold>Be careful using Multi-Triggers. You can create a circular loop of actions that keeps activating itself. You could also repeatedly activate components that aren't meant to be triggered more than once, such as Chapters. Keep their usage simple.</Bold>
+				<Bold>Be careful using Multi-Triggers. You can create a circular loop of actions that keeps activating itself. You could also repeatedly activate components that aren't meant to be triggered more than once, such as Tile Blocks. Keep their usage simple.</Bold>
 			</TextBlock>
-
-			<!--<Border Style="{StaticResource callout}" Margin="0,5">
-				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					For example, let's say you have a <Bold>Decision Interaction Event</Bold> which asks the players if they want to steal a carrot. You could create a <Bold>Trigger</Bold> called "Carrot Stolen" that gets <Italic>fired by the Event</Italic> if the players select "Yes". A <Bold>Story Branch Event</Bold> could be discovered later on which checks the value of the "Carrot Stolen" Trigger and presents a branching story based on whether or not the carrot was stolen.
-				</TextBlock>
-			</Border>-->
 		</StackPanel>
 
 		<!--Footer-->

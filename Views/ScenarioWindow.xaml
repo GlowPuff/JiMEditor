@@ -20,8 +20,14 @@
 	</Window.Resources>
 
 	<StackPanel>
-		<Grid Margin="10">
+		<!--campaign notice-->
+		<Border x:Name="campaignNotice" Style="{StaticResource callout}" Margin="10,10,10,0" Visibility="Collapsed">
+			<TextBlock x:Name="campaignGUID" Style="{StaticResource Heading}" Text="" HorizontalAlignment="Center"/>
+		</Border>
+
+		<Grid Margin="10,10,10,10">
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto"/>
 				<ColumnDefinition Width="auto"/>
 				<ColumnDefinition Width="*"/>
 				<ColumnDefinition Width="auto"/>
@@ -138,12 +144,6 @@
 
 				<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" MaxHeight="200">
 					<ItemsControl x:Name="threatList" Background="{StaticResource  bgColor}" BorderThickness="0">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel IsItemsHost="True" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Border Style="{StaticResource callout}" Padding="5" Margin="0,2" HorizontalAlignment="Stretch">
