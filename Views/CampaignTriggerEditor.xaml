@@ -1,10 +1,11 @@
-﻿<Window x:Class="JiME.Views.TriggerEditorWindow"
+﻿<Window x:Class="JiME.Views.CampaignTriggerEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        Title="Trigger Editor" Width="100" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered">
+        Title="Campaign Trigger Editor" Width="100" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" ContentRendered="Window_ContentRendered">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
@@ -19,7 +20,7 @@
 
 				<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
 					<CheckBox x:Name="multiCB" Content="This Trigger is a Multi-Trigger" Foreground="White" VerticalAlignment="Center"/>
-					<CheckBox x:Name="campaignCB" Content="This Trigger is a Campaign Trigger" Foreground="White" VerticalAlignment="Center" Margin="50,0,0,0" IsEnabled="False"/>
+					<CheckBox x:Name="campaignCB" Content="This Trigger is a Campaign Trigger" Foreground="White" VerticalAlignment="Center" Margin="50,0,0,0" IsEnabled="False" IsChecked="True"/>
 				</StackPanel>
 			</StackPanel>
 		</Border>
@@ -44,11 +45,11 @@
 		<Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">
 			<WrapPanel HorizontalAlignment="Right" >
 
-				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="OkButton_Click" IsDefault="True">
+				<Button x:Name="okButton" Margin="10" Background="MediumSeaGreen" Click="okButton_Click" IsDefault="True">
 					<Image Source="/JiME;component/Assets/ok.png" Stretch="Uniform" Width="32" Margin="5"/>
 				</Button>
 
-				<Button x:Name="cancelButton" Margin="0,10,10,10" Background="{StaticResource bgCancelDelete}" Click="CancelButton_Click" IsCancel="True">
+				<Button x:Name="cancelButton" Margin="0,10,10,10" Background="{StaticResource bgCancelDelete}" Click="cancelButton_Click" IsCancel="True">
 					<Image Source="/JiME;component/Assets/cancel.png" Stretch="Uniform" Width="32" Margin="5"/>
 				</Button>
 			</WrapPanel>

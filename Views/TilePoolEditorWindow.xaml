@@ -12,9 +12,9 @@
 	</Window.Resources>
 
 	<StackPanel>
-		<StackPanel Margin="10">
+		<Border Style="{StaticResource callout}" Margin="5">
 			<TextBlock Text="Add 1 to 5 Tiles to the Random Tile Pool for this Chapter. These Tiles will be randomly fitted together in the Companion App." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
-		</StackPanel>
+		</Border>
 
 		<Grid Height="200">
 			<Grid.ColumnDefinitions>
@@ -23,7 +23,7 @@
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 
-			<GroupBox Header="Global Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,10,10">
+			<GroupBox Header="Global Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="5,0,10,10">
 				<ListBox x:Name="global" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding scenario.globalTilePool}" MouseDoubleClick="Global_MouseDoubleClick"/>
 			</GroupBox>
 
@@ -45,7 +45,7 @@
 				</Button>
 			</StackPanel>
 
-			<GroupBox Grid.Column="2" Header="Random Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,10,10">
+			<GroupBox Grid.Column="2" Header="Random Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,5,10">
 				<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.tileObserver}" MouseDoubleClick="Random_MouseDoubleClick" SelectionChanged="random_SelectionChanged" DisplayMemberPath="idNumber"/>
 			</GroupBox>
 		</Grid>
@@ -67,7 +67,7 @@
 			<TextBlock Grid.Column="1" Width="64"/>
 
 			<!--selected info-->
-			<Border Grid.Column="2" Style="{StaticResource callout}" Margin="0,0,10,10">
+			<Border Grid.Column="2" Style="{StaticResource callout}" Margin="0,0,5,5">
 				<StackPanel Grid.Column="2">
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Selected Tile:" Style="{StaticResource Heading}"/>

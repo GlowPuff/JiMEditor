@@ -18,7 +18,7 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 
-		<StackPanel  Margin="10,10,10,0">
+		<StackPanel  Margin="5,5,5,0">
 			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="In the Companion App, a Tile Block activates by first showing the Optional Flavor Text, followed by the random or fixed Tile layout for this Block."/>
 
 			<Border Style="{StaticResource callout}" Margin="0,10,0,0">

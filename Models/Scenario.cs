@@ -10,8 +10,6 @@ namespace JiME
 	/// </summary>
 	public class Scenario : INotifyPropertyChanged
 	{
-		//public ErrorChecker errorChecker { get; set; }
-
 		string _scenarioName, _fileName, _objectiveName, _fileVersion, _specialInstructions;
 		bool _isDirty, _scenarioTypeJourney, _useTileGraphics;
 		int _threatMax, _loreReward, _xpReward, _shadowFear, _loreStartValue;

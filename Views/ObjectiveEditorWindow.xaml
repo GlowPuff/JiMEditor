@@ -19,7 +19,7 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 
-		<StackPanel Margin="10">
+		<StackPanel Margin="5">
 			<Border Style="{StaticResource callout}">
 				<StackPanel>
 					<TextBlock Style="{StaticResource Heading}" Text="This Objective is started when the following Trigger is fired: (Required)"/>

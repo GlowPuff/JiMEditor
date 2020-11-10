@@ -13,7 +13,7 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 
-		<TabControl x:Name="groupHelp" Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
+		<TabControl x:Name="groupHelp" Margin="5" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
 			<TabItem Header="Token Interaction Groups" Padding="5">
 				<Border Style="{StaticResource callout}">
 					<StackPanel>
@@ -60,7 +60,7 @@ When you create a Tile Block with a Random Tile Pool, there needs to be a way to
 			</TabItem>
 		</TabControl>
 
-		<TabControl x:Name="tokenHelp" Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
+		<TabControl x:Name="tokenHelp" Margin="5" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
 			<TabItem Header="Events" Padding="5">
 
 				<Border Style="{StaticResource callout}">
@@ -116,7 +116,7 @@ Marking an Event as a Token Interaction will make it available to assign to a To
 			</TabItem>
 		</TabControl>
 
-		<TabControl x:Name="threatHelp" Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
+		<TabControl x:Name="threatHelp" Margin="5" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
 			<TabItem Header="Scripted Enemy Groups" Padding="5">
 				<Border Style="{StaticResource callout}">
 					<StackPanel>
@@ -175,6 +175,70 @@ Enemies you design yourself are Scripted Enemies. They can use either default or
 						<TextBlock Style="{StaticResource Heading}" Text="Enemy Count" Margin="0,10,0,0"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
 				Increasing the number of Enemies in Scripted Groups (up to 3) will also <Bold>automatically increase the base Damage/Fear the group does by +1 per count above 1</Bold>. These increased values are <Bold>only shown in the Companion App</Bold> during Combat. As Enemies in the group are defeated in the Companion App, the Damage/Fear decreases back down to the base value seen in the Editor when only 1 Enemy remains in the group.
+						</TextBlock>
+					</StackPanel>
+				</Border>
+			</TabItem>
+		</TabControl>
+
+		<!--triggers-->
+		<TabControl x:Name="triggerHelp" Margin="5" Background="#FF2D2D30" BorderThickness="0,1,0,0" Visibility="Collapsed">
+			<TabItem Header="Triggers" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="How Triggers Work"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+					Triggers are <Italic>True / False</Italic> values that are set during the Scenario to keep track of player actions. <Bold>All Triggers start off with a value of <Italic>False</Italic></Bold>.
+						</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+				Triggers are also used by many components to get notified of when to activate. For example, Triggers can activate Events, start and end Objectives, activate Chapters, end the Scenario, and other actions that use Triggers.
+						</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+				<Bold>Triggers can only be fired once</Bold>. Firing a Trigger more than once is ignored by the companion app. If more than one component is set to be activated by the same Trigger, for example an Objective and a Token, <Bold>only the first one the companion app finds will be Triggered</Bold>. The rest are ignored.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="Special Instructions For Events" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+				If more than one <Bold>Event</Bold> is triggered by the same Trigger (and NO other components), <Bold>one of the Events will be randomly chosen to activate</Bold>. The rest are ignored.
+						</TextBlock>
+					</StackPanel>
+				</Border>
+			</TabItem>
+
+			<TabItem Header="Multi-Triggers" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="What is a Multi-Trigger?"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+				If a Trigger is marked as a <Bold>Multi-Trigger</Bold>, the normal behavior changes, and it will <Bold>activate all components listening for it, including all Events set to be triggered by it. Multi-Triggers can be fired multiple times, and once they are, their value will always be <Italic>True</Italic></Bold>.
+						</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" FontSize="14">
+				<Bold>Be careful using Multi-Triggers. You can create a circular loop of actions that keeps activating itself. You could also repeatedly activate components that aren't meant to be triggered more than once, such as Tile Blocks. Keep their usage simple.</Bold>
+						</TextBlock>
+					</StackPanel>
+				</Border>
+			</TabItem>
+
+			<TabItem Header="Campaign Triggers" Padding="5">
+				<Border Style="{StaticResource callout}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource Heading}" Text="What is a Campaign Trigger?"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+						A Campaign Trigger is a special Trigger that is only useable from within Scenarios that are part of a Campaign. After it's created in the Campaign Manager (see below), it becomes available to every Scenario in the Campaign.</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+						A Campaign Trigger fires like normal, except it also carries over into future Scenarios in the Campaign. Another Scenario can read the result (True/False) of a previously fired (or un-fired) Campaign Trigger. In this way, <Bold>a Scenario can react</Bold> to a Trigger that was fired or un-fired in a <Bold>previous Scenario</Bold>.
+						</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" FontWeight="Bold">
+						A Scenario Trigger cannot be made into a Campaign Trigger from within the Scenario's Trigger Editor. Likewise, a Campaign Trigger can't be modified from within the Scenario's Trigger Editor. The checkbox is only a helpful indicator to let you know it's a Campaign Trigger.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource Heading}" Text="How Do I Create A Campaign Trigger?" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+						Campaign Triggers are created and removed from within the Campaign Manager.
+						</TextBlock>
+
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+							All Campaign Triggers are available in the Scenario Editor to all Scenarios that are included in the Campaign.
 						</TextBlock>
 					</StackPanel>
 				</Border>

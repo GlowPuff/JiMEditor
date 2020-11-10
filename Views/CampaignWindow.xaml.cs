@@ -28,11 +28,11 @@ namespace JiME.Views
 
 			if ( c == null )
 			{
-				Title = "Your Journey - New Campaign";
+				Title = "Campaign Manager - New Campaign";
 			}
 			else
 			{
-				Title = "Your Journey - Edit Campaign - " + c.campaignName;
+				Title = "Campaign Manager - Edit Campaign - " + c.campaignName;
 			}
 			campaign = c ?? new Campaign();
 			campaignNameTB.Focus();
@@ -41,29 +41,56 @@ namespace JiME.Views
 
 			cGUID.Text = "Campaign GUID:  "
 			+ campaign.campaignGUID.ToString();
+
+			//update controls
+			cTriggersCombo.SelectedIndex = 0;
+			if ( campaign.storyText == "" )
+				storySet.Text = "The Story Text is not set.";
+			else
+				storySet.Text = "The Story Text is set.";
 		}
 
 		private void removeScenario_Click( object sender, RoutedEventArgs e )
 		{
+			bool doDelete = false;
+			if ( System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.LeftCtrl ) || System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.RightCtrl ) )
+				doDelete = true;
+
 			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
 			CampaignItem ci = (CampaignItem)( (Button)sender ).DataContext;
 
-			campaign.scenarioCollection.Remove( ci );
-			//move scenario file back into main project folder
-			FileInfo fi = new FileInfo( Path.Combine( campaignFolder, ci.fileName ) );
-			string moveto = Path.Combine( Path.Combine( basePath, ci.fileName ) );
-			fi.MoveTo( moveto );
-			//open the scenario and set its campaign GUID to empty
-			Scenario scenario = FileManager.LoadProject( ci.fileName );
-			if ( scenario != null )
+
+			if ( doDelete )
 			{
-				scenario.campaignGUID = Guid.Empty;
-				FileManager fm = new FileManager( scenario );
-				fm.Save();
+				var res = MessageBox.Show( "Are you sure you want to PERMANENTLY DELETE the Scenario?\r\n\r\n" + ci.scenarioName + "\r\n\r\n" + Path.Combine( campaignFolder, ci.fileName ), "Confirm Scenario Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question );
+				if ( res == MessageBoxResult.Yes )
+				{
+					campaign.scenarioCollection.Remove( ci );
+					FileInfo fi = new FileInfo( Path.Combine( campaignFolder, ci.fileName ) );
+					fi.Delete();
+					SaveCampaign();
+				}
 			}
 			else
 			{
-				MessageBox.Show( "Could not modify the Scenario to reset its Campaign setting to Empty.\r\nTried to modify: " + campaignFolder + ci.fileName, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				campaign.scenarioCollection.Remove( ci );
+				SaveCampaign();
+				//move scenario file back into main project folder
+				FileInfo fi = new FileInfo( Path.Combine( campaignFolder, ci.fileName ) );
+				string moveto = Path.Combine( Path.Combine( basePath, ci.fileName ) );
+				fi.MoveTo( moveto );
+				//open the scenario and set its campaign GUID to empty
+				Scenario scenario = FileManager.LoadProject( ci.fileName );
+				if ( scenario != null )
+				{
+					scenario.campaignGUID = Guid.Empty;
+					FileManager fm = new FileManager( scenario );
+					fm.Save();
+				}
+				else
+				{
+					MessageBox.Show( "Could not open the Scenario to reset its Campaign setting to Empty.\r\nTried to modify: " + campaignFolder + ci.fileName, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
+				}
 			}
 		}
 
@@ -108,6 +135,9 @@ namespace JiME.Views
 			//create a new scenario and set its campaign GUID
 			Scenario scenario = new Scenario();
 			scenario.campaignGUID = campaign.campaignGUID;
+			bool doEdit = false;
+			if ( System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.LeftCtrl ) || System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.RightCtrl ) )
+				doEdit = true;
 
 			//ask for scenario filename and save it
 			FileManager fm = new FileManager( scenario );
@@ -122,10 +152,16 @@ namespace JiME.Views
 				scenario.fileName = fm.fileName;
 				//save the campaign
 				SaveCampaign();
-				//open the new scenario in the Editor
-				MainWindow mainWindow = new MainWindow( scenario );
-				mainWindow.Show();
-				Close();
+				//open the new scenario in the Editor if CTRL held
+				if ( doEdit )
+				{
+					//add campaign triggers to the scenario
+					foreach ( Trigger t in campaign.triggerCollection )
+						scenario.triggersObserver.Add( t );
+					MainWindow mainWindow = new MainWindow( scenario );
+					mainWindow.Show();
+					Close();
+				}
 			}
 		}
 
@@ -255,6 +291,9 @@ namespace JiME.Views
 				//...and save it back
 				FileManager fm = new FileManager( scenario );
 				fm.Save();
+				//add campaign triggers to the scenario
+				foreach ( Trigger t in campaign.triggerCollection )
+					scenario.triggersObserver.Add( t );
 				//then open it in Editor
 				MainWindow mainWindow = new MainWindow( scenario );
 				mainWindow.Show();
@@ -317,6 +356,44 @@ namespace JiME.Views
 			{
 				MessageBox.Show( "Could not create the Package ZIP.\r\n\r\nException:\r\n" + ex.Message, "App Exception", MessageBoxButton.OK, MessageBoxImage.Error );
 			}
+		}
+
+		private void addTrigger_Click( object sender, RoutedEventArgs e )
+		{
+			CampaignTriggerEditor tw = new CampaignTriggerEditor( campaign );
+			if ( tw.ShowDialog() == true )
+			{
+				Trigger t = new Trigger( tw.triggerName );
+				t.isMultiTrigger = tw.isMulti;
+				t.isCampaignTrigger = true;
+				campaign.triggerCollection.Add( t );
+				cTriggersCombo.SelectedIndex = cTriggersCombo.Items.Count - 1;
+			}
+		}
+
+		private void delTrigger_Click( object sender, RoutedEventArgs e )
+		{
+			Trigger selected = (Trigger)cTriggersCombo.SelectedItem;
+			campaign.triggerCollection.Remove( selected );
+			cTriggersCombo.SelectedIndex = 0;
+		}
+
+		private void storyButton_Click( object sender, RoutedEventArgs e )
+		{
+			TextBookData data = new TextBookData();
+			data.pages.Add( campaign.storyText );
+
+			TextEditorWindow tw = new TextEditorWindow( null, EditMode.Story, data );
+			if ( tw.ShowDialog() == true )
+			{
+				campaign.storyText = tw.textBookController.pages[0].Trim();
+				;
+			}
+
+			if ( campaign.storyText == "" )
+				storySet.Text = "The Story Text is not set.";
+			else
+				storySet.Text = "The Story Text is set.";
 		}
 	}
 }

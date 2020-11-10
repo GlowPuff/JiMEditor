@@ -36,7 +36,7 @@ namespace JiME.Views
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new ThreatInteraction( "New Threat Event", false );
+			interaction = inter ?? new ThreatInteraction( "New Threat Event" );
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )

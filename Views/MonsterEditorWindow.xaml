@@ -20,25 +20,30 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
-		<StackPanel Margin="10">
-			<TextBlock Style="{StaticResource Heading}" Text="Enemy Name:"/>
-			<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="The Enemy Name defaults to the Enemy Type. Customize a name for a special enemy with a unique name, otherwise leave it blank to use the default."/>
-			<StackPanel Orientation="Horizontal" Margin="0,5">
-				<TextBox x:Name="nameTB" Text="{Binding monster.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Width="350" HorizontalAlignment="Left"/>
-				<TextBlock Text="Enemy Count:" Style="{StaticResource Heading}" Margin="25,0,0,0"/>
-				<ComboBox Margin="10,0" SelectedIndex="{Binding monster.count}">
-					<ComboBoxItem Content="0" Visibility="Collapsed"/>
-					<ComboBoxItem Content="1"/>
-					<ComboBoxItem Content="2"/>
-					<ComboBoxItem Content="3"/>
-				</ComboBox>
-				<StackPanel Orientation="Horizontal" Margin="10,0">
-					<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
-					<TextBox Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.loreReward}"/>
-				</StackPanel>
-			</StackPanel>
+		<StackPanel Margin="5">
+			<Border Style="{StaticResource callout}" Margin="0,0,0,5">
+				<StackPanel>
+					<TextBlock Style="{StaticResource Heading}" Text="Enemy Name:"/>
+					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="The Enemy Name defaults to the Enemy Type. Customize a name for a special enemy with a unique name, otherwise leave it blank to use the default."/>
+					<StackPanel Orientation="Horizontal" Margin="0,5">
+						<TextBox x:Name="nameTB" Text="{Binding monster.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Width="350" HorizontalAlignment="Left"/>
+						<TextBlock Text="Enemy Count:" Style="{StaticResource Heading}" Margin="25,0,0,0"/>
+						<ComboBox Margin="10,0" SelectedIndex="{Binding monster.count}">
+							<ComboBoxItem Content="0" Visibility="Collapsed"/>
+							<ComboBoxItem Content="1"/>
+							<ComboBoxItem Content="2"/>
+							<ComboBoxItem Content="3"/>
+						</ComboBox>
+						<StackPanel Orientation="Horizontal" Margin="10,0">
+							<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding monster.loreReward}"/>
+						</StackPanel>
+					</StackPanel>
 
-			<TextBlock Style="{StaticResource SubText}" Text="This Lore Reward is only awarded for defeating this particular Enemy Group. The Lore Reward in the Event's General Properties is still awarded for defeating all Groups in the Event." TextWrapping="Wrap"/>
+					<TextBlock Style="{StaticResource SubText}" Text="This Lore Reward is only awarded for defeating this particular Enemy Group. The Lore Reward in the Event's General Properties is still awarded for defeating all Groups in the Event." TextWrapping="Wrap"/>
+				</StackPanel>
+			</Border>
+
 
 			<Border Style="{StaticResource callout}" Margin="0,5">
 				<StackPanel>

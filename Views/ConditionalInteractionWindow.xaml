@@ -19,7 +19,7 @@
 	</Window.Resources>
 
 	<StackPanel>
-		<TabControl Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0">
+		<TabControl Margin="5" Background="#FF2D2D30" BorderThickness="0,1,0,0">
 
 			<!--general properties-->
 			<TabItem Header="General Properties" Padding="5">

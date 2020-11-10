@@ -29,20 +29,26 @@ namespace JiME.Views
 			}
 		}
 
-		public TestInteractionWindow( Scenario s, TestInteraction inter = null, bool fromThreat = false )
+		public TestInteractionWindow( Scenario s, TestInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new TestInteraction( "New Stat Test", false );
+			interaction = inter ?? new TestInteraction( "New Stat Test" );
 
 			mightRB.IsChecked = interaction.testAttribute == Ability.Might;
 			agilityRB.IsChecked = interaction.testAttribute == Ability.Agility;
 			spiritRB.IsChecked = interaction.testAttribute == Ability.Spirit;
 			wisdomRB.IsChecked = interaction.testAttribute == Ability.Wisdom;
 			witRB.IsChecked = interaction.testAttribute == Ability.Wit;
+
+			mightRB2.IsChecked = interaction.altTestAttribute == Ability.Might;
+			agilityRB2.IsChecked = interaction.altTestAttribute == Ability.Agility;
+			spiritRB2.IsChecked = interaction.altTestAttribute == Ability.Spirit;
+			wisdomRB2.IsChecked = interaction.altTestAttribute == Ability.Wisdom;
+			witRB2.IsChecked = interaction.altTestAttribute == Ability.Wit;
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -275,6 +281,31 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Visible;
 			else
 				personType.Visibility = Visibility.Collapsed;
+		}
+
+		private void mightRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Might;
+		}
+
+		private void witRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Wit;
+		}
+
+		private void wisdomRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Wisdom;
+		}
+
+		private void spiritRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Spirit;
+		}
+
+		private void agilityRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Agility;
 		}
 	}
 }

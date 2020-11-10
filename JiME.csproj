@@ -94,6 +94,7 @@
     <Compile Include="Models\Interaction Events\DarknessInteraction.cs" />
     <Compile Include="Models\Interaction Events\DecisionInteraction.cs" />
     <Compile Include="Models\Interaction Events\DialogInteraction.cs" />
+    <Compile Include="Models\Interaction Events\InteractionBase.cs" />
     <Compile Include="Models\Interaction Events\MultiEventInteraction.cs" />
     <Compile Include="Models\Interaction Events\NoneInteraction.cs" />
     <Compile Include="Models\Interaction Events\PersistentTokenInteraction.cs" />
@@ -110,6 +111,9 @@
     <Compile Include="Models\Trigger.cs" />
     <Compile Include="UserControls\SidebarListView.xaml.cs">
       <DependentUpon>SidebarListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CampaignTriggerEditor.xaml.cs">
+      <DependentUpon>CampaignTriggerEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ConditionalInteractionWindow.xaml.cs">
       <DependentUpon>ConditionalInteractionWindow.xaml</DependentUpon>
@@ -203,6 +207,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\SidebarListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CampaignTriggerEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -64,7 +64,7 @@ namespace JiME
 			useTileGraphics = source.useTileGraphics;
 
 			interactions = source.interactionObserver.ToList();
-			triggers = source.triggersObserver.ToList();
+			triggers = source.triggersObserver.Where( x => !x.isCampaignTrigger ).ToList();//source.triggersObserver.ToList();
 			objectives = source.objectiveObserver.ToList();
 			resolutions = source.resolutionObserver.ToList();
 			threats = source.threatObserver.ToList();

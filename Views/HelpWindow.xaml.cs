@@ -28,6 +28,12 @@ namespace JiME.Views
 				threatHelp.Visibility = Visibility.Visible;
 				groupHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
 			}
+			else if ( helpType == HelpType.Triggers )
+			{
+				Title = "Help On Triggers";
+				triggerHelp.Visibility = Visibility.Visible;
+				groupHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
+			}
 		}
 
 		private void okButton_Click( object sender, RoutedEventArgs e )

@@ -27,8 +27,10 @@ namespace JiME
 				PropChanged( "fileVersion" );
 			}
 		}
+		public string storyText { get; set; }
 
 		public ObservableCollection<CampaignItem> scenarioCollection { get; set; }
+		public ObservableCollection<Trigger> triggerCollection { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,6 +38,7 @@ namespace JiME
 		{
 			campaignGUID = Guid.NewGuid();
 			scenarioCollection = new ObservableCollection<CampaignItem>();
+			triggerCollection = new ObservableCollection<Trigger>();
 			campaignName = "";
 			fileVersion = Utils.formatVersion;
 		}

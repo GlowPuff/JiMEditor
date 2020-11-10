@@ -21,11 +21,11 @@
 
 	<StackPanel>
 		<!--campaign notice-->
-		<Border x:Name="campaignNotice" Style="{StaticResource callout}" Margin="10,10,10,0" Visibility="Collapsed">
+		<Border x:Name="campaignNotice" Style="{StaticResource callout}" Margin="5,5,5,0" Visibility="Collapsed">
 			<TextBlock x:Name="campaignGUID" Style="{StaticResource Heading}" Text="" HorizontalAlignment="Center"/>
 		</Border>
 
-		<Grid Margin="10,10,10,10">
+		<Grid Margin="5">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="auto"/>
 				<ColumnDefinition Width="auto"/>
@@ -52,7 +52,7 @@
 		</Grid>
 
 		<!--rewards-->
-		<Border  Grid.Row="1" Style="{StaticResource callout}" Margin="10,0,10,10">
+		<Border  Grid.Row="1" Style="{StaticResource callout}" Margin="5">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="auto"/>
@@ -83,7 +83,7 @@
 			</Grid>
 		</Border>
 		<!--rewards-->
-		<Border  Grid.Row="2" Style="{StaticResource callout}" Margin="10,0,10,5">
+		<Border  Grid.Row="2" Style="{StaticResource callout}" Margin="5">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="auto"/>
@@ -108,7 +108,7 @@
 		</Border>
 
 		<!--Threat-->
-		<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Threat Settings" Foreground="Silver" Margin="10,0" FontSize="14" Padding="5">
+		<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Threat Settings" Foreground="Silver" Margin="5,0" FontSize="14" Padding="5">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="auto"/>
@@ -213,7 +213,7 @@
 		</GroupBox>
 
 		<!--Flavor Text-->
-		<GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="Flavor Text" Foreground="Silver" Margin="10,10,10,10" FontSize="14">
+		<GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="Flavor Text" Foreground="Silver" Margin="5,10,5,5" FontSize="14">
 			<StackPanel>
 				<!--intro text-->
 				<TextBlock Text="Introduction Text" Style="{StaticResource Heading}" Margin="5,5,5,0"/>

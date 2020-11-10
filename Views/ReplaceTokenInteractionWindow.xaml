@@ -24,7 +24,7 @@
 			<RowDefinition Height="auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-		<TabControl Margin="10" Background="#FF2D2D30" BorderThickness="0,1,0,0">
+		<TabControl Margin="5" Background="#FF2D2D30" BorderThickness="0,1,0,0">
 
 			<!--general properties-->
 			<TabItem Header="General Properties" Padding="5">
@@ -50,10 +50,13 @@
 								</TextBlock>
 								<TextBox x:Name="nameTB" Text="{Binding interaction.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" TextChanged="nameTB_TextChanged"/>
 
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
+								<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore/ XP / Threat Rewards:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
+									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.xpReward}" Margin="10,0"/>
+									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.threatReward}"/>
 								</StackPanel>
+								<TextBlock Text="Rewards are given after the Event is finished activating." Style="{StaticResource SubText}" Margin="0,5,0,0"/>
 							</StackPanel>
 
 							<StackPanel Orientation="Horizontal" VerticalAlignment="Center">

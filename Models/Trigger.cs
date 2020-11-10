@@ -6,7 +6,7 @@ namespace JiME
 	public class Trigger : INotifyPropertyChanged, ICommonData
 	{
 		string _dataName;
-		bool _triggerValue, _isMultiTrigger;
+		bool _triggerValue, _isMultiTrigger, _isCampaignTrigger;
 		public string dataName
 		{
 			get { return _dataName; }
@@ -43,6 +43,15 @@ namespace JiME
 				NotifyChange( "isMultiTrigger" );
 			}
 		}
+		public bool isCampaignTrigger
+		{
+			get { return _isCampaignTrigger; }
+			set
+			{
+				_isCampaignTrigger = value;
+				NotifyChange( "isCampaignTrigger" );
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -54,8 +63,9 @@ namespace JiME
 			dataName = name;
 			isEmpty = false;
 			GUID = Guid.NewGuid();
-			triggerValue = false;
+			triggerValue = false;//probably not needed
 			isMultiTrigger = false;
+			isCampaignTrigger = false;
 		}
 
 		void NotifyChange( string prop )

@@ -13,7 +13,7 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 
-		<StackPanel Margin="10">
+		<StackPanel Margin="5">
 			<Border Style="{StaticResource callout}">
 				<StackPanel>
 					<StackPanel Orientation="Horizontal">

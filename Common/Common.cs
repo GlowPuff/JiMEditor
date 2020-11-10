@@ -19,13 +19,13 @@ namespace JiME
 	public enum TileType { Hex, Battle }
 	public enum ThreatAttributes { }//armor, elite, etc
 	public enum ProjectType { Standalone, Campaign }
-	public enum EditMode { Intro, Resolution, Objective, Flavor, Pass, Fail, Progress, Dialog, Special, Persistent }
+	public enum EditMode { Intro, Resolution, Objective, Flavor, Pass, Fail, Progress, Dialog, Special, Persistent, Story }
 	public enum EditorMode { Information, Threat, Decision, Test, Branch }
 	public enum Ability { Might, Agility, Wisdom, Spirit, Wit, None }
 	public enum TerrainToken { None, Pit, Mist, Barrels, Table, FirePit, Statue }
 	public enum TokenType { Search, Person, Threat, Darkness, Exploration, None }
 	public enum PersonType { Human, Elf, Hobbit, Dwarf }
-	public enum HelpType { Token, Grouping, Enemies }
+	public enum HelpType { Token, Grouping, Enemies, Triggers }
 	public enum DifficultyBias { Light, Medium, Heavy }
 
 
@@ -51,6 +51,8 @@ namespace JiME
 		InteractionType interactionType { get; set; }
 		void RenameTrigger( string oldName, string newName );
 		int loreReward { get; set; }
+		int xpReward { get; set; }
+		int threatReward { get; set; }
 		bool isTokenInteraction { get; set; }
 		string triggerName { get; set; }
 		TokenType tokenType { get; set; }
@@ -159,8 +161,8 @@ namespace JiME
 		/// AKA "Engine Version" in the companion app
 		/// Update this number every time the file format changes with new features
 		/// </summary>
-		public static string formatVersion = "1.6";
-		public static string appVersion = "0.16-alpha";
+		public static string formatVersion = "1.7";
+		public static string appVersion = "0.17-alpha";
 		public static Dictionary<int, HexTileData> hexDictionary { get; set; } = new Dictionary<int, HexTileData>();
 		public static Dictionary<int, HexTileData> hexDictionaryB { get; set; } = new Dictionary<int, HexTileData>();
 		public static int tolerance = 25;

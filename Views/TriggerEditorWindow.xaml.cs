@@ -9,7 +9,6 @@ namespace JiME.Views
 	public partial class TriggerEditorWindow : Window
 	{
 		public string triggerName { get; set; }
-		//public Trigger newTrigger { get; set; }
 
 		Scenario scenario;
 		bool isNew = false;
@@ -20,7 +19,6 @@ namespace JiME.Views
 		/// </summary>
 		public TriggerEditorWindow( Scenario s, string editName )
 		{
-
 			InitializeComponent();
 			DataContext = this;
 			scenario = s;
@@ -29,8 +27,21 @@ namespace JiME.Views
 			oldName = editName;
 
 			multiCB.IsChecked = false;
+			campaignCB.IsChecked = false;
+
+			if ( scenario.projectType == ProjectType.Standalone )
+				campaignCB.Visibility = Visibility.Collapsed;
+
 			if ( s.triggersObserver.Any( x => x.dataName == editName ) )
+			{
 				multiCB.IsChecked = s.triggersObserver.Where( x => x.dataName == editName ).First().isMultiTrigger;
+				campaignCB.IsChecked = s.triggersObserver.Where( x => x.dataName == editName ).First().isCampaignTrigger;
+				if ( campaignCB.IsChecked == true )
+				{
+					nameTB.IsEnabled = false;
+					multiCB.IsEnabled = false;
+				}
+			}
 		}
 
 		/// <summary>
@@ -97,6 +108,12 @@ namespace JiME.Views
 		private void Window_ContentRendered( object sender, System.EventArgs e )
 		{
 			nameTB.Focus();
+		}
+
+		private void help_Click( object sender, RoutedEventArgs e )
+		{
+			HelpWindow hw = new HelpWindow( HelpType.Triggers, 0 );
+			hw.ShowDialog();
 		}
 	}
 }
