@@ -193,7 +193,7 @@
 							</Grid.ColumnDefinitions>
 
 							<CheckBox Content="Don't Use Flavor/Event Text" Foreground="White" IsChecked="{Binding interaction.noText}" VerticalAlignment="Center"/>
-							<TextBlock Grid.Column="1" Text="If this Event doesn't use text, neither the Flavor nor Event Text will show when it's activated. Instead, it will only perform its Token replacement." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,0,0" HorizontalAlignment="Right"/>
+							<TextBlock Grid.Column="1" Text="With this option checked, neither the Flavor nor Event Text will show when this Event is activated. Instead, it will silently perform its Token replacement without displaying any text other than letting the Players know which Token to replace." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,0,0" HorizontalAlignment="Right"/>
 						</Grid>
 					</Border>
 
@@ -215,7 +215,7 @@
 								</StackPanel>
 							</UniformGrid>
 
-							<TextBlock Style="{StaticResource SubText}" Text="If the Target Event's Token is set to not appear until it's Triggered By a Trigger in the Token Editor, the Source Event will automatically pick up this Trigger." VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,0" />
+							<TextBlock Style="{StaticResource SubText}" Text="If the Target Event's Token is invisible until 'Triggered By' a Trigger in the Token Editor, the Source Event will automatically pick up this Trigger and use it." VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,0" />
 							<TextBlock Style="{StaticResource SubText}" Text="Do not use the Source Event anywhere else unless you know what you're doing. Multiple identical Events could be confusing to players and also potentially cause unexpected results in the Companion App." VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,0" />
 						</StackPanel>
 					</Border>
