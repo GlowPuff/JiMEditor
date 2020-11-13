@@ -44,7 +44,7 @@ namespace JiME.Views
 
 			//update controls
 			cTriggersCombo.SelectedIndex = 0;
-			if ( campaign.storyText == "" )
+			if ( campaign.storyText.Trim() == "" )
 				storySet.Text = "The Story Text is not set.";
 			else
 				storySet.Text = "The Story Text is set.";
@@ -282,6 +282,8 @@ namespace JiME.Views
 
 		private void editSelected_Click( object sender, RoutedEventArgs e )
 		{
+			SaveCampaign();
+
 			CampaignItem ci = ( (Button)sender ).DataContext as CampaignItem;
 			//load the scenario to make sure its campaign GUID is set
 			Scenario scenario = FileManager.LoadProjectFromPath( campaignFolder, ci.fileName );

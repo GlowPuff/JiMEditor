@@ -1,16 +1,15 @@
-﻿<Window x:Class="JiME.Views.MultiEventWindow"
+﻿<Window x:Class="JiME.Views.BranchInteractionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-				ContentRendered="Window_ContentRendered"
-        Title="Multi-Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
+        ContentRendered="Window_ContentRendered"
+        Title="Story Branch Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="bvis"/>
-		<local:BoolInvertVisibility x:Key="binvvis"/>
 		<local:BoolInvertConverter x:Key="binv"/>
 		<Style TargetType="RadioButton">
 			<Setter Property="Foreground" Value="White"/>
@@ -25,7 +24,7 @@
 			<!--general properties-->
 			<TabItem Header="General Properties" Padding="5">
 				<StackPanel Margin="0,5,0,0">
-					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}">
+					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}" Margin="0,0,0,10">
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="This Event is triggered by a Scenario Threat Threshold." HorizontalAlignment="Center"/>
 
@@ -36,8 +35,8 @@
 						</StackPanel>
 					</Border>
 
-					<!--event name/lore-->
-					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+
+					<Border Style="{StaticResource callout}">
 						<UniformGrid Columns="2">
 							<StackPanel>
 								<TextBlock Style="{StaticResource Heading}" Text="Event Name:"/>
@@ -99,6 +98,15 @@
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
 								If this Token Interaction Event has already been assigned to a <Bold>Token</Bold> in the Tile Editor and you uncheck the Token Interaction setting above, that Token's <Italic>Token Interaction Trigger</Italic> will automatically be set to <Italic>None</Italic> because this Event will no longer be a Token Interaction.
 							</TextBlock>
+							<!--<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+Token Interactions are triggered by players as they journey across the map. When a player clicks a Token, the Flavor Text is shown. The player can decide to use an Action to Interact with the Token, after which the Event Text is shown, along with the Event itself.
+							</TextBlock>
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+								If this Token Interaction will be spawned on a random Tile, check the box above.
+							</TextBlock>
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+								If this Interaction is NOT a Token Interaction, it can be 'Triggered By' a Trigger, set below.
+							</TextBlock>-->
 						</StackPanel>
 					</Border>
 
@@ -131,164 +139,114 @@
 							</TextBlock>
 						</StackPanel>
 					</Border>
-					<!--flavor text-->
-					<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding ElementName=isTokenCB,Path=IsChecked,Converter={StaticResource bvis}}">
-						<StackPanel>
-							<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when a player interacts with a Token. Use it to hint at the Event. If the player wishes to use an action to trigger the Event, they press a Continue button in the Companion App. <Bold><Italic>Required</Italic></Bold>
-							</TextBlock>
+
+					<UniformGrid Columns="2">
+						<!--event text-->
+						<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,5,0">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*"/>
 									<ColumnDefinition Width="auto"/>
 								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="flavorTB" Text="{Binding interaction.textBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
-								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46">
-									<Image Source="/JiME;component/Assets/edit.png"/>
-								</Button>
-							</Grid>
-						</StackPanel>
-					</Border>
 
-					<!--event text-->
-					<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,0,0">
-						<StackPanel>
-							<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Use the Event Text to describe the actual Event that has been triggered. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
-							</TextBlock>
-							<TextBlock Text="The Event Text is disabled because this Multi-Event has been set to activate Silently." Style="{StaticResource SubText}" FontWeight="Bold" FontStyle="Italic" Margin="0,5,0,0" Visibility="{Binding interaction.isSilent, Converter={StaticResource bvis}}"/>
-							<Grid Visibility="{Binding interaction.isSilent, Converter={StaticResource binvvis}}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="eventTB" Text="{Binding interaction.eventBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
+								<StackPanel>
+									<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					Use the Event Text to describe the actual Event that has been activated. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc.
+									</TextBlock>
+								</StackPanel>
 								<Button Grid.Column="1" x:Name="editEventButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditEventButton_Click" Width="46" Height="46">
 									<Image Source="/JiME;component/Assets/edit.png"/>
 								</Button>
 							</Grid>
-						</StackPanel>
-					</Border>
+						</Border>
+
+						<!--flavor text-->
+						<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="5,10,0,0">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="auto"/>
+								</Grid.ColumnDefinitions>
+
+								<StackPanel>
+									<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					This text is shown when a player interacts with a Token. Use it to hint at the Event. Flavor Text is only shown if this Event is a Token Interaction.
+									</TextBlock>
+								</StackPanel>
+								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46" IsEnabled="{Binding ElementName=isTokenCB,Path=IsChecked}">
+									<Image Source="/JiME;component/Assets/edit.png"/>
+								</Button>
+							</Grid>
+						</Border>
+					</UniformGrid>
+
 				</StackPanel>
 			</TabItem>
 
-			<!--event properties-->
-			<TabItem Header="Multi-Event" Padding="5">
+			<TabItem Padding="5" Header="Story Branch">
 				<StackPanel Margin="0,5,0,0">
-					<TextBlock Style="{StaticResource SubText}" Text="Multi-Events are special Events that, when activated, will sequentially activate the list of Triggers or Events you specify, in order. They also optionally show Event Text of their own after being activated." VerticalAlignment="Center" TextWrapping="Wrap" />
+					<TextBlock Style="{StaticResource SubText}" Text="A Story Branch is a special kind of Event that tests whether a specified Trigger has been set, then fires additional Triggers or Events based on the result." TextWrapping="Wrap"/>
+					<Border Style="{StaticResource callout}" Margin="0,10,0,10">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Style="{StaticResource Heading}" Text="If this Trigger has been set..." Margin="0,0,10,0"/>
 
-					<Border Style="{StaticResource callout}" Margin="0,10">
-						<StackPanel>
-							<TextBlock Text="Silently Activate:" Style="{StaticResource Heading}"/>
-							<CheckBox x:Name="silenCB" Content="This Event activates silently without showing its Event Text" Foreground="White" Margin="0,5,0,0" IsChecked="{Binding interaction.isSilent}" Click="silenCB_Click"/>
-							<TextBlock Text="If this Event is Silent, its Event Text on the General Properties tab will not be shown when it activates. It will just fire the Triggers or Events you specify below without showing story text of its own." Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"/>
+							<ComboBox x:Name="triggerCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding scenario.triggersObserver}" SelectedValuePath="dataName" SelectedValue="{Binding interaction.triggerTest}" DisplayMemberPath="dataName" MinWidth="200" SelectionChanged="triggerCB_SelectionChanged"/>
+
+							<Button x:Name="addTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerButton_Click">
+								<Image Source="/JiME;component/Assets/add2.png"/>
+							</Button>
 						</StackPanel>
 					</Border>
 
-					<!--triggers-->
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,0">
-						<RadioButton x:Name="triggerRB" GroupName="multirb" Click="triggerRB_Click"/>
-						<Border x:Name="meTriggerBox" Style="{StaticResource callout}" Width="679" Margin="10,0,0,0">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+						<RadioButton x:Name="eventTestRB" GroupName="branchrb"/>
+						<Border Style="{StaticResource callout}" Width="679" Margin="10,0,0,0">
 							<StackPanel>
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="auto"/>
-										<ColumnDefinition Width="*"/>
-										<ColumnDefinition Width="auto"/>
-									</Grid.ColumnDefinitions>
-									<TextBlock Style="{StaticResource Heading}" Text="Fire These Triggers:"/>
-									<TextBlock Grid.Column="1"/>
-									<StackPanel Orientation="Horizontal" Grid.Column="2">
-										<ComboBox x:Name="triggerCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding scenario.triggersObserver}" SelectedValuePath="dataName" DisplayMemberPath="dataName" MinWidth="200" SelectionChanged="triggerCB_SelectionChanged"/>
-
-										<Button x:Name="addSelectedTriggerButton" Click="addSelectedTriggerButton_Click" Content="Add Selected Trigger" Background="MediumSeaGreen" Foreground="White" Margin="10,0,0,0" IsEnabled="False"/>
-										<Button x:Name="addTriggerButton" Background="MediumSeaGreen" Margin="10,0,0,0" Height="32" Width="32" Click="AddTriggerButton_Click">
-											<Image Source="/JiME;component/Assets/add2.png"/>
-										</Button>
-									</StackPanel>
-								</Grid>
-
-								<ItemsControl Padding="5" ItemsSource="{Binding interaction.triggerList}">
-									<ItemsControl.ItemsPanel>
-										<ItemsPanelTemplate>
-											<WrapPanel IsItemsHost="True" />
-										</ItemsPanelTemplate>
-									</ItemsControl.ItemsPanel>
-
-									<ItemsControl.ItemTemplate>
-										<DataTemplate>
-											<Border Style="{StaticResource callout}" Background="{StaticResource bgButtonColor}" Margin="0,0,5,5">
-												<StackPanel Orientation="Horizontal">
-													<TextBlock Text="{Binding}" Style="{StaticResource SubText}" Foreground="White" VerticalAlignment="Center"/>
-													<Button x:Name="removeTriggerButton" Background="{StaticResource bgCancelDelete}" Foreground="White" Margin="10,0,0,0" Height="32" Width="32" Click="removeTriggerButton_Click" DataContext="{Binding}">
-														<Image Source="/JiME;component/Assets/cancel.png"/>
-													</Button>
-												</StackPanel>
-											</Border>
-										</DataTemplate>
-									</ItemsControl.ItemTemplate>
-								</ItemsControl>
+								<TextBlock Style="{StaticResource Heading}" Text="...Activate One Of These Events:"/>
+								<UniformGrid Columns="2">
+									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Set (True)..." FontWeight="Normal">
+										<ComboBox x:Name="eventTrue" HorizontalAlignment="Stretch" VerticalAlignment="Center" DisplayMemberPath="dataName" ItemsSource="{Binding scenario.interactionObserver}" SelectedValue="{Binding interaction.triggerIsSet}" SelectedValuePath="dataName" FontSize="12"/>
+									</GroupBox>
+									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Not Set (False)..." FontWeight="Normal">
+										<ComboBox x:Name="eventNotTrue" HorizontalAlignment="Stretch" VerticalAlignment="Center" DisplayMemberPath="dataName" ItemsSource="{Binding scenario.interactionObserver}" SelectedValue="{Binding interaction.triggerNotSet}" SelectedValuePath="dataName" FontSize="12"/>
+									</GroupBox>
+								</UniformGrid>
 							</StackPanel>
-
 						</Border>
 					</StackPanel>
 
 					<TextBlock Text="-OR-" Style="{StaticResource Heading}" HorizontalAlignment="Center" Margin="0,5"/>
 
-					<!--events-->
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-						<RadioButton x:Name="eventRB" GroupName="multirb" Click="eventRB_Click"/>
-						<Border x:Name="meEventBox" Style="{StaticResource callout}" Width="679" Margin="10,0,0,0">
+					<StackPanel Orientation="Horizontal">
+						<RadioButton x:Name="triggerTestRB" GroupName="branchrb"/>
+						<Border Style="{StaticResource callout}" Width="679" Margin="10,0,0,0">
 							<StackPanel>
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="auto"/>
-										<ColumnDefinition Width="*"/>
-										<ColumnDefinition Width="auto"/>
-									</Grid.ColumnDefinitions>
-									<TextBlock Style="{StaticResource Heading}" Text="Fire These Events:"/>
-									<TextBlock Grid.Column="1"/>
-									<StackPanel Orientation="Horizontal" Grid.Column="2">
-										<ComboBox x:Name="eventCB" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding scenario.interactionObserver}" SelectedValuePath="dataName" DisplayMemberPath="dataName" MinWidth="200" SelectionChanged="eventCB_SelectionChanged"/>
-										<Button x:Name="addSelectedEventButton" Click="addSelectedEventButton_Click" Content="Add Selected Event" Background="MediumSeaGreen" Foreground="White" Margin="10,0,0,0" IsEnabled="False"/>
-									</StackPanel>
-								</Grid>
+								<TextBlock Style="{StaticResource Heading}" Text="...Fire One Of These Triggers:"/>
+								<UniformGrid Columns="2">
+									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Set (True)..." FontWeight="Normal">
+										<StackPanel Orientation="Horizontal">
+											<ComboBox x:Name="eventTrueTrigger" HorizontalAlignment="Stretch" VerticalAlignment="Center" DisplayMemberPath="dataName" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding interaction.triggerIsSetTrigger}" SelectedValuePath="dataName" FontSize="12" MinWidth="234"/>
 
-								<ItemsControl Padding="5" ItemsSource="{Binding interaction.eventList}">
-									<ItemsControl.ItemsPanel>
-										<ItemsPanelTemplate>
-											<WrapPanel IsItemsHost="True" />
-										</ItemsPanelTemplate>
-									</ItemsControl.ItemsPanel>
+											<Button x:Name="addTriggerButton2" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerButton2_Click">
+												<Image Source="/JiME;component/Assets/add2.png"/>
+											</Button>
 
-									<ItemsControl.ItemTemplate>
-										<DataTemplate>
-											<Border Style="{StaticResource callout}" Background="{StaticResource bgButtonColor}" Margin="0,0,5,5">
-												<StackPanel Orientation="Horizontal">
-													<TextBlock Text="{Binding}" Style="{StaticResource SubText}" Foreground="White" VerticalAlignment="Center"/>
-													<Button x:Name="removeEventButton" Background="{StaticResource bgCancelDelete}" Foreground="White" Margin="10,0,0,0" Height="32" Width="32" Click="removeEventButton_Click" DataContext="{Binding}">
-														<Image Source="/JiME;component/Assets/cancel.png"/>
-													</Button>
-												</StackPanel>
-											</Border>
-										</DataTemplate>
-									</ItemsControl.ItemTemplate>
-								</ItemsControl>
-								<!--<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-									<ComboBox x:Name="eventCB2" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding interaction.eventList}" FontSize="12" Width="250" SelectedItem="{Binding selectedEvent}"/>
-									<Button x:Name="removeEventButton" Click="removeEventButton_Click" Background="{StaticResource bgCancelDelete}" Foreground="White" Margin="10,0,0,0" Height="32" Width="32">
-										<Image Source="/JiME;component/Assets/cancel.png"/>
-									</Button>
-									<TextBlock Text="An Event can only be added to the list once." Margin="10,0,0,0" Style="{StaticResource SubText}" VerticalAlignment="Center"/>
-								</StackPanel>-->
+										</StackPanel>
+									</GroupBox>
+									<GroupBox Style="{StaticResource DefaultGroupBox}" Header="If It's Not Set (False)..." FontWeight="Normal">
+										<StackPanel Orientation="Horizontal">
+											<ComboBox x:Name="eventNotTrueTrigger" VerticalAlignment="Center" DisplayMemberPath="dataName" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding interaction.triggerNotSetTrigger}" SelectedValuePath="dataName" FontSize="12" MinWidth="234"/>
+
+											<Button x:Name="addTriggerButton3" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerButton3_Click">
+												<Image Source="/JiME;component/Assets/add2.png"/>
+											</Button>
+										</StackPanel>
+
+									</GroupBox>
+								</UniformGrid>
 							</StackPanel>
-
 						</Border>
 					</StackPanel>
 				</StackPanel>

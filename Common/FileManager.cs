@@ -279,7 +279,7 @@ namespace JiME
 					json = sr.ReadToEnd();
 				}
 
-				var c = JsonConvert.DeserializeObject<Campaign>( json );
+				var c = JsonConvert.DeserializeObject<Campaign>( json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Populate } );
 				return c;
 			}
 			catch ( Exception e )

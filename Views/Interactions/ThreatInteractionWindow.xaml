@@ -24,7 +24,7 @@
 			<!--general properties-->
 			<TabItem Header="General Properties" Padding="5">
 				<StackPanel Margin="0,5,0,0">
-					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}">
+					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}" Margin="0,0,0,10">
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="This Event is triggered by a Scenario Threat Threshold." HorizontalAlignment="Center"/>
 
@@ -36,7 +36,7 @@
 					</Border>
 
 					<!--event name/lore-->
-					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+					<Border Style="{StaticResource callout}">
 						<UniformGrid Columns="2">
 							<StackPanel>
 								<TextBlock Style="{StaticResource Heading}" Text="Event Name:"/>
@@ -135,49 +135,48 @@
 						</StackPanel>
 					</Border>
 
-					<!--flavor text-->
-					<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding ElementName=isTokenCB,Path=IsChecked,Converter={StaticResource bvis}}">
-						<StackPanel>
-							<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when a player interacts with a Token. Use it to hint at the Event. If the player wishes to use an action to trigger the Event, they press a Continue button in the Companion App. <Bold><Italic>Required</Italic></Bold>
-							</TextBlock>
+					<UniformGrid Columns="2">
+						<!--event text-->
+						<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,5,0">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*"/>
 									<ColumnDefinition Width="auto"/>
 								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="flavorTB" Text="{Binding interaction.textBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
-								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46">
-									<Image Source="/JiME;component/Assets/edit.png"/>
-								</Button>
-							</Grid>
-						</StackPanel>
-					</Border>
 
-					<!--event text-->
-					<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,0,0">
-						<StackPanel>
-							<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Use the Event Text to describe the actual Event that has been triggered. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc. <Bold><Italic>Required</Italic></Bold>
-							</TextBlock>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="eventTB" Text="{Binding interaction.eventBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
+								<StackPanel>
+									<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					Use the Event Text to describe the actual Event that has been activated. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc.
+									</TextBlock>
+								</StackPanel>
 								<Button Grid.Column="1" x:Name="editEventButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditEventButton_Click" Width="46" Height="46">
 									<Image Source="/JiME;component/Assets/edit.png"/>
 								</Button>
 							</Grid>
-						</StackPanel>
-					</Border>
+						</Border>
+
+						<!--flavor text-->
+						<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="5,10,0,0">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="auto"/>
+								</Grid.ColumnDefinitions>
+
+								<StackPanel>
+									<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+					This text is shown when a player interacts with a Token. Use it to hint at the Event. Flavor Text is only shown if this Event is a Token Interaction.
+									</TextBlock>
+								</StackPanel>
+								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46" IsEnabled="{Binding ElementName=isTokenCB,Path=IsChecked}">
+									<Image Source="/JiME;component/Assets/edit.png"/>
+								</Button>
+							</Grid>
+						</Border>
+					</UniformGrid>
+
 				</StackPanel>
 			</TabItem>
 

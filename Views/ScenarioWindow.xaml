@@ -34,7 +34,7 @@
 			</Grid.ColumnDefinitions>
 
 			<!--name and rewards-->
-			<Border Style="{StaticResource callout}">
+			<Border Style="{StaticResource callout}" Margin="0,0,5,0">
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Style="{StaticResource Heading}" Text="Scenario Title:" />
 					<TextBox x:Name="nameTB" Text="{Binding scenarioName, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" MinWidth="300" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -42,7 +42,7 @@
 			</Border>
 
 			<!--scenario type-->
-			<Border Grid.Column="2" Style="{StaticResource callout}">
+			<Border Grid.Column="2" Style="{StaticResource callout}" Margin="5,0,0,0">
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Style="{StaticResource Heading}" Text="Scenario Type:" Margin="0,0,10,0"/>
 					<RadioButton Content="Journey" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding scenario.scenarioTypeJourney}" Click="RadioType_Checked"/>
@@ -53,34 +53,38 @@
 
 		<!--rewards-->
 		<Border  Grid.Row="1" Style="{StaticResource callout}" Margin="5">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="auto"/>
-					<ColumnDefinition Width="auto"/>
-					<ColumnDefinition Width="auto"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
+			<StackPanel>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
 
-				<StackPanel Grid.Column="2" Orientation="Horizontal">
-					<!--rewards-->
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Starting Lore:" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-						<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.loreStartValue}"/>
+					<StackPanel Grid.Column="2" Orientation="Horizontal">
+						<!--rewards-->
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Starting Lore:" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+							<TextBox Width="32" VerticalAlignment="Center" Text="{Binding scenario.loreStartValue}"/>
+						</StackPanel>
 					</StackPanel>
-				</StackPanel>
 
-				<StackPanel Grid.Column="0" HorizontalAlignment="Center">
-					<TextBlock Text="First Objective (Optional):" Style="{StaticResource Heading}"/>
-					<ComboBox Name="objectiveCB" ItemsSource="{Binding scenario.objectiveObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding scenario.objectiveName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
-				</StackPanel>
+					<StackPanel Grid.Column="0" HorizontalAlignment="Center">
+						<TextBlock Text="First Objective (Optional):" Style="{StaticResource Heading}"/>
+						<ComboBox Name="objectiveCB" ItemsSource="{Binding scenario.objectiveObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding scenario.objectiveName}" SelectedValuePath="dataName" Margin="0,5,0,0"/>
+					</StackPanel>
 
-				<StackPanel Grid.Column="1" Margin="40,0,40,0" Orientation="Horizontal" HorizontalAlignment="Right">
-					<TextBlock Text="Shadow Phase Fear:" Style="{StaticResource Heading}"/>
-					<TextBox Text="{Binding scenario.shadowFear}" Width="32" Margin="10,0,0,0" VerticalAlignment="Center"/>
-				</StackPanel>
+					<StackPanel Grid.Column="1" Margin="40,0,20,0" Orientation="Horizontal" HorizontalAlignment="Right">
+						<TextBlock Text="Shadow Phase Fear:" Style="{StaticResource Heading}"/>
+						<TextBox Text="{Binding scenario.shadowFear}" Width="32" Margin="10,0,0,0" VerticalAlignment="Center"/>
+					</StackPanel>
 
-				<Button x:Name="specialBtn" Grid.Column="3" Content="Special Instructions" Background="MediumSeaGreen" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Click="specialBtn_Click" Height="36"/>
-			</Grid>
+					<Button x:Name="specialBtn" Grid.Column="3" Content="Story / Special Instructions" Background="MediumSeaGreen" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Click="specialBtn_Click" Height="36"/>
+				</Grid>
+
+				<TextBlock TextWrapping="Wrap" Style="{StaticResource SubText}" Text="The Story/Special Instructions text is shown to Players in the Companion App before embarking on the Scenario." Margin="0,5,0,0"/>
+			</StackPanel>
 		</Border>
 		<!--rewards-->
 		<Border  Grid.Row="2" Style="{StaticResource callout}" Margin="5">
@@ -170,96 +174,55 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</ScrollViewer>
-
-				<!--<ItemsControl x:Name="threatList" Visibility="{Binding ElementName=noThreatCheck,Path=IsChecked,Converter={StaticResource b2vis}}">
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Border Background="{StaticResource bgColorLight}" Padding="10" CornerRadius="4" Margin="5">
-								<StackPanel>
-									<StackPanel Orientation="Horizontal" >
-										<TextBlock Text="Threshold:" VerticalAlignment="Center"/>
-										<TextBox Margin="10,0" VerticalAlignment="Center" Text="{Binding theThreat.threshold, UpdateSourceTrigger=PropertyChanged}"/>
-										<Button x:Name="removeThreat" Background="{StaticResource bgCancelDelete}" Click="RemoveThreat_Click">
-											<Image Width="16" Source="/JiME;component/Assets/remove.png"/>
-										</Button>
-									</StackPanel>
-									<TextBlock Text="Triggered Event:" Margin="0,5"/>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*"/>
-											<ColumnDefinition Width="auto"/>
-										</Grid.ColumnDefinitions>
-										<ComboBox x:Name="eventInteractionCB" ItemsSource="{Binding threatItemCollection}" DisplayMemberPath="trigger.dataName" SelectedItem="{Binding selectedItem}" SelectionChanged="EventInteractionCB_SelectionChanged" VerticalAlignment="Center"/>
-
-										-->
-				<!--<Button x:Name="AddThreatEvent" Grid.Column="1" Margin="5,0,0,0" Background="MediumSeaGreen" Click="AddThreatTrigger_Click" DataContext="{Binding}">
-											<Image Width="16" Source="/JiME;component/Assets/add.png"/>
-										</Button>-->
-				<!--
-									</Grid>
-								</StackPanel>
-							</Border>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel IsItemsHost="True" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-				</ItemsControl>-->
-
 			</Grid>
 		</GroupBox>
 
-		<!--Flavor Text-->
-		<GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="Flavor Text" Foreground="Silver" Margin="5,10,5,5" FontSize="14">
-			<StackPanel>
-				<!--intro text-->
-				<TextBlock Text="Introduction Text" Style="{StaticResource Heading}" Margin="5,5,5,0"/>
-				<TextBlock TextWrapping="Wrap" Margin="5,0" Style="{StaticResource SubText}">
+		<StackPanel Margin="5,10,5,5">
+			<UniformGrid Columns="2">
+				<Border Style="{StaticResource callout}" Margin="0,0,5,0" VerticalAlignment="Top">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="auto"/>
+						</Grid.ColumnDefinitions>
+
+						<StackPanel>
+							<TextBlock Text="Introduction Text" Style="{StaticResource Heading}"/>
+							<TextBlock TextWrapping="Wrap" Style="{StaticResource SubText}">
 					The Introduction is shown at the start of the Scenario to describe the mission.
-				</TextBlock>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="auto"/>
-					</Grid.ColumnDefinitions>
-					<Border BorderBrush="White" BorderThickness="1" Margin="5,10">
-						<TextBlock x:Name="introTB" TextTrimming="WordEllipsis" Margin="5" VerticalAlignment="Center" Height="19.2"/>
-					</Border>
-					<Button x:Name="editIntroButton" Grid.Column="1" Margin="5,0,5,0" Padding="5" Background="CornflowerBlue" Click="EditIntroButton_Click" VerticalAlignment="Center">
-						<Image Source="/JiME;component/Assets/edit.png" Width="32" />
-					</Button>
-				</Grid>
+							</TextBlock>
+						</StackPanel>
+						<Button x:Name="editIntroButton" Grid.Column="1" Margin="5,0,5,0" Padding="5" Background="CornflowerBlue" Click="EditIntroButton_Click" VerticalAlignment="Center">
+							<Image Source="/JiME;component/Assets/edit.png" Width="32" />
+						</Button>
+					</Grid>
+				</Border>
 
 				<!--Resulution text-->
-				<TextBlock Text="Scenario Resolution Text" Style="{StaticResource Heading}" Margin="5,10,5,0"/>
-				<TextBlock TextWrapping="Wrap" Margin="5,0" Style="{StaticResource SubText}">
+				<Border Style="{StaticResource callout}" Margin="5,0,0,0">
+					<StackPanel>
+						<TextBlock Text="Scenario Resolution Text" Style="{StaticResource Heading}"/>
+						<TextBlock TextWrapping="Wrap" Style="{StaticResource SubText}">
 					All Scenarios have at least one Resolution that is displayed at the end of the Scenario. Multiple Resolutions can be created and triggered, depending on the success, failure, or other specified conditions encountered during the Scenario.
-				</TextBlock>
-				<Grid Margin="0,10">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="auto"/>
-						<ColumnDefinition Width="auto"/>
-						<ColumnDefinition Width="auto"/>
-					</Grid.ColumnDefinitions>
-					<Border BorderBrush="White" BorderThickness="1" Margin="5,10" >
-						<ComboBox x:Name="resolutionCB" DisplayMemberPath="dataName" SelectedIndex="0"/>
-					</Border>
-					<Button x:Name="resolutionEditButton" Grid.Column="1" Margin="10,0,5,0" Padding="5" Background="CornflowerBlue" Click="ResolutionEditButton_Click">
-						<Image Source="/JiME;component/Assets/edit.png" Width="32"/>
-					</Button>
-					<Button x:Name="addResolutionButton" Grid.Column="2" Margin="0,0,5,0" Padding="5" Background="MediumSeaGreen" Click="AddResolutionButton_Click">
-						<Image Source="/JiME;component/Assets/add.png" Width="32"/>
-					</Button>
-					<Button x:Name="removeResolutionButton" Grid.Column="3" Margin="0,0,5,0" Padding="5" Background="{StaticResource bgCancelDelete}" Click="RemoveResolutionButton_Click">
-						<Image Source="/JiME;component/Assets/remove.png" Width="32"/>
-					</Button>
-				</Grid>
-			</StackPanel>
-		</GroupBox>
+						</TextBlock>
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+							<Button x:Name="resolutionEditButton" Grid.Column="1" Padding="5" Background="CornflowerBlue" Click="ResolutionEditButton_Click">
+								<Image Source="/JiME;component/Assets/edit.png" Width="32"/>
+							</Button>
+							<Button x:Name="addResolutionButton" Grid.Column="2" Margin="5,0" Padding="5" Background="MediumSeaGreen" Click="AddResolutionButton_Click">
+								<Image Source="/JiME;component/Assets/add.png" Width="32"/>
+							</Button>
+							<Button x:Name="removeResolutionButton" Grid.Column="3" Margin="0,0,5,0" Padding="5" Background="{StaticResource bgCancelDelete}" Click="RemoveResolutionButton_Click">
+								<Image Source="/JiME;component/Assets/remove.png" Width="32"/>
+							</Button>
+						</StackPanel>
+
+						<ComboBox x:Name="resolutionCB" DisplayMemberPath="dataName" SelectedIndex="0" Margin="0,5,0,0"/>
+
+					</StackPanel>
+				</Border>
+			</UniformGrid>
+		</StackPanel>
 
 		<!--Footer-->
 		<Border Grid.ColumnSpan="2" Grid.Row="5" BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">

@@ -151,9 +151,14 @@
 						<TextBlock Text="Campaign Trigger names are automatically appended with '[CMPN]' so they can be easily identified as Campaign Triggers in the Scenario Editor. For example, 'my trigger' would become 'my trigger [CMPN]'." Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"/>
 						<TextBlock Text="NOTE: If a Campaign Trigger is being referenced in a Scenario, and that Campaign Trigger is later removed, the Scenario will still refer to it and will need to be updated in the Editor." Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" FontWeight="Bold"/>
 
-						<TextBlock Text="Story Text" Style="{StaticResource Heading}" Margin="0,10,0,0"/>
-						<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Campaign Description" Style="{StaticResource Heading}" Margin="0,10,0,0"/>
+						<TextBlock Text="The Description is a very short summary of what the Campaign is about. It's shown on the Scenario selection screen in the Companion App." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+						<TextBox x:Name="descriptionText" Text="{Binding campaign.description}" Margin="0,5,0,0" Style="{StaticResource DefaultTextBox}"/>
 
+						<TextBlock Text="Campaign Story" Style="{StaticResource Heading}" Margin="0,10,0,0"/>
+						<TextBlock Text="The Campaign Story is shown to players in the Companion App after the Campaign is selected to play. Use it to provide a story for the Campaign." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+
+						<StackPanel Orientation="Horizontal">
 							<Button x:Name="storyButton" Background="DodgerBlue" Click="storyButton_Click" Height="44" HorizontalAlignment="Left" Margin="0,5,0,0">
 								<StackPanel Orientation="Horizontal" Margin="5,0">
 									<TextBlock Text="Edit Story Text" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
@@ -162,7 +167,7 @@
 							</Button>
 							<TextBlock x:Name="storySet" Text="The Story Text is not set." Style="{StaticResource Heading}" Margin="10,0"/>
 						</StackPanel>
-						<TextBlock Text="Story Text is shown to players in the Companion App after the Campaign is selected to play. Use it to provide a story for the Campaign." Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"/>
+
 					</StackPanel>
 				</Border>
 			</TabItem>

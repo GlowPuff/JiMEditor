@@ -3,19 +3,18 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Collections.ObjectModel;
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for ReplaceTokenInteractionWindow.xaml
+	/// Interaction logic for ThreatInteractionWindow.xaml
 	/// </summary>
-	public partial class ReplaceTokenInteractionWindow : Window, INotifyPropertyChanged
+	public partial class ThreatInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public ReplaceTokenInteraction interaction { get; set; }
+		public ThreatInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,18 +28,15 @@ namespace JiME.Views
 				PropChanged( "isThreatTriggered" );
 			}
 		}
-		public ObservableCollection<IInteraction> eventToReplace { get; set; }
-		public ObservableCollection<IInteraction> replaceWith { get; set; }
 
-		public ReplaceTokenInteractionWindow( Scenario s, ReplaceTokenInteraction inter = null )
+		public ThreatInteractionWindow( Scenario s, ThreatInteraction inter = null )
 		{
 			InitializeComponent();
-
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new ReplaceTokenInteraction( "New Replace Token Event" );
+			interaction = inter ?? new ThreatInteraction( "New Threat Event" );
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -65,15 +61,17 @@ namespace JiME.Views
 
 			oldName = interaction.dataName;
 
-			eventToReplace = new ObservableCollection<IInteraction>( scenario.interactionObserver.Where( x =>
-			( x.isTokenInteraction || x.dataName == "None" )
-			&& x.dataName != interaction.dataName
-			&& !x.dataName.Contains( "GRP" ) ) );
+			rufCB.IsChecked = interaction.includedEnemies[0];
+			gobCB.IsChecked = interaction.includedEnemies[1];
+			huntCB.IsChecked = interaction.includedEnemies[2];
+			marCB.IsChecked = interaction.includedEnemies[3];
+			wargCB.IsChecked = interaction.includedEnemies[4];
+			hTrollCB.IsChecked = interaction.includedEnemies[5];
+			wightCB.IsChecked = interaction.includedEnemies[6];
 
-			replaceWith = new ObservableCollection<IInteraction>( scenario.interactionObserver.Where( x =>
-			( x.isTokenInteraction || x.dataName == "None" )
-			&& x.dataName != interaction.dataName
-			&& !x.dataName.Contains( "GRP" ) ) );
+			biasLight.IsChecked = interaction.difficultyBias == DifficultyBias.Light;
+			biasMedium.IsChecked = interaction.difficultyBias == DifficultyBias.Medium;
+			biasHeavy.IsChecked = interaction.difficultyBias == DifficultyBias.Heavy;
 		}
 
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
@@ -93,7 +91,6 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
@@ -103,35 +100,15 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;
-				eventTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Replace Token Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Threat Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-				return false;
-			}
-
-			if ( interaction.eventToReplace == interaction.dataName
-				|| interaction.replaceWithEvent == interaction.dataName )
-			{
-				MessageBox.Show( "This Event can't replace or be replaced with itself.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-				return false;
-			}
-
-			if ( interaction.eventToReplace == "None" || interaction.replaceWithEvent == "None" )
-			{
-				MessageBox.Show( "The target and source Events can't be set to None.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-				return false;
-			}
-
-			if ( interaction.eventToReplace == interaction.replaceWithEvent )
-			{
-				MessageBox.Show( "The target and source replacement Events can't be the same.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
 			}
 
@@ -142,6 +119,24 @@ namespace JiME.Views
 		{
 			if ( !closing )
 				e.Cancel = true;
+		}
+
+		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerAfterName = tw.triggerName;
+			}
+		}
+
+		private void addMainTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerName = tw.triggerName;
+			}
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -169,11 +164,20 @@ namespace JiME.Views
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
-			interaction.eventToReplace = ( (IInteraction)eventToReplaceList.SelectedItem ).dataName;
+			interaction.includedEnemies[0] = rufCB.IsChecked.Value;
+			interaction.includedEnemies[1] = gobCB.IsChecked.Value;
+			interaction.includedEnemies[2] = huntCB.IsChecked.Value;
+			interaction.includedEnemies[3] = marCB.IsChecked.Value;
+			interaction.includedEnemies[4] = wargCB.IsChecked.Value;
+			interaction.includedEnemies[5] = hTrollCB.IsChecked.Value;
+			interaction.includedEnemies[6] = wightCB.IsChecked.Value;
 
-			interaction.replaceWithEvent = ( (IInteraction)replaceWithList.SelectedItem ).dataName;
-
-			interaction.replaceWithGUID = scenario.interactionObserver.Where( x => x.dataName == interaction.replaceWithEvent ).Select( x => x.GUID ).First();
+			if ( biasLight.IsChecked == true )
+				interaction.difficultyBias = DifficultyBias.Light;
+			if ( biasMedium.IsChecked == true )
+				interaction.difficultyBias = DifficultyBias.Medium;
+			if ( biasHeavy.IsChecked == true )
+				interaction.difficultyBias = DifficultyBias.Heavy;
 
 			closing = true;
 			DialogResult = true;
@@ -191,22 +195,26 @@ namespace JiME.Views
 			nameTB.SelectAll();
 		}
 
-		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
+		private void AddMonsterButton_Click( object sender, RoutedEventArgs e )
 		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
+			MonsterEditorWindow me = new MonsterEditorWindow();
+			if ( me.ShowDialog() == true )
 			{
-				interaction.triggerAfterName = tw.triggerName;
+				interaction.AddMonster( me.monster );
 			}
 		}
 
-		private void addMainTriggerButton_Click( object sender, RoutedEventArgs e )
+		private void EditButton_Click( object sender, RoutedEventArgs e )
 		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.triggerName = tw.triggerName;
-			}
+			Monster m = ( (Button)sender ).DataContext as Monster;
+			MonsterEditorWindow me = new MonsterEditorWindow( m );
+			me.ShowDialog();
+		}
+
+		private void DeleteButton_Click( object sender, RoutedEventArgs e )
+		{
+			Monster m = ( (Button)sender ).DataContext as Monster;
+			interaction.monsterCollection.Remove( m );
 		}
 
 		void PropChanged( string name )
@@ -237,6 +245,21 @@ namespace JiME.Views
 				groupInfo.Text = "This Event is in the following group: None";
 		}
 
+		private void addDefeatedTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerDefeatedName = tw.triggerName;
+			}
+		}
+
+		private void help_Click( object sender, RoutedEventArgs e )
+		{
+			HelpWindow hw = new HelpWindow( HelpType.Enemies, 0 );
+			hw.ShowDialog();
+		}
+
 		private void tokenTypeClick( object sender, RoutedEventArgs e )
 		{
 			RadioButton rb = e.Source as RadioButton;
@@ -244,6 +267,26 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Visible;
 			else
 				personType.Visibility = Visibility.Collapsed;
+		}
+
+		private void simulateBtn_Click( object sender, RoutedEventArgs e )
+		{
+			var sd = new SimulatorData()
+			{
+				poolPoints = interaction.basePoolPoints,
+				difficultyBias = biasLight.IsChecked == true ? DifficultyBias.Light : ( biasMedium.IsChecked == true ? DifficultyBias.Medium : DifficultyBias.Heavy )
+			};
+
+			sd.includedEnemies[0] = rufCB.IsChecked.Value;
+			sd.includedEnemies[1] = gobCB.IsChecked.Value;
+			sd.includedEnemies[2] = huntCB.IsChecked.Value;
+			sd.includedEnemies[3] = marCB.IsChecked.Value;
+			sd.includedEnemies[4] = wargCB.IsChecked.Value;
+			sd.includedEnemies[5] = hTrollCB.IsChecked.Value;
+			sd.includedEnemies[6] = wightCB.IsChecked.Value;
+
+			var sim = new EnemyCalculator( sd );
+			sim.ShowDialog();
 		}
 	}
 }

@@ -24,7 +24,7 @@
 			<!--general properties-->
 			<TabItem Header="General Properties" Padding="5">
 				<StackPanel Margin="0,5,0,0">
-					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}">
+					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}" Margin="0,0,0,10">
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="This Event is triggered by a Scenario Threat Threshold." HorizontalAlignment="Center"/>
 
@@ -36,7 +36,7 @@
 					</Border>
 
 					<!--event name/lore-->
-					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+					<Border Style="{StaticResource callout}">
 						<UniformGrid Columns="2">
 							<StackPanel>
 								<TextBlock Style="{StaticResource Heading}" Text="Event Name:"/>
@@ -78,53 +78,11 @@
 					<Border x:Name="triggerBox" Style="{StaticResource callout}" Margin="0,10,0,0" IsEnabled="False">
 						<StackPanel>
 							<TextBlock Text="Triggered By and Set Trigger After:" Style="{StaticResource Heading}"/>
-							<!--<UniformGrid Columns="2">
-								<StackPanel HorizontalAlignment="Left">
-									<TextBlock Text="Triggered By (Optional):" Style="{StaticResource Heading}"/>
-									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" Name="triggeredByCB" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerName}" SelectedValuePath="dataName" Margin="0" HorizontalAlignment="Left" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}"/>
-										<Button x:Name="addMainTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerButton_Click" IsEnabled="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource binv}}">
-											<Image Source="/JiME;component/Assets/add2.png"/>
-										</Button>
-									</StackPanel>
-								</StackPanel>
-
-								<StackPanel HorizontalAlignment="Left" Margin="10,0,0,0">
-									<TextBlock Text="Set Trigger After Event Is Resolved (Optional):" Style="{StaticResource Heading}"/>
-									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0"/>
-										<Button x:Name="addMainTriggerAfterButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerAfterButton_Click">
-											<Image Source="/JiME;component/Assets/add2.png"/>
-										</Button>
-									</StackPanel>
-								</StackPanel>
-							</UniformGrid>-->
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
 								Conditional Events are special in that they are always active and do nothing more than listen for other Triggers to be fired.  Because of this, they cannot be Triggered to activate or fire a Trigger after becoming activated.
 							</TextBlock>
 						</StackPanel>
 					</Border>
-					<!--flavor text-->
-					<!--<Border x:Name="flavorbox" Style="{StaticResource callout}" Margin="0,10,0,0" Visibility="{Binding ElementName=isTokenCB,Path=IsChecked,Converter={StaticResource bvis}}">
-						<StackPanel>
-							<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when a player interacts with a Token. Use it to hint at the Event. If the player wishes to use an action to trigger the Event, they press a Continue button in the Companion App. <Bold><Italic>Required</Italic></Bold>
-							</TextBlock>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="flavorTB" Text="{Binding interaction.textBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
-								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46">
-									<Image Source="/JiME;component/Assets/edit.png"/>
-								</Button>
-							</Grid>
-						</StackPanel>
-					</Border>-->
 
 					<!--event text-->
 					<Border x:Name="eventbox" Style="{StaticResource callout}" Margin="0,10,0,0">
@@ -133,18 +91,6 @@
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
 								Because of the nature of Conditional Events, they do not have Event Text.
 							</TextBlock>
-							<!--<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-									<TextBlock x:Name="eventTB" Text="{Binding interaction.eventBookData.pages[0]}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-								</Border>
-								<Button Grid.Column="1" x:Name="editEventButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditEventButton_Click" Width="46" Height="46">
-									<Image Source="/JiME;component/Assets/edit.png"/>
-								</Button>
-							</Grid>-->
 						</StackPanel>
 					</Border>
 				</StackPanel>

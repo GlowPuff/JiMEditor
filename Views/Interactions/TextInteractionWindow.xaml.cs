@@ -7,14 +7,14 @@ using System.Text.RegularExpressions;
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for ThreatInteractionWindow.xaml
+	/// Interaction logic for TextInteractionWindow.xaml
 	/// </summary>
-	public partial class ThreatInteractionWindow : Window, INotifyPropertyChanged
+	public partial class TextInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public ThreatInteraction interaction { get; set; }
+		public TextInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,14 +29,14 @@ namespace JiME.Views
 			}
 		}
 
-		public ThreatInteractionWindow( Scenario s, ThreatInteraction inter = null )
+		public TextInteractionWindow( Scenario s, TextInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new ThreatInteraction( "New Threat Event" );
+			interaction = inter ?? new TextInteraction( "New Text Event" );
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -60,18 +60,18 @@ namespace JiME.Views
 			threatRadio.IsChecked = interaction.tokenType == TokenType.Threat;
 
 			oldName = interaction.dataName;
+		}
 
-			rufCB.IsChecked = interaction.includedEnemies[0];
-			gobCB.IsChecked = interaction.includedEnemies[1];
-			huntCB.IsChecked = interaction.includedEnemies[2];
-			marCB.IsChecked = interaction.includedEnemies[3];
-			wargCB.IsChecked = interaction.includedEnemies[4];
-			hTrollCB.IsChecked = interaction.includedEnemies[5];
-			wightCB.IsChecked = interaction.includedEnemies[6];
+		private void editPersText_Click( object sender, RoutedEventArgs e )
+		{
+			TextBookData tbd = new TextBookData( "Persistent Text" );
+			tbd.pages.Add( interaction.persistentText );
 
-			biasLight.IsChecked = interaction.difficultyBias == DifficultyBias.Light;
-			biasMedium.IsChecked = interaction.difficultyBias == DifficultyBias.Medium;
-			biasHeavy.IsChecked = interaction.difficultyBias == DifficultyBias.Heavy;
+			TextEditorWindow te = new TextEditorWindow( scenario, EditMode.Persistent, tbd );
+			if ( te.ShowDialog() == true )
+			{
+				interaction.persistentText = te.textBookController.pages[0];
+			}
 		}
 
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
@@ -85,13 +85,26 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Collapsed;
 		}
 
+		private void ComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			//this was commented out??
+			//if ( !interaction.isFromThreatThreshold )
+			//{
+			//	if ( interaction.triggerName == "None" )
+			//		eventbox.Visibility = Visibility.Visible;
+			//	else
+			//		eventbox.Visibility = Visibility.Collapsed;
+			//}
+			//else
+			//	flavorbox.Visibility = Visibility.Collapsed;
+		}
+
 		private void EditFlavorButton_Click( object sender, RoutedEventArgs e )
 		{
 			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, interaction.textBookData );
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
@@ -101,14 +114,13 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;
-				eventTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Threat Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Text Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
@@ -121,24 +133,6 @@ namespace JiME.Views
 		{
 			if ( !closing )
 				e.Cancel = true;
-		}
-
-		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.triggerAfterName = tw.triggerName;
-			}
-		}
-
-		private void addMainTriggerButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.triggerName = tw.triggerName;
-			}
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -166,21 +160,6 @@ namespace JiME.Views
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
-			interaction.includedEnemies[0] = rufCB.IsChecked.Value;
-			interaction.includedEnemies[1] = gobCB.IsChecked.Value;
-			interaction.includedEnemies[2] = huntCB.IsChecked.Value;
-			interaction.includedEnemies[3] = marCB.IsChecked.Value;
-			interaction.includedEnemies[4] = wargCB.IsChecked.Value;
-			interaction.includedEnemies[5] = hTrollCB.IsChecked.Value;
-			interaction.includedEnemies[6] = wightCB.IsChecked.Value;
-
-			if ( biasLight.IsChecked == true )
-				interaction.difficultyBias = DifficultyBias.Light;
-			if ( biasMedium.IsChecked == true )
-				interaction.difficultyBias = DifficultyBias.Medium;
-			if ( biasHeavy.IsChecked == true )
-				interaction.difficultyBias = DifficultyBias.Heavy;
-
 			closing = true;
 			DialogResult = true;
 		}
@@ -197,26 +176,22 @@ namespace JiME.Views
 			nameTB.SelectAll();
 		}
 
-		private void AddMonsterButton_Click( object sender, RoutedEventArgs e )
+		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
 		{
-			MonsterEditorWindow me = new MonsterEditorWindow();
-			if ( me.ShowDialog() == true )
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
 			{
-				interaction.AddMonster( me.monster );
+				interaction.triggerAfterName = tw.triggerName;
 			}
 		}
 
-		private void EditButton_Click( object sender, RoutedEventArgs e )
+		private void addMainTriggerButton_Click( object sender, RoutedEventArgs e )
 		{
-			Monster m = ( (Button)sender ).DataContext as Monster;
-			MonsterEditorWindow me = new MonsterEditorWindow( m );
-			me.ShowDialog();
-		}
-
-		private void DeleteButton_Click( object sender, RoutedEventArgs e )
-		{
-			Monster m = ( (Button)sender ).DataContext as Monster;
-			interaction.monsterCollection.Remove( m );
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerName = tw.triggerName;
+			}
 		}
 
 		void PropChanged( string name )
@@ -247,21 +222,6 @@ namespace JiME.Views
 				groupInfo.Text = "This Event is in the following group: None";
 		}
 
-		private void addDefeatedTriggerButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.triggerDefeatedName = tw.triggerName;
-			}
-		}
-
-		private void help_Click( object sender, RoutedEventArgs e )
-		{
-			HelpWindow hw = new HelpWindow( HelpType.Enemies, 0 );
-			hw.ShowDialog();
-		}
-
 		private void tokenTypeClick( object sender, RoutedEventArgs e )
 		{
 			RadioButton rb = e.Source as RadioButton;
@@ -269,26 +229,6 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Visible;
 			else
 				personType.Visibility = Visibility.Collapsed;
-		}
-
-		private void simulateBtn_Click( object sender, RoutedEventArgs e )
-		{
-			var sd = new SimulatorData()
-			{
-				poolPoints = interaction.basePoolPoints,
-				difficultyBias = biasLight.IsChecked == true ? DifficultyBias.Light : ( biasMedium.IsChecked == true ? DifficultyBias.Medium : DifficultyBias.Heavy )
-			};
-
-			sd.includedEnemies[0] = rufCB.IsChecked.Value;
-			sd.includedEnemies[1] = gobCB.IsChecked.Value;
-			sd.includedEnemies[2] = huntCB.IsChecked.Value;
-			sd.includedEnemies[3] = marCB.IsChecked.Value;
-			sd.includedEnemies[4] = wargCB.IsChecked.Value;
-			sd.includedEnemies[5] = hTrollCB.IsChecked.Value;
-			sd.includedEnemies[6] = wightCB.IsChecked.Value;
-
-			var sim = new EnemyCalculator( sd );
-			sim.ShowDialog();
 		}
 	}
 }

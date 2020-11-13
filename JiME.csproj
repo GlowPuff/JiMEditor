@@ -115,13 +115,13 @@
     <Compile Include="Views\CampaignTriggerEditor.xaml.cs">
       <DependentUpon>CampaignTriggerEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ConditionalInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\ConditionalInteractionWindow.xaml.cs">
       <DependentUpon>ConditionalInteractionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DecisionInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\DecisionInteractionWindow.xaml.cs">
       <DependentUpon>DecisionInteractionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DialogInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\DialogInteractionWindow.xaml.cs">
       <DependentUpon>DialogInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EnemyCalculator.xaml.cs">
@@ -133,25 +133,25 @@
     <Compile Include="Views\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiEventWindow.xaml.cs">
+    <Compile Include="Views\Interactions\MultiEventWindow.xaml.cs">
       <DependentUpon>MultiEventWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CampaignWindow.xaml.cs">
       <DependentUpon>CampaignWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PersistentInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\PersistentInteractionWindow.xaml.cs">
       <DependentUpon>PersistentInteractionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReplaceTokenInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\ReplaceTokenInteractionWindow.xaml.cs">
       <DependentUpon>ReplaceTokenInteractionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TestInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\TestInteractionWindow.xaml.cs">
       <DependentUpon>TestInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BattleTileEditor.xaml.cs">
       <DependentUpon>BattleTileEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BranchInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\BranchInteractionWindow.xaml.cs">
       <DependentUpon>BranchInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChapterPropertiesWindow.xaml.cs">
@@ -172,10 +172,10 @@
     <Compile Include="Views\TextEditorWindow.xaml.cs">
       <DependentUpon>TextEditorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TextInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\TextInteractionWindow.xaml.cs">
       <DependentUpon>TextInteractionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ThreatInteractionWindow.xaml.cs">
+    <Compile Include="Views\Interactions\ThreatInteractionWindow.xaml.cs">
       <DependentUpon>ThreatInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TileEditorWindow.xaml.cs">
@@ -214,15 +214,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ConditionalInteractionWindow.xaml">
+    <Page Include="Views\Interactions\ConditionalInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DecisionInteractionWindow.xaml">
+    <Page Include="Views\Interactions\DecisionInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DialogInteractionWindow.xaml">
+    <Page Include="Views\Interactions\DialogInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -238,7 +238,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiEventWindow.xaml">
+    <Page Include="Views\Interactions\MultiEventWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -246,15 +246,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PersistentInteractionWindow.xaml">
+    <Page Include="Views\Interactions\PersistentInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReplaceTokenInteractionWindow.xaml">
+    <Page Include="Views\Interactions\ReplaceTokenInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TestInteractionWindow.xaml">
+    <Page Include="Views\Interactions\TestInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,7 +262,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BranchInteractionWindow.xaml">
+    <Page Include="Views\Interactions\BranchInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,11 +290,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TextInteractionWindow.xaml">
+    <Page Include="Views\Interactions\TextInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ThreatInteractionWindow.xaml">
+    <Page Include="Views\Interactions\ThreatInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

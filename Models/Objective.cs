@@ -7,7 +7,7 @@ namespace JiME
 	{
 		string _dataName, _eventName, _triggerName, _objectiveReminder, _nextTrigger, _triggeredByName;
 		bool _skipSummary;
-		int _loreReward;
+		int _loreReward, _xpReward, _threatReward;
 
 		public string dataName
 		{
@@ -83,18 +83,6 @@ namespace JiME
 				}
 			}
 		}
-		//public string nextObjective
-		//{
-		//	get => _nextObjective;
-		//	set
-		//	{
-		//		if ( value != _nextObjective )
-		//		{
-		//			_nextObjective = value;
-		//			NotifyChange( "nextObjective" );
-		//		}
-		//	}
-		//}
 		public string nextTrigger
 		{
 			get => _nextTrigger;
@@ -117,6 +105,24 @@ namespace JiME
 				NotifyChange( "loreReward" );
 			}
 		}
+		public int xpReward
+		{
+			get => _xpReward;
+			set
+			{
+				_xpReward = value;
+				NotifyChange( "xpReward" );
+			}
+		}
+		public int threatReward
+		{
+			get => _threatReward;
+			set
+			{
+				_threatReward = value;
+				NotifyChange( "threatReward" );
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -130,9 +136,8 @@ namespace JiME
 			objectiveReminder = "Default Objective Reminder";
 			textBookData = new TextBookData( "Default Name" );
 			textBookData.pages.Add( "Default Objective Text\n\nEdit this text to provide a summary to players so they understand what they need to accomplish to complete this Objective." );
-			//nextObjective = "None";
 			nextTrigger = "None";
-			loreReward = 0;
+			loreReward = xpReward = threatReward = 0;
 		}
 
 		public static Objective EmptyObjective()

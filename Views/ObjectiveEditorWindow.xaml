@@ -51,18 +51,20 @@
 
 			<Border Style="{StaticResource callout}">
 				<StackPanel>
-					<TextBlock Text="Objective Summary" Style="{StaticResource Heading}"/>
-					<TextBlock Style="{StaticResource SubText}">
-					This text is shown when the Objective begins in order to describe how to complete it. <Bold><Italic>Required</Italic></Bold>
-					</TextBlock>
-					<Grid Visibility="{Binding ElementName=skipSummaryCheck,Path=IsChecked,Converter={StaticResource b2invVis}}">
+
+					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="auto"/>
 						</Grid.ColumnDefinitions>
-						<Border BorderBrush="white" BorderThickness="1" Padding="5" Margin="0,5">
-							<TextBlock x:Name="summaryTB" Text="{Binding objSummary}" TextTrimming="WordEllipsis" VerticalAlignment="Center" Height="19" Foreground="White"/>
-						</Border>
+
+						<StackPanel>
+							<TextBlock Text="Objective Summary" Style="{StaticResource Heading}"/>
+							<TextBlock Style="{StaticResource SubText}">
+					This text is shown when the Objective begins in order to describe how to complete it. <Bold><Italic>Required</Italic></Bold>
+							</TextBlock>
+						</StackPanel>
+
 						<Button IsEnabled="{Binding objective.skipSummary, Converter={StaticResource b2e}}" Grid.Column="1" x:Name="editObjectiveButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditObjectiveButton_Click" Width="46" Height="46">
 							<Image Source="/JiME;component/Assets/edit.png"/>
 						</Button>
@@ -79,42 +81,38 @@
 					<Border Style="{StaticResource callout}" Margin="5">
 						<StackPanel>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore Reward:"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" HorizontalAlignment="Left" Text="{Binding objective.loreReward}"/>
+								<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore/ XP / Threat Rewards:"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.xpReward}" Margin="10,0"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.threatReward}"/>
 							</StackPanel>
-							<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
+
+							<UniformGrid Columns="2">
+								<StackPanel>
+									<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5" TextWrapping="Wrap">
 					This Objective Is Completed When The Following Trigger Is Set: (<Italic>Required</Italic>):
-							</TextBlock>
-							<StackPanel Orientation="Horizontal">
-								<ComboBox x:Name="triggerCB" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding objective.triggerName}" SelectedValuePath="dataName" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="200"/>
+									</TextBlock>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox x:Name="triggerCB" ItemsSource="{Binding scenario.triggersObserver}" SelectedValue="{Binding objective.triggerName}" SelectedValuePath="dataName" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="200"/>
 
-								<Button x:Name="addTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerButton_Click">
-									<Image Source="/JiME;component/Assets/add2.png"/>
-								</Button>
-							</StackPanel>
+										<Button x:Name="addTriggerButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTriggerButton_Click">
+											<Image Source="/JiME;component/Assets/add2.png"/>
+										</Button>
+									</StackPanel>
+								</StackPanel>
 
-							<!--left side-->
-							<!--<StackPanel>
-						<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
-					Next Objective: (<Italic>Required</Italic>):
-						</TextBlock>
-						<StackPanel>
-							<ComboBox x:Name="nextObjectiveCB" ItemsSource="{Binding scenario.objectiveObserver}" SelectedValue="{Binding objective.nextObjective}" SelectedValuePath="nextObjective" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" Width="250" SelectedItem="{Binding objective.nextObjective}"/>
-							<TextBlock Text="If there are no Objectives after this one, select None." Style="{StaticResource SubText}" Margin="0,5,0,0"/>
-						</StackPanel>
-					</StackPanel>-->
-							<!--right side-->
-							<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5">
+								<StackPanel>
+									<TextBlock Style="{StaticResource Heading}" Margin="0,10,0,5" TextWrapping="Wrap">
 					Set This Trigger When The Objective Is Completed: (<Italic>Optional</Italic>):
-							</TextBlock>
-							<StackPanel Orientation="Horizontal">
-								<ComboBox x:Name="nextTriggerCB" ItemsSource="{Binding scenario.triggersObserver}" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="250" SelectedItem="{Binding objective.nextTrigger}" SelectedValuePath="dataName" SelectedValue="{Binding objective.nextTrigger}"/>
-								<Button x:Name="addTriggerButton2" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addTriggerButton2_Click">
-									<Image Source="/JiME;component/Assets/add2.png"/>
-								</Button>
-							</StackPanel>
-							<!--</StackPanel>-->
-							<!--</UniformGrid>-->
+									</TextBlock>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox x:Name="nextTriggerCB" ItemsSource="{Binding scenario.triggersObserver}" HorizontalAlignment="Left" VerticalAlignment="Center" DisplayMemberPath="dataName" MinWidth="250" SelectedItem="{Binding objective.nextTrigger}" SelectedValuePath="dataName" SelectedValue="{Binding objective.nextTrigger}"/>
+										<Button x:Name="addTriggerButton2" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addTriggerButton2_Click">
+											<Image Source="/JiME;component/Assets/add2.png"/>
+										</Button>
+									</StackPanel>
+								</StackPanel>
+							</UniformGrid>
 						</StackPanel>
 					</Border>
 				</StackPanel>

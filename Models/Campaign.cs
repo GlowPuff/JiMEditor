@@ -28,6 +28,7 @@ namespace JiME
 			}
 		}
 		public string storyText { get; set; }
+		public string description { get; set; }
 
 		public ObservableCollection<CampaignItem> scenarioCollection { get; set; }
 		public ObservableCollection<Trigger> triggerCollection { get; set; }
@@ -40,6 +41,8 @@ namespace JiME
 			scenarioCollection = new ObservableCollection<CampaignItem>();
 			triggerCollection = new ObservableCollection<Trigger>();
 			campaignName = "";
+			storyText = "";
+			description = "";
 			fileVersion = Utils.formatVersion;
 		}
 

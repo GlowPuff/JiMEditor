@@ -79,7 +79,6 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
@@ -89,7 +88,6 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;
-				eventTB.Text = tw.textBookController.pages[0];
 			}
 		}
 

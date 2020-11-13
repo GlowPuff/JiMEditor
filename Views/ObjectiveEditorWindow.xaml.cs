@@ -24,8 +24,6 @@ namespace JiME.Views
 			//triggerCB.ItemsSource = scenario.triggersObserver;
 			//triggerCB.SelectedItem = (Trigger)scenario.GetData<Trigger>( obj.triggerName );
 
-			summaryTB.Text = objective.textBookData.pages[0];
-
 			if ( !isNew )
 				cancelButton.Visibility = Visibility.Collapsed;
 		}
@@ -99,7 +97,6 @@ namespace JiME.Views
 			if ( te.ShowDialog() == true )
 			{
 				objective.textBookData.pages = te.textBookController.pages;
-				summaryTB.Text = objective.textBookData.pages[0];
 			}
 		}
 

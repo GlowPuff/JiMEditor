@@ -1,20 +1,21 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
+
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for AbilityInteractionWindow.xaml
+	/// Interaction logic for MultiEventWindow.xaml
 	/// </summary>
-	public partial class TestInteractionWindow : Window, INotifyPropertyChanged
+	public partial class MultiEventWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public TestInteraction interaction { get; set; }
+		public MultiEventInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,26 +30,21 @@ namespace JiME.Views
 			}
 		}
 
-		public TestInteractionWindow( Scenario s, TestInteraction inter = null )
+		public MultiEventWindow( Scenario s, MultiEventInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new TestInteraction( "New Stat Test" );
+			interaction = inter ?? new MultiEventInteraction( "New Multi-Event" );
 
-			mightRB.IsChecked = interaction.testAttribute == Ability.Might;
-			agilityRB.IsChecked = interaction.testAttribute == Ability.Agility;
-			spiritRB.IsChecked = interaction.testAttribute == Ability.Spirit;
-			wisdomRB.IsChecked = interaction.testAttribute == Ability.Wisdom;
-			witRB.IsChecked = interaction.testAttribute == Ability.Wit;
+			triggerRB.IsChecked = interaction.usingTriggers;
+			eventRB.IsChecked = !interaction.usingTriggers;
 
-			mightRB2.IsChecked = interaction.altTestAttribute == Ability.Might;
-			agilityRB2.IsChecked = interaction.altTestAttribute == Ability.Agility;
-			spiritRB2.IsChecked = interaction.altTestAttribute == Ability.Spirit;
-			wisdomRB2.IsChecked = interaction.altTestAttribute == Ability.Wisdom;
-			witRB2.IsChecked = interaction.altTestAttribute == Ability.Wit;
+			meTriggerBox.IsEnabled = triggerRB.IsChecked.Value;
+			meEventBox.IsEnabled = eventRB.IsChecked.Value;
+			eventbox.IsEnabled = !interaction.isSilent;
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -91,7 +87,6 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
@@ -101,26 +96,7 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;
-				eventTB.Text = tw.textBookController.pages[0];
 			}
-		}
-
-		bool TryClosing()
-		{
-			//check for dupe name
-			if ( interaction.dataName == "New Stat Test" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
-			{
-				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-				return false;
-			}
-
-			return true;
-		}
-
-		private void Window_Closing( object sender, CancelEventArgs e )
-		{
-			if ( !closing )
-				e.Cancel = true;
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -148,6 +124,8 @@ namespace JiME.Views
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
+			interaction.usingTriggers = triggerRB.IsChecked.Value;
+
 			closing = true;
 			DialogResult = true;
 		}
@@ -158,10 +136,30 @@ namespace JiME.Views
 			DialogResult = false;
 		}
 
+		private void Window_Closing( object sender, CancelEventArgs e )
+		{
+			if ( !closing )
+				e.Cancel = true;
+		}
+
+		bool TryClosing()
+		{
+			//check for dupe name
+			if ( interaction.dataName == "New Multi-Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			{
+				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				return false;
+			}
+
+			return true;
+		}
+
 		private void Window_ContentRendered( object sender, System.EventArgs e )
 		{
 			nameTB.Focus();
 			nameTB.SelectAll();
+			triggerCB.SelectedIndex = 0;
+			eventCB.SelectedIndex = 0;
 		}
 
 		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
@@ -180,75 +178,6 @@ namespace JiME.Views
 			{
 				interaction.triggerName = tw.triggerName;
 			}
-		}
-
-		private void EditProgress_Click( object sender, RoutedEventArgs e )
-		{
-			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Progress, interaction.progressBookData );
-			tw.ShowDialog();
-			interaction.progressBookData.pages = tw.textBookController.pages;
-		}
-
-		private void EditFail_Click( object sender, RoutedEventArgs e )
-		{
-			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Fail, interaction.failBookData );
-			tw.ShowDialog();
-			interaction.failBookData.pages = tw.textBookController.pages;
-		}
-
-		private void EditPass_Click( object sender, RoutedEventArgs e )
-		{
-			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Pass, interaction.passBookData );
-			tw.ShowDialog();
-			interaction.passBookData.pages = tw.textBookController.pages;
-		}
-
-		private void AddTriggerPassButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.successTrigger = tw.triggerName;
-			}
-		}
-
-		private void AddTriggerFailButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.failTrigger = tw.triggerName;
-			}
-		}
-
-		private void mightRB_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.testAttribute = Ability.Might;
-		}
-
-		private void agilityRB_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.testAttribute = Ability.Agility;
-		}
-
-		private void spiritRB_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.testAttribute = Ability.Spirit;
-		}
-
-		private void wisdomRB_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.testAttribute = Ability.Wisdom;
-		}
-
-		private void witRB_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.testAttribute = Ability.Wit;
-		}
-
-		void PropChanged( string name )
-		{
-			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( name ) );
 		}
 
 		private void tokenHelp_Click( object sender, RoutedEventArgs e )
@@ -274,6 +203,80 @@ namespace JiME.Views
 				groupInfo.Text = "This Event is in the following group: None";
 		}
 
+		void PropChanged( string name )
+		{
+			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( name ) );
+		}
+
+		private void removeTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			string sel = ( (Button)sender ).DataContext as string;
+			if ( interaction.triggerList.Contains( sel ) )
+				interaction.triggerList.Remove( sel );
+		}
+
+		private void addSelectedTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			string t = triggerCB.SelectedValue as string;
+			if ( !interaction.triggerList.Contains( t ) )
+			{
+				interaction.triggerList.Add( t );
+			}
+		}
+
+		private void AddTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				if ( !interaction.triggerList.Contains( tw.triggerName ) )
+					interaction.triggerList.Add( tw.triggerName );
+			}
+		}
+
+		private void removeEventButton_Click( object sender, RoutedEventArgs e )
+		{
+			string sel = ( (Button)sender ).DataContext as string;
+			if ( interaction.eventList.Contains( sel ) )
+				interaction.eventList.Remove( sel );
+		}
+
+		private void addSelectedEventButton_Click( object sender, RoutedEventArgs e )
+		{
+			string t = eventCB.SelectedValue as string;
+			if ( !interaction.eventList.Contains( t ) )
+			{
+				interaction.eventList.Add( t );
+			}
+		}
+
+		private void triggerRB_Click( object sender, RoutedEventArgs e )
+		{
+			meTriggerBox.IsEnabled = true;
+			meEventBox.IsEnabled = false;
+		}
+
+		private void eventRB_Click( object sender, RoutedEventArgs e )
+		{
+			meTriggerBox.IsEnabled = false;
+			meEventBox.IsEnabled = true;
+		}
+
+		private void silenCB_Click( object sender, RoutedEventArgs e )
+		{
+			eventbox.IsEnabled = !( (CheckBox)sender ).IsChecked.Value;
+		}
+
+		private void eventCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			addSelectedEventButton.IsEnabled = eventCB.SelectedIndex != 0;
+		}
+
+		private void triggerCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
+		{
+			addSelectedTriggerButton.IsEnabled = triggerCB.SelectedIndex != 0;
+		}
+
 		private void tokenTypeClick( object sender, RoutedEventArgs e )
 		{
 			RadioButton rb = e.Source as RadioButton;
@@ -281,31 +284,6 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Visible;
 			else
 				personType.Visibility = Visibility.Collapsed;
-		}
-
-		private void mightRB2_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.altTestAttribute = Ability.Might;
-		}
-
-		private void witRB2_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.altTestAttribute = Ability.Wit;
-		}
-
-		private void wisdomRB2_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.altTestAttribute = Ability.Wisdom;
-		}
-
-		private void spiritRB2_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.altTestAttribute = Ability.Spirit;
-		}
-
-		private void agilityRB2_Click( object sender, RoutedEventArgs e )
-		{
-			interaction.altTestAttribute = Ability.Agility;
 		}
 	}
 }

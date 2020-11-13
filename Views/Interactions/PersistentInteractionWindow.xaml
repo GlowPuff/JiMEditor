@@ -24,7 +24,7 @@
 			<!--general properties-->
 			<TabItem Header="General Properties" Padding="5">
 				<StackPanel Margin="0,5,0,0">
-					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}">
+					<Border Style="{StaticResource callout}" Visibility="{Binding isThreatTriggered, Converter={StaticResource bvis}}" Margin="0,0,0,10">
 						<StackPanel>
 							<TextBlock Style="{StaticResource Heading}" Text="This Event is triggered by a Scenario Threat Threshold." HorizontalAlignment="Center"/>
 
@@ -36,7 +36,7 @@
 					</Border>
 
 					<!--event name/lore-->
-					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+					<Border Style="{StaticResource callout}">
 						<UniformGrid Columns="2">
 							<StackPanel>
 								<TextBlock Style="{StaticResource Heading}" Text="Event Name:"/>

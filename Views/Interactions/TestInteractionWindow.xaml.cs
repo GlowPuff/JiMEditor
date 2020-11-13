@@ -1,20 +1,20 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for TextInteractionWindow.xaml
+	/// Interaction logic for AbilityInteractionWindow.xaml
 	/// </summary>
-	public partial class TextInteractionWindow : Window, INotifyPropertyChanged
+	public partial class TestInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public TextInteraction interaction { get; set; }
+		public TestInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,14 +29,26 @@ namespace JiME.Views
 			}
 		}
 
-		public TextInteractionWindow( Scenario s, TextInteraction inter = null )
+		public TestInteractionWindow( Scenario s, TestInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new TextInteraction( "New Text Event" );
+			interaction = inter ?? new TestInteraction( "New Stat Test" );
+
+			mightRB.IsChecked = interaction.testAttribute == Ability.Might;
+			agilityRB.IsChecked = interaction.testAttribute == Ability.Agility;
+			spiritRB.IsChecked = interaction.testAttribute == Ability.Spirit;
+			wisdomRB.IsChecked = interaction.testAttribute == Ability.Wisdom;
+			witRB.IsChecked = interaction.testAttribute == Ability.Wit;
+
+			mightRB2.IsChecked = interaction.altTestAttribute == Ability.Might;
+			agilityRB2.IsChecked = interaction.altTestAttribute == Ability.Agility;
+			spiritRB2.IsChecked = interaction.altTestAttribute == Ability.Spirit;
+			wisdomRB2.IsChecked = interaction.altTestAttribute == Ability.Wisdom;
+			witRB2.IsChecked = interaction.altTestAttribute == Ability.Wit;
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -62,18 +74,6 @@ namespace JiME.Views
 			oldName = interaction.dataName;
 		}
 
-		private void editPersText_Click( object sender, RoutedEventArgs e )
-		{
-			TextBookData tbd = new TextBookData( "Persistent Text" );
-			tbd.pages.Add( interaction.persistentText );
-
-			TextEditorWindow te = new TextEditorWindow( scenario, EditMode.Persistent, tbd );
-			if ( te.ShowDialog() == true )
-			{
-				interaction.persistentText = te.textBookController.pages[0];
-			}
-		}
-
 		private void isTokenCB_Click( object sender, RoutedEventArgs e )
 		{
 			if ( isTokenCB.IsChecked == true )
@@ -85,27 +85,12 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Collapsed;
 		}
 
-		private void ComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
-		{
-			//this was commented out??
-			//if ( !interaction.isFromThreatThreshold )
-			//{
-			//	if ( interaction.triggerName == "None" )
-			//		eventbox.Visibility = Visibility.Visible;
-			//	else
-			//		eventbox.Visibility = Visibility.Collapsed;
-			//}
-			//else
-			//	flavorbox.Visibility = Visibility.Collapsed;
-		}
-
 		private void EditFlavorButton_Click( object sender, RoutedEventArgs e )
 		{
 			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, interaction.textBookData );
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.textBookData.pages = tw.textBookController.pages;
-				flavorTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
@@ -115,14 +100,13 @@ namespace JiME.Views
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;
-				eventTB.Text = tw.textBookController.pages[0];
 			}
 		}
 
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Text Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Stat Test" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
@@ -196,6 +180,70 @@ namespace JiME.Views
 			}
 		}
 
+		private void EditProgress_Click( object sender, RoutedEventArgs e )
+		{
+			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Progress, interaction.progressBookData );
+			tw.ShowDialog();
+			interaction.progressBookData.pages = tw.textBookController.pages;
+		}
+
+		private void EditFail_Click( object sender, RoutedEventArgs e )
+		{
+			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Fail, interaction.failBookData );
+			tw.ShowDialog();
+			interaction.failBookData.pages = tw.textBookController.pages;
+		}
+
+		private void EditPass_Click( object sender, RoutedEventArgs e )
+		{
+			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Pass, interaction.passBookData );
+			tw.ShowDialog();
+			interaction.passBookData.pages = tw.textBookController.pages;
+		}
+
+		private void AddTriggerPassButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.successTrigger = tw.triggerName;
+			}
+		}
+
+		private void AddTriggerFailButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.failTrigger = tw.triggerName;
+			}
+		}
+
+		private void mightRB_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.testAttribute = Ability.Might;
+		}
+
+		private void agilityRB_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.testAttribute = Ability.Agility;
+		}
+
+		private void spiritRB_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.testAttribute = Ability.Spirit;
+		}
+
+		private void wisdomRB_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.testAttribute = Ability.Wisdom;
+		}
+
+		private void witRB_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.testAttribute = Ability.Wit;
+		}
+
 		void PropChanged( string name )
 		{
 			PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( name ) );
@@ -231,6 +279,31 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Visible;
 			else
 				personType.Visibility = Visibility.Collapsed;
+		}
+
+		private void mightRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Might;
+		}
+
+		private void witRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Wit;
+		}
+
+		private void wisdomRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Wisdom;
+		}
+
+		private void spiritRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Spirit;
+		}
+
+		private void agilityRB2_Click( object sender, RoutedEventArgs e )
+		{
+			interaction.altTestAttribute = Ability.Agility;
 		}
 	}
 }
