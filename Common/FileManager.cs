@@ -42,6 +42,7 @@ namespace JiME
 		public List<Threat> threats { get; set; }
 		public List<Chapter> chapters { get; set; }
 		public List<int> globalTiles { get; set; }
+		public Dictionary<string, bool> scenarioEndStatus { get; set; } = new Dictionary<string, bool>();
 		public TextBookData introBookData { get; set; }
 
 		public FileManager()
@@ -70,6 +71,7 @@ namespace JiME
 			threats = source.threatObserver.ToList();
 			chapters = source.chapterObserver.ToList();
 			globalTiles = source.globalTilePool.ToList();
+			scenarioEndStatus = source.scenarioEndStatus;
 
 			introBookData = source.introBookData;
 			projectType = source.projectType;

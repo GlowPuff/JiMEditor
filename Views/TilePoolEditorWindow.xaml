@@ -58,7 +58,7 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel>
-				<Button x:Name="tileGalleryButton" Background="MediumSeaGreen" Margin="0,0,0,10" Content="Add From Tile Gallery" Foreground="White" Click="tileGalleryButton_Click" Width="200">
+				<Button x:Name="tileGalleryButton" Background="DodgerBlue" Margin="0,0,0,10" Content="Add From Tile Gallery..." Foreground="White" Click="tileGalleryButton_Click" Width="200" Height="36" FontSize="14" FontWeight="Bold">
 				</Button>
 
 				<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,10,10"/>
@@ -86,15 +86,14 @@
 							<ColumnDefinition Width="auto"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						<Button x:Name="tokenEditButton" Background="MediumSeaGreen" Margin="0,10,0,10" Content="Edit Tokens" Foreground="White" Click="tokenEditButton_Click" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False">
-						</Button>
+						<Button x:Name="tokenEditButton" Background="DodgerBlue" Margin="0,10,0,10" Content="Token Editor..." Foreground="White" Click="tokenEditButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Height="36" FontSize="14" FontWeight="Bold"/>
 						<TextBlock Grid.Column="1" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap">
 						If this Tile Side is <Bold>Random</Bold>, Tokens will be randomly placed on it.
 						</TextBlock>
 					</Grid>
 
 					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
-					<Button x:Name="addFlavor" Background="MediumSeaGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click" Width="150" IsEnabled="False"/>
+					<Button x:Name="addFlavor" Background="DodgerBlue" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text..." Click="addFlavor_Click" IsEnabled="False" Height="36" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
 					<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus" Visibility="Collapsed"/>
 
 				</StackPanel>

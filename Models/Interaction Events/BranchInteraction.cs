@@ -9,8 +9,8 @@ namespace JiME
 		//Story branch
 		string _triggerNotSetTrigger;
 		public string triggerTest { get; set; }
-		public string triggerIsSet { get; set; }
-		public string triggerNotSet { get; set; }
+		public string triggerIsSet { get; set; }//event name
+		public string triggerNotSet { get; set; }//event name
 		public string triggerIsSetTrigger { get; set; }
 		public string triggerNotSetTrigger
 		{
@@ -37,6 +37,20 @@ namespace JiME
 
 			triggerTest = triggerIsSet = triggerNotSet = triggerIsSetTrigger = triggerNotSetTrigger = "None";
 			branchTestEvent = true;
+		}
+
+		new public void RenameTrigger( string oldName, string newName )
+		{
+			base.RenameTrigger( oldName, newName );
+
+			if ( triggerIsSetTrigger == oldName )
+				triggerIsSetTrigger = newName;
+
+			if ( triggerNotSetTrigger == oldName )
+				triggerNotSetTrigger = newName;
+
+			if ( triggerTest == oldName )
+				triggerTest = newName;
 		}
 	}
 }

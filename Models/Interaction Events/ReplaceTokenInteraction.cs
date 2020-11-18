@@ -55,14 +55,5 @@ namespace JiME
 			noText = true;
 			replaceWithGUID = Guid.Empty;
 		}
-
-		new public void RenameTrigger( string oldName, string newName )
-		{
-			if ( triggerName == oldName )
-				triggerName = newName;
-
-			if ( triggerAfterName == oldName )
-				triggerAfterName = newName;
-		}
 	}
 }

@@ -64,11 +64,7 @@ namespace JiME
 
 		new public void RenameTrigger( string oldName, string newName )
 		{
-			if ( triggerName == oldName )
-				triggerName = newName;
-
-			if ( triggerAfterName == oldName )
-				triggerAfterName = newName;
+			base.RenameTrigger( oldName, newName );
 
 			if ( triggerDefeatedName == oldName )
 				triggerDefeatedName = newName;

@@ -116,7 +116,6 @@ namespace JiME.Views
 			foreach ( Threat t in scenario.threatObserver )
 				threatCollection.Add( new ThreatList( t, scenario.interactionObserver.Where( x => !x.isTokenInteraction ).ToArray() ) );
 
-			introTB.Text = scenario.introBookData.pages[0];
 			resolutionCB.ItemsSource = scenario.resolutionObserver;
 			threatList.ItemsSource = threatCollection;//bind dummy
 
@@ -181,7 +180,6 @@ namespace JiME.Views
 				scenario.introBookData.dataName = te.shortName;
 				scenario.introBookData.pages = te.textBookController.pages;
 			}
-			introTB.Text = scenario.introBookData.pages[0];
 		}
 
 		private void ResolutionEditButton_Click( object sender, RoutedEventArgs e )
@@ -190,11 +188,33 @@ namespace JiME.Views
 				return;
 
 			TextEditorWindow te = new TextEditorWindow( scenario, EditMode.Resolution, scenario.resolutionObserver[resolutionCB.SelectedIndex] );
+			bool chk = true;//default to true
+			if ( scenario.scenarioEndStatus.TryGetValue( scenario.resolutionObserver[resolutionCB.SelectedIndex].dataName, out chk ) )
+			{
+				te.successCB.IsChecked = chk;
+				te.failCB.IsChecked = !chk;
+				te.successChecked = chk;
+			}
+			else
+			{
+				te.successCB.IsChecked = true;
+				te.failCB.IsChecked = false;
+				te.successChecked = true;
+			}
+
 			if ( te.ShowDialog() == true )
 			{
 				scenario.resolutionObserver[resolutionCB.SelectedIndex].dataName = te.shortName;
 				scenario.resolutionObserver[resolutionCB.SelectedIndex].pages = te.textBookController.pages;
 				scenario.resolutionObserver[resolutionCB.SelectedIndex].triggerName = te.triggerLB.Text;
+				//if a success/fail bool doesn't exist, add it now
+				if ( !scenario.scenarioEndStatus.ContainsKey( te.shortName ) )
+					scenario.scenarioEndStatus.Add( te.shortName, te.successChecked );
+				//otherwise update value
+				else
+					scenario.scenarioEndStatus[te.shortName] = te.successChecked;
+
+				scenario.PruneScenarioEnd();
 			}
 		}
 
@@ -204,12 +224,16 @@ namespace JiME.Views
 			data.pages.Add( "Default Text" );
 			data.triggerName = "None";
 			TextEditorWindow te = new TextEditorWindow( scenario, EditMode.Resolution, data );
+			te.successCB.IsChecked = true;
+			te.failCB.IsChecked = false;
+			te.successChecked = true;
+
 			if ( te.ShowDialog() == true )
 			{
 				data.dataName = te.shortName;
 				data.pages = te.textBookController.pages;
 				data.triggerName = te.triggerLB.Text;
-				scenario.AddResolution( data );
+				scenario.AddResolution( data, te.successChecked );
 				resolutionCB.SelectedIndex = scenario.resolutionObserver.Count - 1;
 			}
 		}

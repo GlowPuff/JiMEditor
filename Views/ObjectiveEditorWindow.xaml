@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        Title="Objective Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="650" ContentRendered="Window_ContentRendered">
+        Title="Objective Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" ContentRendered="Window_ContentRendered">
 
 	<Window.Resources>
 		<local:BoolInvertConverter x:Key="b2e"/>

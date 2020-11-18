@@ -26,6 +26,12 @@ namespace JiME.Views
 			nameTB.SelectAll();
 			oldName = editName;
 
+			if ( editName != "" )
+			{
+				Title = "Trigger Editor - Rename Trigger";
+				nameLabel.Text = "Trigger Name (Rename):";
+			}
+
 			multiCB.IsChecked = false;
 			campaignCB.IsChecked = false;
 

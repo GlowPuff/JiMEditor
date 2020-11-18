@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -186,6 +187,7 @@ namespace JiME
 		}
 		#endregion
 
+		public Dictionary<string, bool> scenarioEndStatus { get; set; }
 		public ObservableCollection<IInteraction> interactionObserver { get; set; }
 		public ObservableCollection<Trigger> triggersObserver { get; set; }
 		public ObservableCollection<Objective> objectiveObserver { get; set; }
@@ -215,6 +217,7 @@ namespace JiME
 			threatObserver = new ObservableCollection<Threat>();
 			chapterObserver = new ObservableCollection<Chapter>();
 			globalTilePool = new ObservableCollection<int>( Utils.LoadTiles() );
+			scenarioEndStatus = new Dictionary<string, bool>();
 			Utils.LoadHexData();
 		}
 
@@ -249,6 +252,7 @@ namespace JiME
 			s.campaignGUID = fm.campaignGUID;
 			s.specialInstructions = fm.specialInstructions ?? "";
 			s.useTileGraphics = fm.useTileGraphics;
+			s.scenarioEndStatus = new Dictionary<string, bool>( fm.scenarioEndStatus );
 
 			if ( s.scenarioGUID.ToString() == "00000000-0000-0000-0000-000000000000" )
 				s.scenarioGUID = Guid.NewGuid();
@@ -297,7 +301,7 @@ namespace JiME
 			TextBookData data = new TextBookData( "Default Resolution" );
 			data.pages.Add( "Default resolution text.  This text is displayed when the Scenario has ended.\n\nDifferent Resolutions can be shown based on a Trigger that gets set during the Scenario, depending on player actions.\n\nScenarios have at least one Resolution." );
 			data.triggerName = "Scenario Ended";
-			AddResolution( data );
+			AddResolution( data, true );
 
 			//Always have one EMPTY Trigger / Objective / Interaction
 			triggersObserver.Add( Trigger.EmptyTrigger() );
@@ -389,8 +393,10 @@ namespace JiME
 		{
 			if ( ( from Trigger foo in triggersObserver where foo.dataName == name select foo ).Count() == 0 )
 			{
-				Trigger t = new Trigger( name );
-				t.isMultiTrigger = isMulti;
+				Trigger t = new Trigger( name )
+				{
+					isMultiTrigger = isMulti
+				};
 				triggersObserver.Add( t );
 
 				//sort by name
@@ -412,14 +418,34 @@ namespace JiME
 			//	objectiveObserver[i] = objsorted[i];
 		}
 
-		public bool AddResolution( TextBookData data )
+		/// <summary>
+		/// adds a Resolution to Scenario AND adds EndStatus bool for it
+		/// </summary>
+		public bool AddResolution( TextBookData data, bool success )
 		{
 			if ( ( from foo in resolutionObserver where foo.dataName == data.dataName select foo ).Count() == 0 )
 			{
 				resolutionObserver.Add( data );
+				if ( !scenarioEndStatus.ContainsKey( data.dataName ) )
+					scenarioEndStatus.Add( data.dataName, success );//create key
+				else
+					scenarioEndStatus[data.dataName] = success;//or update key
 				return true;
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// removes scenario end key/values that are no longer in use
+		/// </summary>
+		public void PruneScenarioEnd()
+		{
+			var prune = scenarioEndStatus.Where( x => resolutionObserver.Any( y => y.dataName == x.Key ) );
+			scenarioEndStatus = new Dictionary<string, bool>();
+			foreach ( var foo in prune )
+			{
+				scenarioEndStatus.Add( foo.Key, foo.Value );
+			}
 		}
 
 		public void RemoveData<T>( T item )
@@ -468,8 +494,8 @@ namespace JiME
 				obj.RenameTrigger( oldName, newName, scenarioTypeJourney );
 
 			//finally rename the trigger object itself
-			triggersObserver.Where( t => t.dataName == oldName ).First().dataName = newName;
 			triggersObserver.Where( t => t.dataName == oldName ).First().isMultiTrigger = isMulti;
+			triggersObserver.Where( t => t.dataName == oldName ).First().dataName = newName;
 
 			return true;
 		}
@@ -504,12 +530,6 @@ namespace JiME
 					return used;
 			}
 			return null;
-		}
-
-		public bool isEventUsed( string name )
-		{
-			//check Threats
-			return true;
 		}
 
 		/// <summary>
@@ -588,9 +608,9 @@ namespace JiME
 			{
 				foreach ( var tile in chapter.tileObserver )
 				{
-					if ( tile is HexTile )
+					if ( tile is HexTile hexTile )
 					{
-						foreach ( var token in ( (HexTile)tile ).tokenList )
+						foreach ( var token in hexTile.tokenList )
 						{
 							if ( token.triggerName == oldName )
 							{
@@ -604,7 +624,7 @@ namespace JiME
 								if ( !interaction.isTokenInteraction )
 								{
 									token.triggerName = "None";
-									( (HexTile)tile ).tokenList.Remove( token );
+									hexTile.tokenList.Remove( token );
 									break;
 								}
 							}

@@ -368,6 +368,7 @@ namespace JiME.Views
 				Trigger t = new Trigger( tw.triggerName );
 				t.isMultiTrigger = tw.isMulti;
 				t.isCampaignTrigger = true;
+				t.isMultiTrigger = true;
 				campaign.triggerCollection.Add( t );
 				cTriggersCombo.SelectedIndex = cTriggersCombo.Items.Count - 1;
 			}
@@ -396,6 +397,12 @@ namespace JiME.Views
 				storySet.Text = "The Story Text is not set.";
 			else
 				storySet.Text = "The Story Text is set.";
+		}
+
+		private void help_Click( object sender, RoutedEventArgs e )
+		{
+			HelpWindow hw = new HelpWindow( HelpType.Triggers, 2 );
+			hw.ShowDialog();
 		}
 	}
 }

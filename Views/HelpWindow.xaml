@@ -232,6 +232,17 @@ Enemies you design yourself are Scripted Enemies. They can use either default or
 						A Scenario Trigger cannot be made into a Campaign Trigger from within the Scenario's Trigger Editor. Likewise, a Campaign Trigger can't be modified from within the Scenario's Trigger Editor. The checkbox is only a helpful indicator to let you know it's a Campaign Trigger.
 						</TextBlock>
 
+						<TextBlock Style="{StaticResource Heading}" Text="What If A Scenario Is Replayed?" Margin="0,10,0,0"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							Replaying a Scenario does not "undo" any Campaign Triggers that had previously been activated by the Scenario. Previously activated Campaign Triggers are set/activated in a Scenario after the Scenario loads, regardless of whether it's being Replayed or played for the first time. If a Scenario is Replayed in the Companion App, any Campaign Triggers that had previously been activated by the Scenario <Bold>will already be activated during the Replay</Bold>, even if the players don't trigger them again during the Replay.
+						</TextBlock>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+							To avoid edge cases where Replayed Scenarios need to react to a Campaign Trigger that has potentially already been activated during a previous play-through, <Bold>all Campaign Triggers are also Multi-Triggers</Bold>, allowing them to trigger again during the Replay.
+						</TextBlock>
+						<!--<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
+							Previously activated Campaign Triggers are set/activated in a Scenario after the Scenario loads, regardless of whether it's being Replayed or played for the first time. If a Replayed Scenario needs to <Bold>trigger (again) and react to a previously activated Campaign Trigger</Bold>, it won't work since Triggers are only fired once. In this case, just check the box to make the Campaign Trigger a Multi-Trigger. This will make sure a Campaign Trigger is fired again in a Replayed Scenario, if it had already been activated in the Scenario during a previouly play-through.
+						</TextBlock>-->
+
 						<TextBlock Style="{StaticResource Heading}" Text="How Do I Create A Campaign Trigger?" Margin="0,10,0,0"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
 						Campaign Triggers are created and removed from within the Campaign Manager.

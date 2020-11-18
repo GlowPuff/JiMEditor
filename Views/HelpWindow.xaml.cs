@@ -26,13 +26,13 @@ namespace JiME.Views
 			{
 				Title = "Help On Enemy Damage and Difficulty";
 				threatHelp.Visibility = Visibility.Visible;
-				groupHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
+				threatHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
 			}
 			else if ( helpType == HelpType.Triggers )
 			{
 				Title = "Help On Triggers";
 				triggerHelp.Visibility = Visibility.Visible;
-				groupHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
+				triggerHelp.Items.OfType<TabItem>().ToArray()[tab].IsSelected = true;
 			}
 		}
 

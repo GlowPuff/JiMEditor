@@ -116,5 +116,16 @@ namespace JiME
 			progressBookData = new TextBookData();
 			progressBookData.pages.Add( "Default Progress Text.\n\nThis text is shown if the Test is Cumulative and the current value is greater than 0 but less than the Success Value for completion. Use it as a way to indicate progress towards competing the Test." );
 		}
+
+		new public void RenameTrigger( string oldName, string newName )
+		{
+			base.RenameTrigger( oldName, newName );
+
+			if ( successTrigger == oldName )
+				successTrigger = newName;
+
+			if ( failTrigger == oldName )
+				failTrigger = newName;
+		}
 	}
 }

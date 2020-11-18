@@ -16,6 +16,7 @@ namespace JiME.Views
 		public Scenario scenario { get; set; }
 		public string shortName { get; set; }
 		public TextBookController textBookController;
+		public bool successChecked;
 
 		public TextEditorWindow( Scenario s, EditMode mode, TextBookData textBookData )
 		{
@@ -27,10 +28,8 @@ namespace JiME.Views
 				this.HideMinimizeAndMaximizeButtons();
 			};
 
-			//editMode = mode;
 			scenario = s;
 			editMode = mode;
-			//resolutionIndex = index;
 
 			Title = $"Edit {mode} Text";
 
@@ -41,12 +40,12 @@ namespace JiME.Views
 			{
 				descriptionBlock.Visibility = Visibility.Visible;
 				triggerGroup.Visibility = Visibility.Visible;
-
 			}
 			else
 			{
 				descriptionBlock.Visibility = Visibility.Collapsed;
 				triggerGroup.Visibility = Visibility.Collapsed;
+				resultbox.Visibility = Visibility.Collapsed;
 			}
 
 			shortName = bookData.dataName;
@@ -125,6 +124,9 @@ namespace JiME.Views
 			//	DialogResult = true;
 			//else
 			//	MessageBox.Show( "Pages cannot be blank.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+
+			successChecked = successCB.IsChecked.Value;
+
 			for ( int i = 0; i < textBookController.pages.Count; i++ )
 				textBookController.pages[i] = textBookController.pages[i].Trim();
 			DialogResult = true;

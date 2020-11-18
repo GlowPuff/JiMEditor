@@ -75,7 +75,12 @@
 					<TextBlock Text="Block Tiles" Style="{StaticResource Heading}"/>
 					<StackPanel Orientation="Horizontal">
 						<CheckBox x:Name="randomToggleCB" Content="This Block uses random Tiles." Foreground="White" IsChecked="{Binding chapter.isRandomTiles}" VerticalAlignment="Center" Margin="0,0,10,0" Click="RandomToggleCB_Click" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
-						<Button x:Name="TileEditButton" Click="TileEditButton_Click" Content="Tile Editor" Background="MediumSeaGreen" HorizontalAlignment="Left" Foreground="White"/>
+						<Button x:Name="TileEditButton" Click="TileEditButton_Click" Background="DodgerBlue" HorizontalAlignment="Left" Foreground="White" Height="36">
+							<StackPanel Orientation="Horizontal" Margin="5,0">
+								<TextBlock Text="Tile Editor..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+								<Image Source="/JiME;component/Assets/edit.png" Height="24"/>
+							</StackPanel>
+						</Button>
 					</StackPanel>
 					<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
 						Use the Tile Editor to define which tiles are in this Block. <Bold>The Start Block cannot use random tiles</Bold>.

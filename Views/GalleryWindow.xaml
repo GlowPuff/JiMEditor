@@ -83,7 +83,12 @@
 
 					<TextBlock Margin="0,10,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Hover over a tile to show a zoomed in popup. Hold the right mouse button down to disable the zoom feature."/>
 
-					<Button x:Name="addTilesButton" Click="addTilesButton_Click" Background="MediumSeaGreen" Foreground="White" Content="Add Selected Tiles" Margin="0,10,0,0" IsDefault="True"/>
+					<Button x:Name="addTilesButton" Click="addTilesButton_Click" Background="DodgerBlue" Foreground="White" Margin="0,10,0,0" IsDefault="True" Height="36">
+						<StackPanel Orientation="Horizontal" Margin="5,0">
+							<TextBlock Text="Add Selected Tiles" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+							<Image Source="/JiME;component/Assets/add.png" Height="24"/>
+						</StackPanel>
+					</Button>
 				</StackPanel>
 			</Border>
 		</Grid>
@@ -99,10 +104,10 @@
 				</Grid.ColumnDefinitions>
 
 				<StackPanel Orientation="Horizontal" Grid.Column="0">
-					<Button x:Name="left" Margin="10" Background="MediumSeaGreen" Click="left_Click" IsDefault="True">
+					<Button x:Name="left" Margin="10" Background="DodgerBlue" Click="left_Click" IsDefault="True">
 						<Image Source="/JiME;component/Assets/left.png" Stretch="Uniform" Width="32" Margin="5"/>
 					</Button>
-					<Button x:Name="right" Margin="10" Background="MediumSeaGreen" Click="right_Click" IsDefault="True">
+					<Button x:Name="right" Margin="10" Background="DodgerBlue" Click="right_Click" IsDefault="True">
 						<Image Source="/JiME;component/Assets/right.png" Stretch="Uniform" Width="32" Margin="5"/>
 					</Button>
 				</StackPanel>

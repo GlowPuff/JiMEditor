@@ -34,7 +34,7 @@
 					<TextBlock Text="Simulated encounters are generated using the same algorithm as the Companion App. Hero Count, Difficulty mode and Difficulty Bias affect the scaling of Enemy Events." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="0,0,0,10"/>
 
 					<UniformGrid Columns="3">
-						<Button Content="Re-Roll This Encounter" Name="rerollBtn" Click="rerollBtn_Click" Background="MediumSeaGreen" Foreground="White" Width="150" HorizontalAlignment="Left"/>
+						<Button Content="Re-Roll This Encounter" Name="rerollBtn" Click="rerollBtn_Click" Background="DodgerBlue" Foreground="White" HorizontalAlignment="Left" Height="36" FontWeight="Bold" FontSize="14"/>
 
 						<ComboBox Name="playerCB" Margin="0,0,10,0" VerticalAlignment="Center" SelectedIndex="{Binding selectedPlayers}" SelectionChanged="playerCB_SelectionChanged">
 							<ComboBoxItem Content="1 Player"/>

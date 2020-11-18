@@ -65,7 +65,12 @@
 							<TextBlock Text="Token Slots Available" Style="{StaticResource Heading}" HorizontalAlignment="Center"/>
 							<TextBlock Text="{Binding hexTile.tokenCount}" Style="{StaticResource SubText}" HorizontalAlignment="Center"/>
 
-							<Button x:Name="addToken"  Background="MediumSeaGreen" Margin="0,10,0,0" Foreground="White" Content="Add Token" Click="addToken_Click"/>
+							<Button x:Name="addToken"  Background="DodgerBlue" Margin="0,10,0,0" Foreground="White" Click="addToken_Click" Height="36">
+								<StackPanel Orientation="Horizontal" Margin="5,0">
+									<TextBlock Text="Add Token To Tile" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+									<Image Source="/JiME;component/Assets/add.png" Height="24"/>
+								</StackPanel>
+							</Button>
 
 							<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 								<StackPanel>
@@ -83,9 +88,9 @@
 										</Button>
 									</Grid>
 
-									<TextBlock Text="Trigger This Event:" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+									<TextBlock Text="Activate This Event:" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,0"/>
 									<ComboBox Name="interactionCB" ItemsSource="{Binding tokenInteractions}" DisplayMemberPath="dataName" SelectedValue="{Binding selected.triggerName}" SelectedValuePath="dataName" VerticalAlignment="Center" SelectionChanged="interactionCB_SelectionChanged" Margin="0,5,0,0"/>
-									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Only Events marked as Token Interactions will appear in this dropdown." Margin="0,5,0,0"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="This is the Event this Token activates when Players click on it. Only Events marked as Token Interactions will appear in this dropdown." Margin="0,5,0,0"/>
 
 									<TextBlock Text="Triggered By:" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,0"/>
 									<Grid>
@@ -95,11 +100,11 @@
 										</Grid.ColumnDefinitions>
 
 										<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding selected.triggeredByName}" SelectedValuePath="dataName" VerticalAlignment="Center"/>
-										<Button Grid.Column="1" x:Name="addTrigger" Width="32" Background="MediumSeaGreen" Margin="5,0,0,0" DataContext="0" Click="addTrigger_Click">
+										<Button Grid.Column="1" x:Name="addTrigger" Width="32" Background="MediumSeaGreen" Margin="5,0,0,0" Click="addTrigger_Click">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
 									</Grid>
-									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Tokens with Triggered By set will ONLY spawn when they are Triggered, NOT when the Chapter is activated." Margin="0,3,0,0"/>
+									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Tokens with this set will ONLY spawn when they are Triggered, instead of when the Tile Block is explored." Margin="0,3,0,0"/>
 								</StackPanel>
 							</Border>
 
@@ -118,7 +123,12 @@
 					<Border x:Name="explorationBox" Style="{StaticResource callout}" Background="{StaticResource bgColor}" Margin="0,10,0,0">
 						<StackPanel>
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
-							<Button x:Name="addFlavor" Background="MediumSeaGreen" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text" Click="addFlavor_Click"/>
+							<Button x:Name="addFlavor" Background="DodgerBlue" Margin="0,5,0,0" Foreground="White" Click="addFlavor_Click" Height="36" HorizontalAlignment="Center">
+								<StackPanel Orientation="Horizontal" Margin="5,0">
+									<TextBlock Text="Edit Exploration Text..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+									<Image Source="/JiME;component/Assets/edit.png" Height="24"/>
+								</StackPanel>
+							</Button>
 							<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus"/>
 						</StackPanel>
 					</Border>

@@ -19,9 +19,5 @@ namespace JiME
 			};
 			return empty;
 		}
-
-		new public void RenameTrigger( string oldName, string newName )
-		{
-		}
 	}
 }

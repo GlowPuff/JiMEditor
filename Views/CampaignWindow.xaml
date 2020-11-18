@@ -31,7 +31,7 @@
 								</StackPanel>
 							</Button>
 
-							<Button x:Name="addExisting" Background="MediumSeaGreen"  HorizontalAlignment="Left" Margin="10,5,0,0" Click="addExisting_Click" Height="44">
+							<Button x:Name="addExisting" Background="DodgerBlue"  HorizontalAlignment="Left" Margin="10,5,0,0" Click="addExisting_Click" Height="44">
 								<StackPanel Orientation="Horizontal" Margin="5,0">
 									<TextBlock Text="Add Existing Scenario..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
 									<Image Source="/JiME;component/Assets/addpage.png" Height="24"/>
@@ -146,6 +146,13 @@
 							<Button x:Name="delTrigger" Background="{StaticResource bgCancelDelete}" Height="32" Width="32" Click="delTrigger_Click">
 								<Image Source="/JiME;component/Assets/cancel.png"/>
 							</Button>
+
+							<Button HorizontalAlignment="Left" x:Name="help" Background="#FFC98800" Height="32"  Click="help_Click" Margin="5,0,0,0">
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
+									<TextBlock Text="Trigger Help" Style="{StaticResource Heading}" Margin="5,0,0,0"/>
+								</StackPanel>
+							</Button>
 						</StackPanel>
 
 						<TextBlock Text="Campaign Trigger names are automatically appended with '[CMPN]' so they can be easily identified as Campaign Triggers in the Scenario Editor. For example, 'my trigger' would become 'my trigger [CMPN]'." Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0"/>
@@ -156,12 +163,12 @@
 						<TextBox x:Name="descriptionText" Text="{Binding campaign.description}" Margin="0,5,0,0" Style="{StaticResource DefaultTextBox}"/>
 
 						<TextBlock Text="Campaign Story" Style="{StaticResource Heading}" Margin="0,10,0,0"/>
-						<TextBlock Text="The Campaign Story is shown to players in the Companion App after the Campaign is selected to play. Use it to provide a story for the Campaign." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+						<TextBlock Text="The Campaign Story is shown to players in the Companion App after the Campaign is selected to play. Use it to provide a backdrop story for the Campaign." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
 
 						<StackPanel Orientation="Horizontal">
 							<Button x:Name="storyButton" Background="DodgerBlue" Click="storyButton_Click" Height="44" HorizontalAlignment="Left" Margin="0,5,0,0">
 								<StackPanel Orientation="Horizontal" Margin="5,0">
-									<TextBlock Text="Edit Story Text" Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+									<TextBlock Text="Edit Story Text..." Style="{StaticResource Heading}" VerticalAlignment="Center" Margin="0,0,5,0"/>
 									<Image Source="/JiME;component/Assets/edit.png" Height="24"/>
 								</StackPanel>
 							</Button>

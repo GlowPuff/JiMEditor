@@ -28,11 +28,16 @@ namespace JiME
 
 		new public void RenameTrigger( string oldName, string newName )
 		{
-			if ( triggerName == oldName )
-				triggerName = newName;
+			base.RenameTrigger( oldName, newName );
 
-			if ( triggerAfterName == oldName )
-				triggerAfterName = newName;
+			if ( finishedTrigger == oldName )
+				finishedTrigger = newName;
+
+			for ( int i = 0; i < triggerList.Count; i++ )
+			{
+				if ( triggerList[i] == oldName )
+					triggerList[i] = newName;
+			}
 		}
 	}
 }

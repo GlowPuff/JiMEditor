@@ -14,7 +14,7 @@
 
 		<Border Style="{StaticResource callout}" Margin="5">
 			<StackPanel Margin="0">
-				<TextBlock Style="{StaticResource Heading}" Text="Trigger Name:"/>
+				<TextBlock x:Name="nameLabel" Style="{StaticResource Heading}" Text="Trigger Name:"/>
 				<TextBox x:Name="nameTB" Style="{StaticResource DefaultTextBox}" Margin="0,5,10,0" Width="250" HorizontalAlignment="Left"/>
 
 				<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
