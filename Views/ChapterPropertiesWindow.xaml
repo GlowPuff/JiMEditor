@@ -107,21 +107,23 @@
 						Select an Interaction Group below. Then designate how many of the Events in the group will be randomly used. A mix of Fixed and Random Token Interactions can be used in a Block.
 					</TextBlock>
 					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" >
-<Bold>The Start Block cannot use Random Token Interaction Groups</Bold>.
+<Bold>The Start Block cannot use Token Interaction Groups. Only Events that are marked Token Interaction can be in a Group.</Bold>
 					</TextBlock>
 					<UniformGrid Columns="2" Margin="0,10,0,0">
-						<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" VerticalAlignment="Center" SelectionChanged="randInter_SelectionChanged" IsEnabled="{Binding chapter.isEmpty, Converter={StaticResource binv}}"/>
+						<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" VerticalAlignment="Center" SelectionChanged="randInter_SelectionChanged" IsEnabled="{Binding chapter.usesRandomGroups}"/>
 						<StackPanel Margin="10,0">
 							<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in the selected group." VerticalAlignment="Center" FontWeight="Bold"/>
 							<TextBlock x:Name="fixedCountText" Style="{StaticResource SubText}" Text="There are X fixed Tokens in this Block." FontWeight="Bold"/>
 						</StackPanel>
 					</UniformGrid>
 
+					<TextBlock Text="NOTE: If you set this Group and you later change one or more Events in the Group to no longer be a Token Interaction, the Group will no longer be a valid Token Interaction Group." TextWrapping="Wrap" Style="{StaticResource Heading}" Margin="0,5,0,0"/>
+
 					<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available on this Block's tiles to place Tokens." Margin="0,10,0,0"/>
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?" VerticalAlignment="Center"/>
-						<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged" Height="24"/>
+						<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged" Height="24" IsEnabled="{Binding chapter.usesRandomGroups}"/>
 					</StackPanel>
 				</StackPanel>
 			</Border>
@@ -131,7 +133,7 @@
 				<StackPanel>
 					<TextBlock Text="Flavor Text" Style="{StaticResource Heading}"/>
 					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when any Tile in this Block is first explored. It is only shown once. <Bold><Italic>Optional</Italic></Bold>
+					This text is shown when the Tile Block is activated. It is only shown once. <Bold><Italic>Optional</Italic></Bold>
 					</TextBlock>
 					<Grid Visibility="{Binding ElementName=noflavor,Path=IsChecked,Converter={StaticResource b2vis}}">
 						<Grid.ColumnDefinitions>

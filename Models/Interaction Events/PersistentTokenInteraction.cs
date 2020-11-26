@@ -25,6 +25,7 @@ namespace JiME
 			alternativeBookData.pages.Add( "This text will be shown persistently every time a player inspects this Event's Token, but only after the 'Alternative Flavor Text Trigger' has been set." );
 			alternativeTextTrigger = "None";
 			eventToActivate = "None";
+			isTokenInteraction = true;
 		}
 
 		new public void RenameTrigger( string oldName, string newName )

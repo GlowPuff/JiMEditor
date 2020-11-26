@@ -139,8 +139,8 @@ namespace JiME.Views
 			int color = GetUnusedColor();
 			HexTile hex = new HexTile( (int)tilePool.SelectedItem );
 			hex.useGraphic = scenario.useTileGraphics;
-			chapter.AddTile( hex );
 			hex.ChangeColor( color );
+			chapter.AddTile( hex );
 			canvas.Children.Add( hex.hexPathShape );
 			if ( scenario.useTileGraphics )
 				canvas.Children.Add( hex.tileImage );
@@ -301,7 +301,10 @@ namespace JiME.Views
 				{
 					int color = GetUnusedColor();
 					HexTile hex = new HexTile( t.Item1 );
+					hex.useGraphic = scenario.useTileGraphics;
 					hex.ChangeColor( color );
+					//ChangeTileSide() also rehydrates and adds tile image
+					//This is why no need to call canvas.Children.Add(hex.hexPathShape)
 					hex.ChangeTileSide( t.Item2, canvas );
 					chapter.AddTile( hex );
 					selected = hex;

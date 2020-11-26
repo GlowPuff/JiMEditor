@@ -136,9 +136,16 @@
 			<!--persistent-->
 			<TabItem Header="Persistent Event" Padding="5">
 				<StackPanel Margin="0,5,0,0">
-					<TextBlock Style="{StaticResource SubText}" VerticalAlignment="Center" TextWrapping="Wrap">
-						Persistent Events are <Bold>Token Interaction Events</Bold> whose Token stays on the tile even after being activated. They act like a relay, and delegate the player's Action to the "real" Event set below.
-					</TextBlock>
+					<Border Style="{StaticResource callout}">
+						<StackPanel>
+							<TextBlock Style="{StaticResource SubText}" VerticalAlignment="Center" TextWrapping="Wrap">
+						Persistent Events are <Bold>Token Interaction Events</Bold> whose Token stays on the tile even after being activated. They act like a relay and delegate the player's Action to the "real" Event set below.
+							</TextBlock>
+							<TextBlock Style="{StaticResource SubText}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,0">
+								<Bold>Events are normally not persistent</Bold>. After an Event is activated, its Token is removed from the board. A Persistent Event, on the other hand, <Bold>stays on the board after it's activated</Bold>. A Persistent Event doesn't do anything other than forward its activation to another Event that you specify below. Since the Persistent Event's Token <Bold>stays on the board</Bold>, it gives the illusion that the delegated Event is persistent.
+							</TextBlock>
+						</StackPanel>
+					</Border>
 
 					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>

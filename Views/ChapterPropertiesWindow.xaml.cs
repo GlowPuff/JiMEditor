@@ -57,7 +57,12 @@ namespace JiME.Views
 			{
 				MatchCollection matches = rx.Matches( item );
 				if ( matches.Count > 0 )
-					hash.Add( matches[0].Value.Trim() );
+				{
+					//make sure all Events in the group are token interactions
+					var isToken = scenario.interactionObserver.Where( x => x.dataName.Contains( matches[0].Value ) ).All( x => x.isTokenInteraction );
+					if ( isToken )
+						hash.Add( matches[0].Value.Trim() );
+				}
 			}
 			randomInteractions = new ObservableCollection<string>( hash );
 			randInter.SelectedItem = chapter.randomInteractionGroup;
@@ -202,6 +207,7 @@ namespace JiME.Views
 			{
 				chapter.randomInteractionGroup = "None";
 				randInter.SelectedItem = "None";
+				chapter.randomInteractionGroupCount = 0;
 			}
 		}
 
@@ -251,17 +257,17 @@ namespace JiME.Views
 			if ( chapter.tileObserver.Count > 0 )
 				fixedTokenCount = chapter.tileObserver.Select( x => (HexTile)x ).Select( x => x.tokenList.Count ).Aggregate( ( acc, cur ) => acc + cur );
 
-			selectedInfoText.Text = $"There are {numinters} Token Interactions in the selected Group.";
+			selectedInfoText.Text = $"There are {numinters} Events in the selected Group.";
 			fixedCountText.Text = $"There are {fixedTokenCount} fixed Tokens in this Block.";
 
 			int numspaces = chapter.tileObserver.Aggregate( 0, ( acc, cur ) =>
 			{
 				return acc + ( cur.idNumber / 100 ) % 10;
 			} );
-			spaceInfoText2.Text = $"There are {numspaces} total spaces available on this Blocks's tiles to place Tokens.";
+			spaceInfoText2.Text = $"There are {numspaces} total spaces available on this Block's tiles to place Tokens.";
 
 			int max = Math.Min( numinters, numspaces - fixedTokenCount );
-			numIntersUsedText.Text = $"Randomly use how many of the Interactions from the selected Interaction Group, up to a maximum of {max}:";
+			numIntersUsedText.Text = $"Randomly use how many of the Events from the selected Interaction Group, up to a maximum of {max}:";
 
 			max = Math.Min( requestedInters, max );
 			numIntersUsed.Text = max.ToString();

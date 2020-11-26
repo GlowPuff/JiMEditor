@@ -16,111 +16,97 @@
 			<TextBlock Text="Add 1 to 5 Tiles to the Random Tile Pool for this Chapter. These Tiles will be randomly fitted together in the Companion App." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
 		</Border>
 
-		<Grid Height="200">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="auto"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
-
-			<GroupBox Header="Global Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="5,0,10,10">
-				<ListBox x:Name="global" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding scenario.globalTilePool}" MouseDoubleClick="Global_MouseDoubleClick"/>
-			</GroupBox>
-
-			<StackPanel Grid.Column="1" VerticalAlignment="Center">
-				<Button x:Name="ToRandomButton" Background="MediumSeaGreen" Margin="0,5" Click="ToRandomButton_Click" IsEnabled="{Binding ElementName=global,Path=SelectedIndex,Converter={StaticResource sb}}">
-					<Image Source="/JiME;component/Assets/arrow.png" />
-				</Button>
-				<Button x:Name="ToPoolButton" Background="{StaticResource bgCancelDelete}" Margin="0,5" Click="ToPoolButton_Click" IsEnabled="{Binding ElementName=random,Path=SelectedIndex,Converter={StaticResource sb}}">
-					<Image Source="/JiME;component/Assets/arrow.png" RenderTransformOrigin="0.5,0.5" >
-						<Image.RenderTransform>
-							<TransformGroup>
-								<ScaleTransform ScaleY="1" ScaleX="-1"/>
-								<SkewTransform AngleY="0" AngleX="0"/>
-								<RotateTransform Angle="0"/>
-								<TranslateTransform/>
-							</TransformGroup>
-						</Image.RenderTransform>
-					</Image>
-				</Button>
-			</StackPanel>
-
-			<GroupBox Grid.Column="2" Header="Random Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,5,10">
-				<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.tileObserver}" MouseDoubleClick="Random_MouseDoubleClick" SelectionChanged="random_SelectionChanged" DisplayMemberPath="idNumber"/>
-			</GroupBox>
-		</Grid>
-
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="auto"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
-
+		<Border Style="{StaticResource callout}" Margin="5">
 			<StackPanel>
-				<Button x:Name="tileGalleryButton" Background="DodgerBlue" Margin="0,0,0,10" Content="Add From Tile Gallery..." Foreground="White" Click="tileGalleryButton_Click" Width="200" Height="36" FontSize="14" FontWeight="Bold">
-				</Button>
+				<Grid Height="200">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
 
-				<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}" Margin="10,0,10,10"/>
-			</StackPanel>
+					<GroupBox Header="Global Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="0,0,10,10">
+						<ListBox x:Name="global" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding scenario.globalTilePool}" MouseDoubleClick="Global_MouseDoubleClick"/>
+					</GroupBox>
 
-			<TextBlock Grid.Column="1" Width="64"/>
-
-			<!--selected info-->
-			<Border Grid.Column="2" Style="{StaticResource callout}" Margin="0,0,5,5">
-				<StackPanel Grid.Column="2">
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Selected Tile:" Style="{StaticResource Heading}"/>
-						<TextBlock Text="{Binding selected.idNumber}" Style="{StaticResource SubText}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+					<StackPanel Grid.Column="1" VerticalAlignment="Center">
+						<Button x:Name="ToRandomButton" Background="MediumSeaGreen" Margin="0,5" Click="ToRandomButton_Click" IsEnabled="{Binding ElementName=global,Path=SelectedIndex,Converter={StaticResource sb}}">
+							<Image Source="/JiME;component/Assets/arrow.png" />
+						</Button>
+						<Button x:Name="ToPoolButton" Background="{StaticResource bgCancelDelete}" Margin="0,5" Click="ToPoolButton_Click" IsEnabled="{Binding ElementName=random,Path=SelectedIndex,Converter={StaticResource sb}}">
+							<Image Source="/JiME;component/Assets/arrow.png" RenderTransformOrigin="0.5,0.5" >
+								<Image.RenderTransform>
+									<TransformGroup>
+										<ScaleTransform ScaleY="1" ScaleX="-1"/>
+										<SkewTransform AngleY="0" AngleX="0"/>
+										<RotateTransform Angle="0"/>
+										<TranslateTransform/>
+									</TransformGroup>
+								</Image.RenderTransform>
+							</Image>
+						</Button>
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Tile Side:" Style="{StaticResource Heading}" Margin="0,5,10,0"/>
-						<RadioButton x:Name="sideA" Content="A" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideA_Click" IsEnabled="False"/>
-						<RadioButton x:Name="sideB" Content="B" Foreground="White" VerticalAlignment="Bottom" Margin="20,0" GroupName="side" Click="sideB_Click" IsEnabled="False"/>
-						<RadioButton x:Name="sideRandom" Content="Random" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideRandom_Click" IsEnabled="False"/>
-					</StackPanel>
+					<GroupBox Grid.Column="2" Header="Random Tile Pool" Style="{StaticResource DefaultGroupBox}" Margin="10,0,0,10">
+						<ListBox x:Name="random" Background="{StaticResource bgColorLight}" Foreground="White" ItemsSource="{Binding chapter.tileObserver}" MouseDoubleClick="Random_MouseDoubleClick" SelectionChanged="random_SelectionChanged" DisplayMemberPath="idNumber"/>
+					</GroupBox>
+				</Grid>
 
-					<Grid Margin="0,5">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="auto"/>
-							<ColumnDefinition Width="*"/>
-						</Grid.ColumnDefinitions>
-						<Button x:Name="tokenEditButton" Background="DodgerBlue" Margin="0,10,0,10" Content="Token Editor..." Foreground="White" Click="tokenEditButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Height="36" FontSize="14" FontWeight="Bold"/>
-						<TextBlock Grid.Column="1" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap">
-						If this Tile Side is <Bold>Random</Bold>, Tokens will be randomly placed on it.
-						</TextBlock>
-					</Grid>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
 
-					<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
-					<Button x:Name="addFlavor" Background="DodgerBlue" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text..." Click="addFlavor_Click" IsEnabled="False" Height="36" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-					<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus" Visibility="Collapsed"/>
+					<Border Style="{StaticResource callout}" Background="{StaticResource bgButtonColor}">
+						<StackPanel>
+							<Button x:Name="tileGalleryButton" Background="DodgerBlue" Margin="0,0,0,10" Content="Add From Tile Gallery..." Foreground="White" Click="tileGalleryButton_Click" Width="200" Height="36" FontSize="14" FontWeight="Bold">
+							</Button>
 
-				</StackPanel>
-			</Border>
-		</Grid>
+							<TextBlock Text="The Global Tile Pool represents all the available tiles in the game. Tiles placed into the Random Tile Pool for this Chapter will be removed from the Global Pool so they can't accidentally be used again in another Chapter." TextWrapping="Wrap" Style="{StaticResource SubText}"/>
+						</StackPanel>
+					</Border>
 
-		<!--<Border Style="{StaticResource callout}" Margin="10,0,10,10">
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Style="{StaticResource Heading}" Text="Random Token Interaction Group"/>
-					<Button x:Name="groupHelp" Background="#FFC98800" Click="groupHelp_Click" Width="32" Height="32" Margin="10,0,0,0">
-						<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
-					</Button>
-				</StackPanel>
-				<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Select an Interaction Group below. Then designate how many of the Events in the group will be randomly used."/>
-				<UniformGrid Columns="2" Margin="0,10,0,0">
-					<ComboBox Name="randInter" ItemsSource="{Binding randomInteractions}" SelectionChanged="randInter_SelectionChanged"/>
-					<TextBlock x:Name="selectedInfoText" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="There are X Token Interactions in this group." Margin="10,0" VerticalAlignment="Center"/>
-				</UniformGrid>
+					<TextBlock Grid.Column="1" Width="64"/>
 
-				<TextBlock x:Name="spaceInfoText2" Style="{StaticResource Heading}" Text="There are X spaces available on this Chapter's tiles to place Tokens." Margin="0,10,0,0"/>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock x:Name="numIntersUsedText" Style="{StaticResource SubText}" Text="Randomly use how many of the Events from the selected Interaction Group, up to a maximum of X?"/>
-					<TextBox Text="{Binding chapter.randomInteractionGroupCount}" x:Name="numIntersUsed" Width="25" Margin="10,0" TextChanged="numIntersUsed_TextChanged"/>
-				</StackPanel>
+					<!--selected info-->
+					<Border Grid.Column="2" Style="{StaticResource callout}" Background="{StaticResource bgButtonColor}">
+						<StackPanel Grid.Column="2">
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Selected Tile:" Style="{StaticResource Heading}"/>
+								<TextBlock Text="{Binding selected.idNumber}" Style="{StaticResource SubText}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+							</StackPanel>
+
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Tile Side:" Style="{StaticResource Heading}" Margin="0,5,10,0"/>
+								<RadioButton x:Name="sideA" Content="A" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideA_Click" IsEnabled="False"/>
+								<RadioButton x:Name="sideB" Content="B" Foreground="White" VerticalAlignment="Bottom" Margin="20,0" GroupName="side" Click="sideB_Click" IsEnabled="False"/>
+								<RadioButton x:Name="sideRandom" Content="Random" Foreground="White" VerticalAlignment="Bottom" GroupName="side" Click="sideRandom_Click" IsEnabled="False"/>
+							</StackPanel>
+
+							<Grid Margin="0,5">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<Button x:Name="tokenEditButton" Background="DodgerBlue" Margin="0,10,0,10" Content="Token Editor..." Foreground="White" Click="tokenEditButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Height="36" FontSize="14" FontWeight="Bold"/>
+								<TextBlock Grid.Column="1" Style="{StaticResource SubText}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap">
+						If the Tile Side is <Bold>Random</Bold> or the Tile Block uses <Bold>Random Groups</Bold>, Tokens will be randomly placed for you.
+								</TextBlock>
+							</Grid>
+
+							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="Exploration Text is shown after a player explores this tile. To avoid showing the text, leave it empty."/>
+							<Button x:Name="addFlavor" Background="DodgerBlue" Margin="0,5,0,0" Foreground="White" Content="Edit Exploration Text..." Click="addFlavor_Click" IsEnabled="False" Height="36" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
+							<TextBlock Text="Exploration Text is Empty" Style="{StaticResource SubText}" Margin="0,5,0,0" HorizontalAlignment="Center" Name="exploreStatus" Visibility="Collapsed"/>
+
+						</StackPanel>
+					</Border>
+				</Grid>
+
 			</StackPanel>
-		</Border>-->
+		</Border>
+
 
 		<!--footer-->
 		<Border BorderThickness="0,1,0,0" BorderBrush="Silver" HorizontalAlignment="Stretch" Background="#FF46464A">

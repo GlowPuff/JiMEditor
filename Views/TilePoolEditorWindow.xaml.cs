@@ -48,13 +48,14 @@ namespace JiME.Views
 
 		bool TryClose()
 		{
-			if ( chapter.tileObserver.Count >= 1 )
-				return true;
-			else
-			{
-				MessageBox.Show( "There must be at least 1 Tile in the Random Tile Pool.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
-				return false;
-			}
+			return true;
+			//if ( chapter.tileObserver.Count >= 1 )
+			//	return true;
+			//else
+			//{
+			//	MessageBox.Show( "There must be at least 1 Tile in the Random Tile Pool.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+			//	return false;
+			//}
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )

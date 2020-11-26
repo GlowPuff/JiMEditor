@@ -125,7 +125,7 @@
 								</StackPanel>
 							</UniformGrid>
 							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
+								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Events will be randomly chosen to fire.
 							</TextBlock>
 						</StackPanel>
 					</Border>
@@ -177,7 +177,9 @@
 
 			<TabItem Padding="5" Header="Stat Test">
 				<StackPanel Margin="0,5,0,0">
-					<TextBlock Style="{StaticResource SubText}" Text="The Stat Test Event is used to test an Attribute (Might, Agility, Spirit, Wisdom, Wit) of the Hero the player is playing as. Two buttons labeled Pass and Fail are presented to the player in the companion app, which can be used to input the result of the test." VerticalAlignment="Center" TextWrapping="Wrap" />
+					<Border Style="{StaticResource callout}">
+						<TextBlock Style="{StaticResource SubText}" Text="The Stat Test Event is used to test an Attribute (Might, Agility, Spirit, Wisdom, Wit) of the Hero the player is playing as. Two buttons labeled Pass and Fail are presented to the player in the companion app, which can be used to input the result of the test." VerticalAlignment="Center" TextWrapping="Wrap" />
+					</Border>
 
 					<!--attributes-->
 					<Border Style="{StaticResource callout}" Margin="0,10,0,5">

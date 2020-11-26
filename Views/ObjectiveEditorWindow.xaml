@@ -81,10 +81,10 @@
 					<Border Style="{StaticResource callout}" Margin="5">
 						<StackPanel>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore/ XP / Threat Rewards:"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.xpReward}" Margin="10,0"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.threatReward}"/>
+								<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore/ XP / Threat Reduction Rewards:"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding objective.loreReward}"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding objective.xpReward}" Margin="10,0"/>
+								<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding objective.threatReward}"/>
 							</StackPanel>
 
 							<UniformGrid Columns="2">

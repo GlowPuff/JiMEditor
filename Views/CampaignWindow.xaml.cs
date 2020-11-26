@@ -37,7 +37,9 @@ namespace JiME.Views
 			campaign = c ?? new Campaign();
 			campaignNameTB.Focus();
 
-			campaignFolder = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey", campaign.campaignGUID.ToString() );
+			//string mydocs = Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments );
+
+			campaignFolder = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey", campaign.campaignGUID.ToString() );
 
 			cGUID.Text = "Campaign GUID:  "
 			+ campaign.campaignGUID.ToString();
@@ -48,6 +50,18 @@ namespace JiME.Views
 				storySet.Text = "The Story Text is not set.";
 			else
 				storySet.Text = "The Story Text is set.";
+
+			//update scenario names
+			for ( int i = 0; i < campaign.scenarioCollection.Count; i++ )
+			{
+				var item = campaign.scenarioCollection[i];
+				Scenario scenario = FileManager.LoadProjectFromPath( campaignFolder, item.fileName );
+				if ( scenario != null )
+				{
+					campaign.scenarioCollection[i].scenarioName = scenario.scenarioName;
+				}
+			}
+			SaveCampaign();
 		}
 
 		private void removeScenario_Click( object sender, RoutedEventArgs e )
@@ -56,7 +70,7 @@ namespace JiME.Views
 			if ( System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.LeftCtrl ) || System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.RightCtrl ) )
 				doDelete = true;
 
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			string basePath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" );
 			CampaignItem ci = (CampaignItem)( (Button)sender ).DataContext;
 
 
@@ -84,6 +98,7 @@ namespace JiME.Views
 				if ( scenario != null )
 				{
 					scenario.campaignGUID = Guid.Empty;
+					scenario.projectType = ProjectType.Standalone;
 					FileManager fm = new FileManager( scenario );
 					fm.Save();
 				}
@@ -104,7 +119,7 @@ namespace JiME.Views
 
 		private void cancelButton_Click( object sender, RoutedEventArgs e )
 		{
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			string basePath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" );
 
 			//can only cancel if creating a NEW campaign
 			//check if any scenarios have been added and move them back into the base folder
@@ -135,6 +150,7 @@ namespace JiME.Views
 			//create a new scenario and set its campaign GUID
 			Scenario scenario = new Scenario();
 			scenario.campaignGUID = campaign.campaignGUID;
+			scenario.projectType = ProjectType.Campaign;
 			bool doEdit = false;
 			if ( System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.LeftCtrl ) || System.Windows.Input.Keyboard.IsKeyDown( System.Windows.Input.Key.RightCtrl ) )
 				doEdit = true;
@@ -167,7 +183,7 @@ namespace JiME.Views
 
 		private void addExisting_Click( object sender, RoutedEventArgs e )
 		{
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			string basePath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" );
 
 			//check regular scenario project path
 			if ( !Directory.Exists( basePath ) )
@@ -206,6 +222,7 @@ namespace JiME.Views
 					if ( scenario != null )
 					{
 						scenario.campaignGUID = campaign.campaignGUID;
+						scenario.projectType = ProjectType.Campaign;
 						FileManager fm = new FileManager( scenario );
 						fm.Save();
 					}
@@ -264,6 +281,8 @@ namespace JiME.Views
 					return;
 				}
 			}
+
+			campaign.fileVersion = Utils.formatVersion;
 
 			string output = JsonConvert.SerializeObject( campaign, Formatting.Indented );
 			string outpath = Path.Combine( campaignFolder, campaign.campaignGUID.ToString() + ".json" );

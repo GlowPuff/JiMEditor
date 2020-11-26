@@ -8,6 +8,10 @@ using Newtonsoft.Json;
 
 namespace JiME
 {
+	//Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments )
+
+	//Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+
 	/// <summary>
 	/// JSON serialization/deserialization
 	/// </summary>
@@ -65,6 +69,7 @@ namespace JiME
 			useTileGraphics = source.useTileGraphics;
 
 			interactions = source.interactionObserver.ToList();
+			//skip saving campaign triggers
 			triggers = source.triggersObserver.Where( x => !x.isCampaignTrigger ).ToList();//source.triggersObserver.ToList();
 			objectives = source.objectiveObserver.ToList();
 			resolutions = source.resolutionObserver.ToList();
@@ -88,9 +93,9 @@ namespace JiME
 		public bool Save()
 		{
 			if ( campaignGUID == Guid.Empty )
-				return Save( false, Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" ) );
+				return Save( false, Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" ) );
 			else
-				return Save( false, Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey", campaignGUID.ToString() ) );
+				return Save( false, Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey", campaignGUID.ToString() ) );
 		}
 
 		/// <summary>
@@ -98,7 +103,7 @@ namespace JiME
 		/// </summary>
 		public bool SaveAs()
 		{
-			return Save( true, Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" ) );
+			return Save( true, Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" ) );
 		}
 
 		/// <summary>
@@ -114,7 +119,7 @@ namespace JiME
 		/// </summary>
 		private bool Save( bool saveAs, string outFolder )
 		{
-			string basePath = outFolder;//Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			string basePath = outFolder;
 
 			if ( saveAs || string.IsNullOrEmpty( fileName ) )
 			{
@@ -191,7 +196,7 @@ namespace JiME
 		/// </summary>
 		public static Scenario LoadProject( string filename )
 		{
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			string basePath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" );
 
 			//make sure the project folder exists
 			if ( !Directory.Exists( basePath ) )
@@ -223,7 +228,7 @@ namespace JiME
 		/// </summary>
 		public static IEnumerable<ProjectItem> GetProjects()
 		{
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey" );
+			string basePath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey" );
 
 			//make sure the project folder exists
 			if ( !Directory.Exists( basePath ) )
@@ -272,7 +277,7 @@ namespace JiME
 			if ( campaignGUID == "Saves" )
 				return null;
 
-			string basePath = Path.Combine( Environment.ExpandEnvironmentVariables( "%userprofile%" ), "Documents", "Your Journey", campaignGUID );
+			string basePath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "Your Journey", campaignGUID );
 			string json = "";
 			try
 			{

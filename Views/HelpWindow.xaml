@@ -19,17 +19,16 @@
 					<StackPanel>
 						<TextBlock Style="{StaticResource Heading}" Text="What Are Token Interaction Groups?"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-When you create a Tile Block with a Random Tile Pool, there needs to be a way to create a pool of Tokens with Interactions that randomly spawn on those random Tiles. That's where Token Interaction Groups come in - they provide a way to make a pool of Events from which to randomly spawn Tokens on the tiles.
+							A Token Interaction Group is just a named collection of Events. A Tile Block can randomly choose Events from a Group you create, assign them to Tokens, and randomly place those Tokens on its tiles. This is opposed to fixed Tokens that you explicitly assign and place by hand in the Tile and Token Editors. Fixed and Random Token Interaction Groups can be used together in a Tile Block.
 						</TextBlock>
 
 						<TextBlock Margin="0,10,0,0" Style="{StaticResource Heading}" Text="Creating Token Interaction Groups"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="1) When creating an Event, make sure Token Interaction is checked."/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="2) Select a Token Type associated with this Token Interaction Event."/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="3) At the end of the Event Name, use 'GRP#' to place it into an Interaction Group, where # uniquely identifies that group."/>
-						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="4) Use this same GRP# to add other Token Interactions you create to this group."/>
-						<TextBlock Margin="0,10,0,0" Style="{StaticResource SubText}" Text="Example: Create three different Threat Events using the Event Names of 'orcs GRP1', 'goblin GRP1' and 'troll GRP1'"/>
-						<TextBlock Margin="0,0,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="When you assign this Group to a Random Tile Pool, Tokens will be randomly spawned on the Tiles using Events from this Group."/>
-						<TextBlock Style="{StaticResource SubText}" Margin="0,10,0,0" TextWrapping="Wrap" Text="NOTE: The Token Interactions in the group don't have to be of the same type. They can be a combination of any of the Event types." FontStyle="Italic"/>
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Text="4) Use this same GRP# naming convention to add other Token Interactions you create into this group."/>
+						<TextBlock Margin="0,10,0,0" Style="{StaticResource SubText}" TextWrapping="Wrap" Text="For example, two different Events named 'light fire GRP2' and 'orc squad GRP2' will put both of the Events into an Interaction Group with the name 'GRP2'. You can put as many Events into groups as you wish."/>
+						<TextBlock Style="{StaticResource SubText}" Margin="0,10,0,0" TextWrapping="Wrap" Text="NOTE: The Token Interactions in the group don't have to be of the same type. They can be a combination of any of the Event types (Text, Enemies, Stat Tests, etc)." FontStyle="Italic"/>
 					</StackPanel>
 				</Border>
 			</TabItem>
@@ -41,16 +40,16 @@ When you create a Tile Block with a Random Tile Pool, there needs to be a way to
 							The Interaction Group dropdown menu lists all the Token Interaction Groups you've created. When you select a Token Interaction Group from the dropdown menu, the interface tells you how many Events were found using that group name.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Block. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement.
+							The interface also tells you how many total spaces are available to place Tokens on the Tiles you've added to this Block. For example, using Tiles 201 and 202 will give you 4 total spaces for Token placement. You can use a combination of fixed Tokens and Random Token Interaction Groups. The interface tells you how many fixed Tokens are being used on spaces.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							It's up to you if you want to use all of the Token Interactions in the group, or only a small selection of them, randomly chosen during the game. Specify this number in the text box. You can only use as many Token Interactions as there are Tile spaces available to hold them.
+							It's up to you if you want to use all of the Events in the Group, or only a small selection of them, randomly chosen during the game. Specify this number in the text box. You can only use as many Token Interactions as there are Tile spaces available to hold them.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							If you add or remove Token Interactions from the Group assigned to this Block, you will probably want to revisit these settings to adjust this number.
+							If you add or remove Events from the Group assigned to this Block, you may need to revisit these settings to adjust the number of Events to use from the Group.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
-							Example: Using Tiles 201 and 202, we have 4 spaces available. Let's say we assign an Interaction Group to this Tile Pool with 6 different Events in it. We can use a maximum of 4 of those 6 Events because there are only 4 spaces available on the Tiles we're using. However, we only want 2 of those 6 Events to randomly spawn Tokens on these Tiles, so we enter 2 into the text box. During the game, the Companion App will randomly choose and spawn 2 Tokens out of the Group. The other 4 are discarded.
+							Example: Using Tiles 201 and 202, we have 4 spaces available, and we're not using any fixed Tokens. Let's say we assign an Interaction Group to this Tile Block with 6 different Events in it. We can use a maximum of 4 of those 6 Events because there are only 4 spaces available on the Tiles we're using. However, we only want 2 of those 6 Events to randomly spawn Tokens on these Tiles, so we enter 2 into the text box. During the game, the Companion App will randomly choose 2 Events out of the Group and randomly spawn their Token on the tiles. The other 4 Events are discarded.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,10,0,0">
 							<Bold><Italic>CAUTION</Italic></Bold>: If you assign the same Token Interaction Group to more than one Block, the same Events could be seen by players more than once, causing confusion. On the other hand, Events can be created that are generic enough to appear more than once by design. A good example of this would be creating a Group with 5 different enemy Threat Events in it. This Group can be used over and over to randomly spawn one of the Threats in the Group when it's triggered.
@@ -229,7 +228,7 @@ Enemies you design yourself are Scripted Enemies. They can use either default or
 						A Campaign Trigger fires like normal, except it also carries over into future Scenarios in the Campaign. Another Scenario can read the result (True/False) of a previously fired (or un-fired) Campaign Trigger. In this way, <Bold>a Scenario can react</Bold> to a Trigger that was fired or un-fired in a <Bold>previous Scenario</Bold>.
 						</TextBlock>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0" FontWeight="Bold">
-						A Scenario Trigger cannot be made into a Campaign Trigger from within the Scenario's Trigger Editor. Likewise, a Campaign Trigger can't be modified from within the Scenario's Trigger Editor. The checkbox is only a helpful indicator to let you know it's a Campaign Trigger.
+						A normal Scenario Trigger cannot be made into a Campaign Trigger from within the Scenario's Trigger Editor. Likewise, a Campaign Trigger can't be modified from within the Scenario's normal Trigger Editor. The checkbox is only a helpful indicator to let you know it's a Campaign Trigger.
 						</TextBlock>
 
 						<TextBlock Style="{StaticResource Heading}" Text="What If A Scenario Is Replayed?" Margin="0,10,0,0"/>
@@ -239,9 +238,6 @@ Enemies you design yourself are Scripted Enemies. They can use either default or
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
 							To avoid edge cases where Replayed Scenarios need to react to a Campaign Trigger that has potentially already been activated during a previous play-through, <Bold>all Campaign Triggers are also Multi-Triggers</Bold>, allowing them to trigger again during the Replay.
 						</TextBlock>
-						<!--<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-							Previously activated Campaign Triggers are set/activated in a Scenario after the Scenario loads, regardless of whether it's being Replayed or played for the first time. If a Replayed Scenario needs to <Bold>trigger (again) and react to a previously activated Campaign Trigger</Bold>, it won't work since Triggers are only fired once. In this case, just check the box to make the Campaign Trigger a Multi-Trigger. This will make sure a Campaign Trigger is fired again in a Replayed Scenario, if it had already been activated in the Scenario during a previouly play-through.
-						</TextBlock>-->
 
 						<TextBlock Style="{StaticResource Heading}" Text="How Do I Create A Campaign Trigger?" Margin="0,10,0,0"/>
 						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">

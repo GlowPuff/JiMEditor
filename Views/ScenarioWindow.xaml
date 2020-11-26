@@ -22,7 +22,10 @@
 	<StackPanel>
 		<!--campaign notice-->
 		<Border x:Name="campaignNotice" Style="{StaticResource callout}" Margin="5,5,5,0" Visibility="Collapsed">
-			<TextBlock x:Name="campaignGUID" Style="{StaticResource Heading}" Text="" HorizontalAlignment="Center"/>
+			<StackPanel>
+				<TextBlock Style="{StaticResource Heading}" Text="Campaign GUID" HorizontalAlignment="Center"/>
+				<TextBlock x:Name="campaignGUID" Style="{StaticResource Heading}" Text="" HorizontalAlignment="Center"/>
+			</StackPanel>
 		</Border>
 
 		<Grid Margin="5">
@@ -83,7 +86,7 @@
 					<Button x:Name="specialBtn" Grid.Column="3" Content="Story / Special Instructions..." Background="DodgerBlue" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Click="specialBtn_Click" Height="36" FontWeight="Bold" FontSize="14"/>
 				</Grid>
 
-				<TextBlock TextWrapping="Wrap" Style="{StaticResource SubText}" Text="The Story/Special Instructions text is shown to Players in the Companion App before embarking on the Scenario." Margin="0,5,0,0"/>
+				<TextBlock TextWrapping="Wrap" Style="{StaticResource SubText}" Text="The Story/Special Instructions text and Starting Lore are shown to Players in the Companion App before embarking on the Scenario." Margin="0,5,0,0"/>
 			</StackPanel>
 		</Border>
 		<!--rewards-->
@@ -107,7 +110,7 @@
 					</StackPanel>
 				</StackPanel>
 
-				<TextBlock Margin="0,0,0,0" Grid.Column="2" Text="Lore and XP Rewards are only relevant for Campaigns." Style="{StaticResource SubText}" TextWrapping="Wrap" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<TextBlock Margin="0,0,0,0" Grid.Column="2" Text="Lore and XP Rewards are only relevant for Campaigns." Style="{StaticResource SubText}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 			</Grid>
 		</Border>
 
@@ -216,14 +219,14 @@
 						</StackPanel>
 
 						<StackPanel Grid.Column="1" Margin="5,0,0,0">
-							<Button x:Name="resolutionEditButton" Grid.Column="1" Padding="5" Background="CornflowerBlue" Click="ResolutionEditButton_Click">
-								<Image Source="/JiME;component/Assets/edit.png" Width="24"/>
-							</Button>
-							<Button x:Name="addResolutionButton" Grid.Column="2" Padding="5" Margin="0,5" Background="MediumSeaGreen" Click="AddResolutionButton_Click">
+							<Button x:Name="addResolutionButton" Padding="5" Background="MediumSeaGreen" Click="AddResolutionButton_Click">
 								<Image Source="/JiME;component/Assets/add.png" Width="24"/>
 							</Button>
-							<Button x:Name="removeResolutionButton" Grid.Column="3" Padding="5" Background="{StaticResource bgCancelDelete}" Click="RemoveResolutionButton_Click">
+							<Button x:Name="removeResolutionButton" Margin="0,5" Padding="5" Background="{StaticResource bgCancelDelete}" Click="RemoveResolutionButton_Click">
 								<Image Source="/JiME;component/Assets/remove.png" Width="24"/>
+							</Button>
+							<Button x:Name="resolutionEditButton" Padding="5" Background="CornflowerBlue" Click="ResolutionEditButton_Click">
+								<Image Source="/JiME;component/Assets/edit.png" Width="24"/>
 							</Button>
 						</StackPanel>
 					</Grid>

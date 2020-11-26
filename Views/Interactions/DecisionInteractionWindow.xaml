@@ -126,7 +126,7 @@
 								</StackPanel>
 							</UniformGrid>
 							<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Interactions will be randomly chosen to fire.
+								Multiple Events can be 'Triggered By' the same Trigger. When this happens, only ONE of the Events will be randomly chosen to fire.
 							</TextBlock>
 						</StackPanel>
 					</Border>
@@ -178,7 +178,9 @@
 			<!--Decision-->
 			<TabItem Padding="5" Header="Decision">
 				<StackPanel Margin="0,5,0,0">
-					<TextBlock Style="{StaticResource SubText}" Text="Decisions are Events that present a choice to the player. Use the Event Text from the General Properties page to describe the choices. When the player is presented with this Decision Event in the Companion App, buttons labeled with the choices below will be presented along with the Event Text in the General Properties tab. Decision Events can have 2 or 3 choices to select from. These labels appear on the buttons presented to the player, so keep them very short." VerticalAlignment="Center" TextWrapping="Wrap" />
+					<Border Style="{StaticResource callout}">
+						<TextBlock Style="{StaticResource SubText}" Text="Decisions are Events that present a choice to the player. Use the Event Text from the General Properties page to describe the choices. When the player is presented with this Decision Event in the Companion App, buttons labeled with the choices below will be presented along with the Event Text in the General Properties tab. Decision Events can have 2 or 3 choices to select from. These labels appear on the buttons presented to the player, so keep them very short." VerticalAlignment="Center" TextWrapping="Wrap" />
+					</Border>
 					<Border Style="{StaticResource callout}" Margin="0,5">
 						<StackPanel>
 							<Grid>

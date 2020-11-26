@@ -91,12 +91,19 @@ namespace JiME
 		void OnRemoveTrigger( object sender, EventArgs e )
 		{
 			string selected = ( (Trigger)triggersUC.dataListView.SelectedItem ).dataName;
+			var strigger = (Trigger)triggersUC.dataListView.SelectedItem;
 
 			Tuple<string, string> used = scenario.IsTriggerUsed( selected );
 
 			if ( used != null )
 			{
 				MessageBox.Show( $"The selected Trigger [{selected}] is being used by [{used.Item2}] called [{used.Item1}].", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
+				return;
+			}
+
+			if ( strigger.isCampaignTrigger )
+			{
+				MessageBox.Show( "Campaign Triggers cannot be removed.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return;
 			}
 

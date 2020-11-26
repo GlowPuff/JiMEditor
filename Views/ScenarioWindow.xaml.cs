@@ -213,9 +213,9 @@ namespace JiME.Views
 				//otherwise update value
 				else
 					scenario.scenarioEndStatus[te.shortName] = te.successChecked;
-
-				scenario.PruneScenarioEnd();
 			}
+
+			scenario.PruneScenarioEnd();
 		}
 
 		private void AddResolutionButton_Click( object sender, RoutedEventArgs e )
@@ -236,6 +236,8 @@ namespace JiME.Views
 				scenario.AddResolution( data, te.successChecked );
 				resolutionCB.SelectedIndex = scenario.resolutionObserver.Count - 1;
 			}
+
+			scenario.PruneScenarioEnd();
 		}
 
 		private void RemoveResolutionButton_Click( object sender, RoutedEventArgs e )
@@ -244,6 +246,7 @@ namespace JiME.Views
 				scenario.RemoveData( resolutionCB.SelectedItem as TextBookData );
 			if ( scenario.resolutionObserver.Count == 1 )
 				resolutionCB.SelectedIndex = 0;
+			scenario.PruneScenarioEnd();
 		}
 
 		private void EventInteractionCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
