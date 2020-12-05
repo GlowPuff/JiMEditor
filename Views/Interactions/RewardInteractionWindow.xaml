@@ -1,12 +1,11 @@
-﻿<Window x:Class="JiME.Views.DecisionInteractionWindow"
+﻿<Window x:Class="JiME.Views.RewardInteractionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiME"
         mc:Ignorable="d"
-        ContentRendered="Window_ContentRendered"
-        Title="Decision Interaction Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing">
+        Title="Reward Event Editor" Style="{StaticResource DefaultWindow}" WindowStartupLocation="CenterScreen" Width="750" Closing="Window_Closing" ContentRendered="Window_ContentRendered" MinHeight="250">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="bvis"/>
@@ -45,16 +44,16 @@
 								</TextBlock>
 								<TextBox x:Name="nameTB" Text="{Binding interaction.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" TextChanged="nameTB_TextChanged"/>
 
-								<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,0" Text="Lore/ XP / Threat Rewards:"/>
+								<StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Collapsed">
+									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore/ XP / Threat Rewards:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.xpReward}" Margin="10,0"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.threatReward}"/>
 								</StackPanel>
-								<TextBlock Text="Rewards are given after the Event is finished activating." Style="{StaticResource SubText}" Margin="0,5,0,0"/>
+								<TextBlock Text="Rewards are given after the Event is finished activating." Style="{StaticResource SubText}" Margin="0,5,0,0" Visibility="Collapsed"/>
 							</StackPanel>
 
-							<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
 								<Button x:Name="groupHelp" Background="#FFC98800" Click="groupHelp_Click" Width="32" Height="32" Margin="10,0,0,0">
 									<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 								</Button>
@@ -66,15 +65,23 @@
 						</UniformGrid>
 					</Border>
 
+					<!--{Binding interaction.isTokenInteraction}-->
 					<!--token interaction-->
 					<Border x:Name="isEventBox" Style="{StaticResource callout}" Margin="0,10,0,0">
 						<StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<CheckBox x:Name="isTokenCB" Content="This Event is a Token Interaction" Foreground="White" IsChecked="{Binding interaction.isTokenInteraction}" VerticalAlignment="Center" Click="isTokenCB_Click"/>
-								<Button x:Name="tokenHelp" Background="#FFC98800" Click="tokenHelp_Click" Width="32" Height="32" Margin="10,0,0,0">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto"/>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="auto"/>
+								</Grid.ColumnDefinitions>
+
+								<CheckBox x:Name="isTokenCB" Content="This Event is a Token Interaction" Foreground="White" IsChecked="{Binding interaction.isTokenInteraction}" VerticalAlignment="Center" Click="isTokenCB_Click" IsEnabled="False"/>
+
+								<Button Grid.Column="2" x:Name="tokenHelp" Background="#FFC98800" Click="tokenHelp_Click" Width="32" Height="32" Margin="10,0,0,0" HorizontalAlignment="Right">
 									<Image Source="/JiME;component/Assets/help.png" Stretch="Uniform"/>
 								</Button>
-							</StackPanel>
+							</Grid>
 
 							<StackPanel x:Name="tokenTypeBox" Orientation="Horizontal" Visibility="{Binding ElementName=isTokenCB, Path=IsChecked, Converter={StaticResource bvis}}">
 								<TextBlock Style="{StaticResource Heading}" Text="Token Type:" Margin="0,0,10,0"/>
@@ -92,11 +99,7 @@
 							</StackPanel>
 
 							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-							Token Interactions are triggered by players as they journey across the map. When a player clicks a Token, the Flavor Text below is shown. The player can decide to use an Action to Interact with the Token, after which the Event Text is shown, along with the Event itself.
-							</TextBlock>
-
-							<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap" Margin="0,5,0,0">
-								If this Token Interaction Event has already been assigned to a <Bold>Token</Bold> in the Tile Editor and you uncheck the Token Interaction setting above, that Token's <Italic>Token Interaction Trigger</Italic> will automatically be set to <Italic>None</Italic> because this Event will no longer be a Token Interaction.
+							This Event can't be assigned to a Token as a Token Interaction.
 							</TextBlock>
 						</StackPanel>
 					</Border>
@@ -118,7 +121,7 @@
 								<StackPanel HorizontalAlignment="Left" Margin="10,0,0,0">
 									<TextBlock Text="Set Trigger After Event Is Resolved (Optional):" Style="{StaticResource Heading}"/>
 									<StackPanel Orientation="Horizontal">
-										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0,8,0,0"/>
+										<ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.triggerAfterName}" SelectedValuePath="dataName" Margin="0"/>
 										<Button x:Name="addMainTriggerAfterButton" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="addMainTriggerAfterButton_Click">
 											<Image Source="/JiME;component/Assets/add2.png"/>
 										</Button>
@@ -143,7 +146,7 @@
 								<StackPanel>
 									<TextBlock Text="Event Text" Style="{StaticResource Heading}"/>
 									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					Use the Event Text to describe the actual Event that has been activated. Example: Describe an Enemy Threat, present a Test, describe a Decision, etc.
+										The Event Text for this Event is optional. Leave it blank to NOT SHOW any text after it activates.
 									</TextBlock>
 								</StackPanel>
 								<Button Grid.Column="1" x:Name="editEventButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditEventButton_Click" Width="46" Height="46">
@@ -163,89 +166,34 @@
 								<StackPanel>
 									<TextBlock Text="Flavor Text For Token Interaction" Style="{StaticResource Heading}"/>
 									<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
-					This text is shown when a player interacts with a Token. Use it to hint at the Event. Flavor Text is only shown if this Event is a Token Interaction.
+										This Event doesn't use Flavor Text.
 									</TextBlock>
 								</StackPanel>
-								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46" IsEnabled="{Binding ElementName=isTokenCB,Path=IsChecked}">
+								<Button Grid.Column="1" x:Name="editFlavorButton" Background="CornflowerBlue" Margin="10,0,0,0" Click="EditFlavorButton_Click" Width="46" Height="46" IsEnabled="False">
 									<Image Source="/JiME;component/Assets/edit.png"/>
 								</Button>
 							</Grid>
 						</Border>
 					</UniformGrid>
+
 				</StackPanel>
 			</TabItem>
 
-			<!--Decision-->
-			<TabItem Padding="5" Header="Decision">
+			<TabItem Padding="5" Header="Rewards">
 				<StackPanel Margin="0,5,0,0">
 					<Border Style="{StaticResource callout}">
-						<TextBlock Style="{StaticResource SubText}" Text="Decisions are Events that present a choice to the player. Use the Event Text from the General Properties page to describe the choices. When the player is presented with this Decision Event in the Companion App, buttons labeled with the choices below will be presented along with the Event Text in the General Properties tab. Decision Events can have 2 or 3 choices to select from. These labels appear on the buttons presented to the player, so keep them very short." VerticalAlignment="Center" TextWrapping="Wrap" />
+						<TextBlock Style="{StaticResource SubText}" TextWrapping="Wrap">
+							The Reward Event simply gives the players the reward(s) you set below when it activates. It can't be assigned to a Token as a Token Interaction, so it has no Flavor Text. It can only activate after being Triggered (<Bold>Triggered By</Bold> in the General Properties tab). This Event is silent - it does not show Event Text after activating.
+						</TextBlock>
 					</Border>
-					<Border Style="{StaticResource callout}" Margin="0,5">
-						<StackPanel>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="auto"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
 
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Style="{StaticResource Heading}" Text="First Choice:" Margin="0,0,10,0"/>
-									<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice1}"/>
-								</StackPanel>
-
-								<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-									<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
-									<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice1Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
-									<Button x:Name="addTrigger1Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger1Button_Click">
-										<Image Source="/JiME;component/Assets/add2.png"/>
-									</Button>
-								</StackPanel>
-							</Grid>
-
-							<Grid Margin="0,5,0,0">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="auto"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
-
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Style="{StaticResource Heading}" Text="Second Choice:" Margin="0,0,10,0"/>
-									<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice2}"/>
-								</StackPanel>
-
-								<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-									<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
-									<ComboBox ItemsSource="{Binding scenario.triggersObserver}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice2Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
-									<Button x:Name="addTrigger2Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger2Button_Click">
-										<Image Source="/JiME;component/Assets/add2.png"/>
-									</Button>
-								</StackPanel>
-							</Grid>
-
+					<Border Style="{StaticResource callout}" Margin="0,10,0,0">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,0" Text="Lore/ XP / Threat Reduction Rewards:"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.rewardLore}"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.rewardXP}" Margin="10,0"/>
+							<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.rewardThreat}"/>
 						</StackPanel>
-					</Border>
-
-					<Border Style="{StaticResource callout}">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="auto"/>
-								<ColumnDefinition Width="*"/>
-							</Grid.ColumnDefinitions>
-
-							<StackPanel Orientation="Horizontal">
-								<CheckBox x:Name="choice3" Content="Third Choice:" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" IsChecked="{Binding interaction.isThreeChoices}"/>
-								<TextBox Style="{StaticResource DefaultTextBox}" Width="100" Text="{Binding interaction.choice3}" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}"/>
-							</StackPanel>
-
-							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-								<TextBlock Style="{StaticResource Heading}" Text="Set This Trigger (Required):" Margin="10,0,5,0"/>
-								<ComboBox ItemsSource="{Binding scenario.triggersObserver}" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}" DisplayMemberPath="dataName" SelectedValue="{Binding interaction.choice3Trigger}" SelectedValuePath="dataName" VerticalAlignment="Center" MinWidth="200"/>
-								<Button x:Name="addTrigger3Button" Background="MediumSeaGreen" Margin="10,0" Height="32" Width="32" Click="AddTrigger3Button_Click" IsEnabled="{Binding ElementName=choice3,Path=IsChecked}">
-									<Image Source="/JiME;component/Assets/add2.png"/>
-								</Button>
-							</StackPanel>
-						</Grid>
 					</Border>
 				</StackPanel>
 			</TabItem>

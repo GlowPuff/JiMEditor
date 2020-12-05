@@ -99,6 +99,7 @@
     <Compile Include="Models\Interaction Events\NoneInteraction.cs" />
     <Compile Include="Models\Interaction Events\PersistentTokenInteraction.cs" />
     <Compile Include="Models\Interaction Events\ReplaceTokenInteraction.cs" />
+    <Compile Include="Models\Interaction Events\RewardInteraction.cs" />
     <Compile Include="Models\Interaction Events\TestInteraction.cs" />
     <Compile Include="Models\Interaction Events\TextInteraction.cs" />
     <Compile Include="Models\Interaction Events\ThreatInteraction.cs" />
@@ -144,6 +145,9 @@
     </Compile>
     <Compile Include="Views\Interactions\ReplaceTokenInteractionWindow.xaml.cs">
       <DependentUpon>ReplaceTokenInteractionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Interactions\RewardInteractionWindow.xaml.cs">
+      <DependentUpon>RewardInteractionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Interactions\TestInteractionWindow.xaml.cs">
       <DependentUpon>TestInteractionWindow.xaml</DependentUpon>
@@ -251,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Interactions\ReplaceTokenInteractionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Interactions\RewardInteractionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

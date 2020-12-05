@@ -17,9 +17,20 @@
 			<TabItem Header="Scenarios and Packaging" Padding="5">
 				<Border Style="{StaticResource callout}" Margin="0">
 					<StackPanel>
-						<TextBlock Style="{StaticResource Heading}" Text="Campaign Name:"/>
-						<TextBlock Style="{StaticResource SubText}" Text="This is the name players will see in the Companion App."/>
-						<TextBox x:Name="campaignNameTB" Text="{Binding campaign.campaignName,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" HorizontalAlignment="Left" Width="450"/>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="auto"/>
+							</Grid.ColumnDefinitions>
+
+							<StackPanel>
+								<TextBlock Style="{StaticResource Heading}" Text="Campaign Name:"/>
+								<TextBlock Style="{StaticResource SubText}" Text="This is the name players will see in the Companion App."/>
+								<TextBox x:Name="campaignNameTB" Text="{Binding campaign.campaignName,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" HorizontalAlignment="Left" Width="450"/>
+							</StackPanel>
+
+							<Button x:Name="openExplorer" Grid.Column="1" Content="Open Project Folder..." VerticalAlignment="Center" Background="DodgerBlue" Foreground="White" Height="44" FontWeight="Bold" FontSize="14" Click="openExplorer_Click"/>
+						</Grid>
 
 						<TextBlock Style="{StaticResource Heading}" Text="Campaign Scenarios" Margin="0,5,0,0"/>
 
@@ -41,7 +52,7 @@
 
 						<TextBlock Text="When creating a new Scenario, hold down the CONTROL key to also open the Scenario in the Editor." Style="{StaticResource SubText}" Margin="0,5,0,0"/>
 						<TextBlock Style="{StaticResource SubText}" Margin="0,5,0,0" TextWrapping="Wrap">
-							Removing a Scenario from the Campaign <Bold>DOES NOT DELETE ITS FILE</Bold>. The Scenario's file will be moved into the base Scenario folder (Your Journey). If you wish to <Bold>PERMANENTLY DELETE</Bold> the Scenario file, <Bold>hold down the CONTROL key while clicking the X button</Bold>. You will be asked to confirm your decision.
+							Removing a Scenario from the Campaign <Bold>DOES NOT DELETE ITS FILE</Bold>. The Scenario's file will be moved into the base Scenario folder (Documents\Your Journey). If you wish to <Bold>PERMANENTLY DELETE</Bold> the Scenario file, <Bold>hold down the CONTROL key while clicking the X button</Bold>. You will be asked to confirm your decision.
 						</TextBlock>
 
 						<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" MaxHeight="245" MinHeight="150">

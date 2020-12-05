@@ -30,6 +30,7 @@
 		<CommandBinding Command="local:MyCommands.NewConditionalInteraction" Executed="CommandNewConditionalInteraction_Executed" CanExecute="CommandNewConditionalInteraction_CanExecute"/>
 		<CommandBinding Command="local:MyCommands.NewDialogInteraction" Executed="CommandNewDialogInteraction_Executed" CanExecute="CommandNewDialogInteraction_CanExecute"/>
 		<CommandBinding Command="local:MyCommands.NewReplaceTokenInteraction" Executed="CommandNewReplaceTokenInteraction_Executed" CanExecute="CommandNewReplaceTokenInteraction_CanExecute"/>
+		<CommandBinding Command="local:MyCommands.NewRewardInteraction" Executed="CommandNewRewardInteraction_Executed" CanExecute="CommandNewRewardInteraction_CanExecute"/>
 
 	</Window.CommandBindings>
 
@@ -72,6 +73,10 @@
                }">
 			</MenuItem>
 			<MenuItem Command="local:MyCommands.NewReplaceTokenInteraction" CommandTarget="{Binding Path=PlacementTarget,
+                        RelativeSource={RelativeSource AncestorType=ContextMenu}
+               }">
+			</MenuItem>
+			<MenuItem Command="local:MyCommands.NewRewardInteraction" CommandTarget="{Binding Path=PlacementTarget,
                         RelativeSource={RelativeSource AncestorType=ContextMenu}
                }">
 			</MenuItem>

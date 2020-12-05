@@ -84,7 +84,7 @@ namespace JiME.Views
 
 		private void EditEventButton_Click( object sender, RoutedEventArgs e )
 		{
-			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Progress, interaction.eventBookData );
+			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Event, interaction.eventBookData );
 			if ( tw.ShowDialog() == true )
 			{
 				interaction.eventBookData.pages = tw.textBookController.pages;

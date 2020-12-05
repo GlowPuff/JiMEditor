@@ -45,7 +45,7 @@
 								<TextBox x:Name="nameTB" Text="{Binding interaction.dataName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}" Margin="0,5" Width="250" HorizontalAlignment="Left" TextChanged="nameTB_TextChanged"/>
 
 								<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,5" Text="Lore/ XP / Threat Rewards:"/>
+									<TextBlock Style="{StaticResource Heading}" Margin="0,0,10,0" Text="Lore/ XP / Threat Rewards:"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.loreReward}"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.xpReward}" Margin="10,0"/>
 									<TextBox Style="{StaticResource DefaultTextBox}" Width="25" Text="{Binding interaction.threatReward}"/>

@@ -1,20 +1,20 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace JiME.Views
 {
 	/// <summary>
-	/// Interaction logic for BranchInteraction.xaml
+	/// Interaction logic for RewardInteractionWindow.xaml
 	/// </summary>
-	public partial class BranchInteractionWindow : Window, INotifyPropertyChanged
+	public partial class RewardInteractionWindow : Window, INotifyPropertyChanged
 	{
 		string oldName;
 
 		public Scenario scenario { get; set; }
-		public BranchInteraction interaction { get; set; }
+		public RewardInteraction interaction { get; set; }
 		bool closing = false;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -29,17 +29,14 @@ namespace JiME.Views
 			}
 		}
 
-		public BranchInteractionWindow( Scenario s, BranchInteraction inter = null )
+		public RewardInteractionWindow( Scenario s, RewardInteraction inter = null )
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			scenario = s;
 			cancelButton.Visibility = inter == null ? Visibility.Visible : Visibility.Collapsed;
-			interaction = inter ?? new BranchInteraction( "New Branch Event" );
-
-			eventTestRB.IsChecked = interaction.branchTestEvent;
-			triggerTestRB.IsChecked = !interaction.branchTestEvent;
+			interaction = inter ?? new RewardInteraction( "New Reward Event" );
 
 			isThreatTriggered = scenario.threatObserver.Any( x => x.triggerName == interaction.dataName );
 			if ( isThreatTriggered )
@@ -76,48 +73,6 @@ namespace JiME.Views
 				personType.Visibility = Visibility.Collapsed;
 		}
 
-		private void AddTriggerButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-				interaction.triggerTest = tw.triggerName;
-		}
-
-		private void AddTriggerButton2_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-				interaction.triggerIsSetTrigger = tw.triggerName;
-		}
-
-		private void AddTriggerButton3_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-				interaction.triggerNotSetTrigger = tw.triggerName;
-		}
-
-		private void triggerCB_SelectionChanged( object sender, SelectionChangedEventArgs e )
-		{
-			//don't let "Random Event" be selected
-			if ( ( (ComboBox)sender ).SelectedIndex == 1 )
-				( (ComboBox)sender ).SelectedIndex = 0;
-		}
-
-		private void ComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
-		{
-			//this was commented out??
-			//if ( !interaction.isFromThreatThreshold )
-			//{
-			//	if ( interaction.triggerName == "None" )
-			//		eventbox.Visibility = Visibility.Visible;
-			//	else
-			//		eventbox.Visibility = Visibility.Collapsed;
-			//}
-			//else
-			//	flavorbox.Visibility = Visibility.Collapsed;
-		}
-
 		private void EditFlavorButton_Click( object sender, RoutedEventArgs e )
 		{
 			TextEditorWindow tw = new TextEditorWindow( scenario, EditMode.Flavor, interaction.textBookData );
@@ -139,7 +94,7 @@ namespace JiME.Views
 		bool TryClosing()
 		{
 			//check for dupe name
-			if ( interaction.dataName == "New Branch Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
+			if ( interaction.dataName == "New Reward Event" || scenario.interactionObserver.Count( x => x.dataName == interaction.dataName ) > 1 )
 			{
 				MessageBox.Show( "Give this Event a unique name.", "Data Error", MessageBoxButton.OK, MessageBoxImage.Error );
 				return false;
@@ -152,24 +107,6 @@ namespace JiME.Views
 		{
 			if ( !closing )
 				e.Cancel = true;
-		}
-
-		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.triggerAfterName = tw.triggerName;
-			}
-		}
-
-		private void addMainTriggerButton_Click( object sender, RoutedEventArgs e )
-		{
-			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
-			if ( tw.ShowDialog() == true )
-			{
-				interaction.triggerName = tw.triggerName;
-			}
 		}
 
 		private void OkButton_Click( object sender, RoutedEventArgs e )
@@ -197,8 +134,6 @@ namespace JiME.Views
 
 			scenario.UpdateEventReferences( oldName, interaction );
 
-			interaction.branchTestEvent = eventTestRB.IsChecked.Value;
-
 			closing = true;
 			DialogResult = true;
 		}
@@ -213,6 +148,24 @@ namespace JiME.Views
 		{
 			nameTB.Focus();
 			nameTB.SelectAll();
+		}
+
+		private void addMainTriggerAfterButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerAfterName = tw.triggerName;
+			}
+		}
+
+		private void addMainTriggerButton_Click( object sender, RoutedEventArgs e )
+		{
+			TriggerEditorWindow tw = new TriggerEditorWindow( scenario );
+			if ( tw.ShowDialog() == true )
+			{
+				interaction.triggerName = tw.triggerName;
+			}
 		}
 
 		void PropChanged( string name )

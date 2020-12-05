@@ -215,5 +215,15 @@ namespace JiME
 					//new KeyGesture(Key.C, ModifierKeys.Alt)
 				}
 			);
+		public static readonly RoutedUICommand NewRewardInteraction = new RoutedUICommand
+			(
+				"New Reward Event",
+				"NewRewardInteraction",
+				typeof( MyCommands ),
+				new InputGestureCollection()
+				{
+					//new KeyGesture(Key.C, ModifierKeys.Alt)
+				}
+			);
 	}
 }

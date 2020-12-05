@@ -183,6 +183,11 @@ namespace JiME
 				ReplaceTokenInteractionWindow bw = new ReplaceTokenInteractionWindow( scenario, (ReplaceTokenInteraction)interactionsUC.dataListView.SelectedItem );
 				bw.ShowDialog();
 			}
+			else if ( interactionsUC.dataListView.SelectedItem is RewardInteraction )
+			{
+				RewardInteractionWindow bw = new RewardInteractionWindow( scenario, (RewardInteraction)interactionsUC.dataListView.SelectedItem );
+				bw.ShowDialog();
+			}
 		}
 
 		void OnSettingsTrigger( object sender, EventArgs e )
@@ -535,6 +540,18 @@ namespace JiME
 			}
 		}
 		private void CommandNewReplaceTokenInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
+		{
+			e.CanExecute = true;
+		}
+		private void CommandNewRewardInteraction_Executed( object sender, System.Windows.Input.ExecutedRoutedEventArgs e )
+		{
+			RewardInteractionWindow ew = new RewardInteractionWindow( scenario );
+			if ( ew.ShowDialog() == true )
+			{
+				scenario.AddInteraction( ew.interaction );
+			}
+		}
+		private void CommandNewRewardInteraction_CanExecute( object sender, System.Windows.Input.CanExecuteRoutedEventArgs e )
 		{
 			e.CanExecute = true;
 		}

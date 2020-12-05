@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace JiME
 {
@@ -37,6 +38,9 @@ namespace JiME
 
 			triggerTest = triggerIsSet = triggerNotSet = triggerIsSetTrigger = triggerNotSetTrigger = "None";
 			branchTestEvent = true;
+			//default blank event text so it activates silently
+			eventBookData.pages = new List<string>();
+			eventBookData.pages.Add( "" );
 		}
 
 		new public void RenameTrigger( string oldName, string newName )

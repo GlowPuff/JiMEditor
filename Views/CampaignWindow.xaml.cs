@@ -423,5 +423,10 @@ namespace JiME.Views
 			HelpWindow hw = new HelpWindow( HelpType.Triggers, 2 );
 			hw.ShowDialog();
 		}
+
+		private void openExplorer_Click( object sender, RoutedEventArgs e )
+		{
+			System.Diagnostics.Process.Start( campaignFolder );
+		}
 	}
 }
